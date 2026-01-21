@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | TrashBeta</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="container nav-content">
+        <div class="logo">♻ TrashBeta</div>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="features.html">Features</a>
+          <a href="about.html">About</a>
+          <a href="contact.html" class="active">Contact</a>
+          <a href="#" class="btn-primary">Get Started</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="section light contact-hero">
+      <div class="container">
+        <h1>Get in Touch</h1>
+        <p class="subtitle">
+          Have questions? We’d love to hear from you. Send us a message and
+          we’ll respond as soon as possible.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT AREA -->
+    <section class="section">
+      <div class="container contact-grid">
+        <!-- Form -->
+        <div class="contact-form">
+          <h2>Send Us a Message</h2>
+          <p class="muted">
+            Fill out the form below and we’ll get back to you within 24 hours
+          </p>
+
+          <form id="contactForm" novalidate>
+            <label class="field">
+              <span>Full Name</span>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="John Doe"
+                required
+              />
+              <small class="error"></small>
+            </label>
+
+            <label class="field">
+              <span>Email Address</span>
+              <input
+                type="email"
+                name="email"
+                placeholder="john@example.com"
+                required
+              />
+              <small class="error"></small>
+            </label>
+
+            <label class="field">
+              <span>Phone Number</span>
+              <input type="tel" name="phone" placeholder="+234 801 234 5678" />
+              <small class="error"></small>
+            </label>
+
+            <label class="field">
+              <span>Subject</span>
+              <select name="subject" required>
+                <option value="">Select</option>
+                <option>General Inquiry</option>
+                <option>Report Issue Help</option>
+                <option>Pickup Schedule</option>
+                <option>Partnership</option>
+              </select>
+              <small class="error"></small>
+            </label>
+
+            <label class="field">
+              <span>Message</span>
+              <textarea
+                name="message"
+                rows="6"
+                placeholder="Tell us how we can help you..."
+                required
+              ></textarea>
+              <small class="error"></small>
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" name="agree" required />
+              <span>I agree to TrashBeta’s privacy policy</span>
+            </label>
+            <small class="error" id="agreeError"></small>
+
+            <button type="submit" class="btn-primary btn-block">
+              Send Message
+            </button>
+            <p class="form-success" id="formSuccess" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <!-- Support Cards -->
+        <div class="support-cards">
+          <div class="support-card">
+            <div class="support-icon">✉️</div>
+            <div>
+              <h4>Email Support</h4>
+              <p class="muted">Our support team is here to help.</p>
+              <p><strong>support@trashbeta.ng</strong></p>
+              <p class="muted">We respond within 24 hours</p>
+            </div>
+          </div>
+
+          <div class="support-card">
+            <div class="support-icon">📞</div>
+            <div>
+              <h4>Phone Support</h4>
+              <p class="muted">Give us a call during business hours.</p>
+              <p><strong>+234 700 000 0000</strong></p>
+              <p class="muted">Mon–Fri, 8:00 AM – 6:00 PM WAT</p>
+            </div>
+          </div>
+
+          <div class="support-card">
+            <div class="support-icon">📍</div>
+            <div>
+              <h4>Office Location</h4>
+              <p class="muted">Visit our headquarters.</p>
+              <p><strong>TrashBeta Headquarters</strong></p>
+              <p class="muted">
+                123 Innovation Drive, Suite 500, Ikeja, Lagos State, Nigeria
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="section light">
+      <div class="container">
+        <h2>Find Us on the Map</h2>
+        <div class="map-wrap">
+          <!-- Replace src later with your real Google Maps embed if you want -->
+          <iframe
+            title="TrashBeta Office Map"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=3.329%2C6.574%2C3.357%2C6.596&layer=mapnik"
+            loading="lazy"
+          >
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container faq">
+        <h2>Frequently asked questions</h2>
+        <p class="muted center-text">
+          Quick answers to common questions. Don’t see what you’re looking for?
+          Contact us above.
+        </p>
+
+        <div class="faq-list">
+          <button class="faq-item" aria-expanded="true">
+            <span>Is TrashBeta really free for residents?</span>
+            <span class="faq-toggle">−</span>
+          </button>
+          <div class="faq-answer open">
+            Yes. Residents can sign up and report waste issues completely free.
+            There are no hidden fees.
+          </div>
+
+          <button class="faq-item" aria-expanded="false">
+            <span>How long does it take for my report to be addressed?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            Most reports are addressed within 24–48 hours depending on location
+            and severity.
+          </div>
+
+          <button class="faq-item" aria-expanded="false">
+            <span>Which areas in Lagos does TrashBeta cover?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            We currently cover several LGAs across Lagos, with plans to expand
+            based on demand.
+          </div>
+
+          <button class="faq-item" aria-expanded="false">
+            <span>Can I track my report status?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            Yes. You can track the status of every report from submission to
+            resolution.
+          </div>
+
+          <button class="faq-item" aria-expanded="false">
+            <span>What types of waste issues can I report?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            Illegal dumping, missed collection, blocked drainage, overflowing
+            bins, burning waste, and more.
+          </div>
+
+          <button class="faq-item" aria-expanded="false">
+            <span>Do I need to create an account to report?</span>
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            Creating an account helps you track status updates, but guest
+            reporting can be added later.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA STRIP -->
+    <section class="cta about-cta">
+      <div class="container cta-content split">
+        <div>
+          <h2>Still Have Questions?</h2>
+          <p>
+            Our team is here to help Monday through Friday, 8 AM to 6 PM WAT
+          </p>
+        </div>
+        <div>
+          <a href="#contactForm" class="btn-primary">Send Message →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <strong>TrashBeta</strong>
+          <p>Smart waste management for modern communities.</p>
+        </div>
+        <div>
+          <a href="features.html">Features</a>
+          <a href="#">How It Works</a>
+          <a href="#">For Residents</a>
+          <a href="#">For Workers</a>
+          <a href="#">For Admins</a>
+        </div>
+        <div>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Support</a>
+        </div>
+      </div>
+      <p class="copyright">© 2026 TrashBeta</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
