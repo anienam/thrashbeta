@@ -1,0 +1,34 @@
+{
+  "feed": [
+    {
+      "id": "news_001",
+      "type": "initiative",
+      "category": "local",
+      "relevanceScore": 0.95,
+      "title": "Recycling Initiative Begins",
+      "summary": "New recycling program rolls out in Ikeja communities...",
+      "link": "/news/ikeja-recycling",
+      "reason": "Based on your location: Ikeja"
+    },
+    {
+      "id": "tip_004",
+      "type": "edu",
+      "category": "lifestyle",
+      "relevanceScore": 0.88,
+      "title": "Eco-friendly Tips for Home",
+      "summary": "Simple tips to reduce waste and be eco-friendly...",
+      "link": "/tips/home-waste",
+      "reason": "Trending in your community"
+    },
+    {
+      "id": "alert_010",
+      "type": "how-to",
+      "category": "service",
+      "relevanceScore": 0.75,
+      "title": "Report Overflowing Bin",
+      "summary": "How to report and manage overflowing bins effectively...",
+      "link": "/guides/overflow-reporting",
+      "reason": "Related to your previous report: WM-2025-00002"
+    }
+  ]
+}

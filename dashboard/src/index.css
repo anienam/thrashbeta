@@ -23,6 +23,7 @@
 
   /* Specific RGBA colors */
   --color-accent-yellow: rgba(255, 215, 0, 1);
+  --color-primary-green: #1e5a22;
 }
 
 @layer base {
