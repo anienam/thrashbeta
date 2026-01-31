@@ -1,22 +1,9 @@
+import Navbar from "./Navbar";
+
 export default function Dashboard() {
   return (
-    <div className="flex-1 p-10">
-      {/* Header */}
-      <header className="flex justify-between items-center mb-8">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Dashboard Overview
-        </h2>
-        <div className="flex items-center gap-4">
-          <button className="p-2 text-gray-400 bg-gray-50 rounded-full">
-            🔔
-          </button>
-          <img
-            src="https://i.pravatar.cc/32"
-            className="rounded-full border"
-            alt=""
-          />
-        </div>
-      </header>
+    <div className="flex-1">
+      <Navbar title={"Dashboard Overview"} />
 
       {/* Welcome Banner */}
       <section className="bg-brand-light rounded-xl p-10 mb-8 flex justify-between items-center relative overflow-hidden">
@@ -97,4 +84,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-};
+}
