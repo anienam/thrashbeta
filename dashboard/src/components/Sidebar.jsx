@@ -20,13 +20,13 @@ export default function Sidebar() {
     }`;
 
   return (
-    <aside className="w-50 h-screen bg-white flex flex-col border-r border-neutra-300 sticky top-0 overflow-hidden">
+    <aside className="w-60 h-screen bg-white flex flex-col border-r border-neutra-300 sticky top-0 overflow-hidden font-manrope">
       {/* Logo Container */}
-      <div className="h-15 flex items-center justify-center px-4 py-3 border-b border-neutra-300">
+      <div className="h-18 flex items-center justify-center px-4 py-3 border-b border-neutra-300">
         <img src={logo} alt="Trashbeta Logo" className="h-8 w-auto" />
       </div>
 
-      {/* Navigation  */}
+      {/* Navigation */}
       <nav className="flex-1 flex flex-col mt-5">
         <NavLink to="/" className={linkStyles}>
           <LayoutDashboard size={16} /> <span>Dashboard</span>
@@ -64,12 +64,12 @@ export default function Sidebar() {
         </NavLink>
       </nav>
 
-      {/* Illustration Container */}
-      <div className=" px-8 my-4">
+      {/* Illustration Container - Stretched to match image */}
+      <div className="px-4 my-2">
         <img
           src="/images/recycling-pana.png"
           alt="Recycling"
-          className="w-full h-auto object-contain max-h-40"
+          className="w-full h-auto object-contain"
         />
       </div>
 
@@ -79,17 +79,17 @@ export default function Sidebar() {
           <div className="flex items-center gap-3">
             <img
               src="https://i.pravatar.cc/40"
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full border border-neutra-100"
               alt="User Image"
             />
-            <div className="leading-tightest">
+            <div className="leading-tight">
               <p className="text-sm font-medium text-neutra-800">Whareez</p>
               <p className="text-xs text-neutra-600">whareezdesign</p>
             </div>
           </div>
           <ChevronRight
             size={16}
-            className="text-neutra-400 hover:text-neutra-800"
+            className="text-neutra-400 group-hover:text-neutra-800 transition-colors"
           />
         </div>
       </div>
