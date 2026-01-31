@@ -34,7 +34,7 @@ ThrashBeta addresses this gap by providing a centralized, user-friendly web plat
 
 ---
 
-## 🧩 Current Scope (Frontend Only)
+## 🧩 Current Scope (Frontend)
 
 This phase focuses strictly on the frontend and includes:
 
@@ -56,33 +56,6 @@ Backend services and live data integration will be added in future phases.
 
 No frameworks are used to emphasize core frontend fundamentals.
 
----
-
-## 📂 Project Structure
-
-```
-
-frontend/
-│── index.html
-│── report.html
-│── dashboard.html
-
-css/
-│── style.css
-│── dashboard.css
-
-js/
-│── main.js
-│── report.js
-│── dashboard.js
-
-assets/
-│── images/
-│── icons/
-
-README.md
-
-```
 
 ---
 
@@ -105,7 +78,7 @@ No dependencies or setup required.
 - Data Analyst  
 - Cyber Security  
 
-This repository currently focuses on **UI/UX and Frontend development**.
+This repository currently focuses on **UI/UX, Frontend and Backend development**.
 
 ---
 
