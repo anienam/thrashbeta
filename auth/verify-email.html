@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="auth-body auth-body-plain">
+    <a class="corner-back" href="register.html" aria-label="Back">←</a>
+
+    <main class="auth-wrap password-body">
+      <section class="auth-card auth-card-small">
+        <h1 class="auth-title">Email Verification</h1>
+
+        <p class="auth-subtitle">
+          <strong>We sent a 4-digit code to your email</strong>
+        </p>
+
+        <p class="verify-note">
+          For security reasons, the code will expire in 30 minutes.<br />
+          Keep this window open while checking your code.
+        </p>
+
+        <p class="otp-label">Enter the 4-digit verification code below</p>
+
+        <form id="verifyEmailForm" class="auth-form" novalidate>
+          <div class="otp-boxes">
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="Digit 1"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="Digit 2"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="Digit 3"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="Digit 4"
+            />
+          </div>
+
+          <p class="otp-help"><strong>Didn’t receive an email?</strong></p>
+
+          <p class="verify-resend">
+            Check your spam folder too. Didn’t get the code?
+            <a
+              href="#"
+              id="verifyResendLink"
+              class="resend-link"
+              aria-disabled="true"
+              >Resend the code</a
+            >
+            <span id="verifyTimer" class="otp-timer">55s</span>
+          </p>
+
+          <small class="error" id="verifyError"></small>
+          <p class="form-success" id="verifySuccess" aria-live="polite"></p>
+
+          <button type="submit" class="btn-primary auth-submit">
+            Continue
+          </button>
+        </form>
+      </section>
+
+      <p class="switch-email">
+        <a href="register.html">Sign up with a different email</a>
+      </p>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

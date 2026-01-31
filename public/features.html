@@ -5,19 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Features | TrashBeta</title>
     <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <!-- NAVBAR -->
     <header class="navbar">
       <div class="container nav-content">
-        <div class="logo">♻ TrashBeta</div>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="features.html" class="active">Features</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-          <a href="#" class="btn-primary">Get Started</a>
+        <div class="logo">
+          <img src="../assets/images/LOGO.png" alt="Thrashbeta logo" />
+        </div>
+        <nav class="nav-flex">
+          <a href="/public/index.html">Home</a>
+          <a href="/public/features.html">Features</a>
+          <a href="/public/about.html">About</a>
+          <a href="/public/contact.html">Contact</a>
         </nav>
+        <a href="#" class="btn-primary">Get Started</a>
       </div>
     </header>
 
@@ -39,11 +56,14 @@
     <!-- FEATURE BLOCK -->
     <section class="feature-block">
       <div class="container feature-grid">
-        <img
-          src="assets/illustrations/feature-illustration.png"
-          alt="Report Issue"
-        />
+        <img src="/assets/images/features.png" alt="Report Issue" />
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Report Issues in Under 2 Minutes</h2>
           <ul>
             <li>Photo upload (camera or gallery)</li>
@@ -59,6 +79,12 @@
     <section class="feature-block alt">
       <div class="container feature-grid">
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Know Exactly What’s Happening</h2>
           <ul>
             <li>Timeline view from report to resolution</li>
@@ -66,20 +92,20 @@
             <li>Before & after photo evidence</li>
           </ul>
         </div>
-        <img
-          src="assets/illustrations/feature-illustration.png"
-          alt="Tracking"
-        />
+        <img src="/assets/images/features.png" alt="Tracking" />
       </div>
     </section>
 
     <section class="feature-block">
       <div class="container feature-grid">
-        <img
-          src="assets/illustrations/feature-illustration.png"
-          alt="Collection"
-        />
+        <img src="/assets/images/features.png" alt="Collection" />
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Never Miss Collection Day</h2>
           <ul>
             <li>Know exact pickup schedules</li>
@@ -94,6 +120,12 @@
     <section class="feature-block alt">
       <div class="container feature-grid">
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Streamlined Task Management for Field Workers</h2>
           <ul>
             <li>Mobile-first interface</li>
@@ -103,17 +135,20 @@
             <li>Work history tracking</li>
           </ul>
         </div>
-        <img
-          src="assets/illustrations/feature-illustration.png"
-          alt="Workers"
-        />
+        <img src="/assets/images/features.png" alt="Workers" />
       </div>
     </section>
 
     <section class="feature-block">
       <div class="container feature-grid">
-        <img src="assets/illustrations/feature-illustration.png" alt="Admin" />
+        <img src="/assets/images/features.png" alt="Admin" />
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Data-Driven Insights for Administrators</h2>
           <ul>
             <li>Total reports overview</li>
@@ -128,6 +163,12 @@
     <section class="feature-block alt">
       <div class="container feature-grid">
         <div>
+          <div class="feature-icon">
+            <img
+              src="/assets/icons/Featured icon (11).png"
+              alt="feature icon"
+            />
+          </div>
           <h2>Stay Informed Every Step</h2>
           <ul>
             <li>Email updates</li>
@@ -135,43 +176,104 @@
             <li>In-app status updates</li>
           </ul>
         </div>
-        <img
-          src="assets/illustrations/feature-illustration.png"
-          alt="Updates"
-        />
+        <img src="/assets/images/features.png" alt="Updates" />
       </div>
     </section>
 
     <!-- CTA -->
     <section class="cta">
-      <div class="container cta-content">
-        <h2>Ready to Experience These Features?</h2>
-        <div>
-          <a href="#" class="btn-primary">Get Started Free</a>
-          <a href="#" class="btn-outline">Contact Us</a>
+      <div class="cta-content">
+        <div class="cta-text">
+          <h2>Ready to Report Your First Issue?</h2>
+          <p>Join 301+ residents keeping their communities clean</p>
+        </div>
+
+        <div class="cta-actions">
+          <a href="#" class="btn btn-primary">Get Started Free →</a>
+          <a href="#" class="btn btn-outline">View Pickup Schedule</a>
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-      <div class="container footer-grid">
-        <div>
-          <strong>TrashBeta</strong>
-          <p>Smart waste management for modern communities.</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <!-- <h2 class="logo">Trash<span>Beta</span></h2> -->
+          <img src="/assets/images/LOGO.png" alt="" />
+          <p>Smart waste management for modern communities</p>
         </div>
-        <div>
-          <a href="#">Features</a>
-          <a href="#">About</a>
-          <a href="#">Careers</a>
-        </div>
-        <div>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Support</a>
+
+        <div class="footer-links">
+          <div>
+            <h4>Features</h4>
+            <ul>
+              <li>How It Works</li>
+              <li>For Residents</li>
+              <li>For Workers</li>
+              <li>For Admins</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li>About us</li>
+              <li>Our Story</li>
+              <li>Our Values</li>
+              <li>Our Impact</li>
+              <li>Careers</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li>Help Center</li>
+              <li>Waste Tips</li>
+              <li>Pickup Schedule</li>
+              <li>Community Guidelines</li>
+              <li>Blog</li>
+              <li>Support</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li>Privacy Policy</li>
+              <li>Terms of Service</li>
+              <li>Cookie Policy</li>
+              <li>Data Protection</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Social</h4>
+            <ul>
+              <li>Twitter</li>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>LinkedIn</li>
+              <li>YouTube</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <p class="copyright">© 2026 TrashBeta</p>
+
+      <div class="footer-bottom">
+        <p>© 2025 TrashBeta. All rights reserved.</p>
+        <a href="mailto:info@trashbeta.com">info@trashbeta.com</a>
+
+        <div class="social-icons">
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-linkedin"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+      </div>
     </footer>
 
     <script src="js/main.js"></script>

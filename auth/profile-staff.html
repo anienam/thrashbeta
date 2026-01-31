@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Profile | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="profile-body">
+    <a class="corner-back" href="role-select.html" aria-label="Back">←</a>
+
+    <main class="profile-wrap">
+      <!-- Left: Form -->
+      <section class="profile-card">
+        <h1 class="profile-title">Complete Your Work Profile</h1>
+        <p class="profile-subtitle">
+          Provide your work details to manage and respond to waste reports
+          effectively
+        </p>
+
+        <form id="staffProfileForm" class="profile-form" novalidate>
+          <h2 class="profile-section">Work Information</h2>
+
+          <label class="field">
+            <span>Full Name (required)</span>
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Enter your full name"
+              required
+            />
+            <small class="error"></small>
+          </label>
+
+          <label class="field">
+            <span>Email Address (pre-filled)</span>
+            <input
+              type="email"
+              name="email"
+              id="staffEmail"
+              placeholder="you@example.com"
+              readonly
+            />
+            <small class="hint">This is the email you signed up with.</small>
+          </label>
+
+          <h2 class="profile-section">Assigned Area</h2>
+
+          <label class="field">
+            <span>Zone / District (required)</span>
+            <input
+              type="text"
+              name="zone"
+              placeholder="Start typing your assigned zone..."
+              required
+            />
+            <small class="error"></small>
+          </label>
+
+          <label class="field">
+            <span>City / Local Government (required)</span>
+            <input
+              type="text"
+              name="city"
+              placeholder="Start typing your assigned city or LGA..."
+              required
+            />
+            <small class="error"></small>
+          </label>
+
+          <button type="submit" class="btn-primary profile-submit">
+            Continue to Dashboard
+          </button>
+
+          <p
+            class="form-success"
+            id="staffProfileSuccess"
+            aria-live="polite"
+          ></p>
+        </form>
+      </section>
+
+      <!-- Right: Illustration -->
+      <aside class="profile-illustration" aria-hidden="true">
+        <img src="../assets/images/worker.png" alt="" />
+      </aside>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

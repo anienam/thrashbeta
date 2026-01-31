@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Task Details</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <!-- Mobile overlay -->
+    <div class="overlay" id="overlay" hidden></div>
+
+    <div class="app">
+      <!-- SIDEBAR (same layout system) -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+        <div class="sidebar__brand">
+          <div class="brand">
+            <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+          </div>
+
+          <button
+            class="icon-btn sidebar__close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="sidebar__profile">
+          <div class="avatar" aria-hidden="true"><span>JD</span></div>
+          <div class="profile-meta">
+            <div class="profile-name">Jane Doe</div>
+            <div class="profile-sub">
+              <span class="dot dot--gold" aria-hidden="true"></span>
+              Verified worker
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <a class="nav-item" href="../dashboard/index.html">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>Dashboard</span>
+          </a>
+
+          <a class="nav-item is-active" href="./index.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">≣</span>
+            <span>Task Details</span>
+          </a>
+
+          <a class="nav-item" href="../route/index.html">
+            <span class="nav-icon" aria-hidden="true">🗺</span>
+            <span>Route View</span>
+          </a>
+
+          <a class="nav-item" href="../settings/index.html">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="status">
+            <div class="status__label">STATUS</div>
+            <div class="status__dot" aria-hidden="true"></div>
+          </div>
+
+          <button class="btn btn--dispatch" id="sidebarDispatch">
+            <span class="btn__icon" aria-hidden="true">🎧</span>
+            Contact Dispatch
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!-- TOPBAR (same system, but task header instead of search) -->
+        <header class="topbar" aria-label="Top Bar">
+          <div class="topbar__left">
+            <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">
+              ☰
+            </button>
+
+            <button class="back" id="backBtn" aria-label="Go back">
+              <span class="back__icon" aria-hidden="true">←</span>
+            </button>
+
+            <div class="titlebar">
+              <div class="titlebar__title">
+                Task <span class="mono">#TB-8942</span>
+              </div>
+              <span class="chip chip--urgent" aria-label="Urgent">URGENT</span>
+            </div>
+          </div>
+
+          <div class="topbar__right">
+            <div
+              class="pill pill--online"
+              role="status"
+              aria-label="Connection status"
+            >
+              <span class="pill__icon" aria-hidden="true">📶</span>
+              Connected
+            </div>
+          </div>
+        </header>
+
+        <main class="content">
+          <section class="grid">
+            <!-- LEFT: TASK INFO -->
+            <section class="card card--task">
+              <div class="taskHead">
+                <div>
+                  <h1 class="taskAddress">122 Oakwood Dr.</h1>
+                  <div class="taskSub">Greenside Heights, North District</div>
+                </div>
+                <button
+                  class="icon-sq icon-sq--lite"
+                  title="Recycle"
+                  aria-label="Recycle"
+                >
+                  ♻
+                </button>
+              </div>
+
+              <div class="taskMetaGrid">
+                <div class="metaItem">
+                  <div class="metaLabel">WASTE TYPE</div>
+                  <div class="metaValue">Industrial Waste Overflow</div>
+                </div>
+                <div class="metaItem">
+                  <div class="metaLabel">REPORTER</div>
+                  <div class="metaValue">Property Manager ( C. Smith )</div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="metaLabel">REPORTER INSTRUCTIONS</div>
+              <p class="instructions">
+                The bin behind the main loading dock is overflowing with
+                construction debris. Heavy lifting required. Please access via
+                the North entrance gate (Code: 79839) watch out for parked
+                vehicles near the curb
+              </p>
+            </section>
+
+            <!-- RIGHT: MAP -->
+            <section class="card card--map">
+              <div class="map" id="map">
+                <div class="map__bg" aria-hidden="true">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126845.9736922828!2d3.2076266898241244!3d6.529682071364119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b9228fa2a3999%3A0xd7a8324bddbba1f0!2sIkeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1769859146229!5m2!1sen!2sng"
+                    width="800"
+                    height="600"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+
+                <div class="mapPin" aria-hidden="true">
+                  <span class="pinDot"></span>
+                </div>
+
+                <div class="mapControls" aria-label="Map controls">
+                  <button class="mapBtn" id="zoomIn" aria-label="Zoom in">
+                    +
+                  </button>
+                  <button class="mapBtn" id="zoomOut" aria-label="Zoom out">
+                    −
+                  </button>
+                  <button
+                    class="mapBtn mapBtn--target"
+                    id="recenter"
+                    aria-label="Recenter"
+                  >
+                    ⌖
+                  </button>
+                </div>
+
+                <div class="mapFooter">
+                  <div class="coords">
+                    Coordinates: <span class="mono">40.7123N, 74.0060W</span>
+                  </div>
+
+                  <button class="copyBtn" id="copyAddressBtn" type="button">
+                    <span aria-hidden="true">⧉</span>
+                    Copy Address
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- LEFT: EVIDENCE -->
+            <section class="card" id="evidenceCard">
+              <div class="cardHead">
+                <div class="cardTitle">EVIDENCE PHOTOS (3)</div>
+
+                <div class="headActions">
+                  <button class="miniBtn" id="addPhotoBtn" type="button">
+                    <span aria-hidden="true">📷</span>
+                    Add Photo
+                  </button>
+                </div>
+              </div>
+
+              <input
+                id="photoInput"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+              />
+
+              <div class="photoRow" id="photoRow">
+                <div class="photo photo--img" title="Evidence photo">
+                  <div class="ph ph--1" aria-hidden="true"></div>
+                </div>
+                <div class="photo photo--img" title="Evidence photo">
+                  <div class="ph ph--2" aria-hidden="true"></div>
+                </div>
+                <div
+                  class="photo photo--upload"
+                  id="uploadTile"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Upload evidence photo"
+                >
+                  <div class="uploadPlus" aria-hidden="true">+</div>
+                  <div class="uploadText">UPLOAD</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- RIGHT: MANAGE TASK -->
+            <section class="card">
+              <div class="cardHead">
+                <div>
+                  <div class="cardTitle">MANAGE TASK</div>
+                  <div class="subtle">CURRENT STATUS</div>
+                </div>
+              </div>
+
+              <label class="selectWrap">
+                <select id="statusSelect" aria-label="Current status">
+                  <option value="in_progress" selected>In Progress</option>
+                  <option value="arrived">Arrived</option>
+                  <option value="on_hold">On Hold</option>
+                  <option value="completed">Completed</option>
+                </select>
+                <span class="chev" aria-hidden="true">▾</span>
+              </label>
+
+              <button
+                class="btn btn--primary"
+                id="markCompleteBtn"
+                type="button"
+              >
+                <span aria-hidden="true">✓</span>
+                Mark as Completed
+              </button>
+
+              <div class="btnRow">
+                <button class="btn btn--ghost" type="button" disabled>
+                  <span aria-hidden="true">⏸</span>
+                  On Hold
+                </button>
+                <button class="btn btn--ghost" type="button" disabled>
+                  <span aria-hidden="true">📝</span>
+                  Add Note
+                </button>
+              </div>
+            </section>
+
+            <!-- LEFT: STATUS HISTORY -->
+            <section class="card">
+              <div class="cardHead">
+                <div class="cardTitle">STATUS HISTORY</div>
+              </div>
+
+              <div class="history">
+                <div class="historyItem">
+                  <div class="histIcon histIcon--warn" aria-hidden="true">
+                    !
+                  </div>
+                  <div class="histBody">
+                    <div class="histTitle">Reported &amp; Flagged Urgent</div>
+                    <div class="histSub">Today, 08:12 AM by System</div>
+                  </div>
+                </div>
+
+                <div class="historyItem">
+                  <div class="histIcon histIcon--user" aria-hidden="true">
+                    👤
+                  </div>
+                  <div class="histBody">
+                    <div class="histTitle">Assigned to John Doe</div>
+                    <div class="histSub">Today, 09:30 AM by Dispatch</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- RIGHT: DISPATCH HELP -->
+            <section class="card">
+              <div class="dispatch">
+                <div class="dispatchHead">
+                  <div class="dispatchIcon" aria-hidden="true">🎧</div>
+                  <div>
+                    <div class="dispatchTitle">Dispatch Help</div>
+                    <div class="dispatchSub">IMMEDIATE ASSISTANCE</div>
+                  </div>
+                </div>
+
+                <button
+                  class="btn btn--primary"
+                  id="contactDispatchBtn"
+                  type="button"
+                >
+                  <span aria-hidden="true">📞</span>
+                  Contact Dispatch
+                </button>
+              </div>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

@@ -5,19 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About | TrashBeta</title>
     <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <!-- NAVBAR -->
     <header class="navbar">
       <div class="container nav-content">
-        <div class="logo">♻ TrashBeta</div>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="features.html">Features</a>
-          <a href="about.html" class="active">About</a>
-          <a href="contact.html">Contact</a>
-          <a href="#" class="btn-primary">Get Started</a>
+        <div class="logo">
+          <img src="../assets/images/LOGO.png" alt="Thrashbeta logo" />
+        </div>
+        <nav class="nav-flex">
+          <a href="/public/index.html">Home</a>
+          <a href="/public/features.html">Features</a>
+          <a href="/public/about.html">About</a>
+          <a href="/public/contact.html">Contact</a>
         </nav>
+        <a href="#" class="btn-primary">Get Started</a>
       </div>
     </header>
 
@@ -64,14 +81,14 @@
           </p>
 
           <p>
-            Today, we’re proud to serve communities across Lagos State, with
-            plans to expand to more cities. We’ve processed 301+ reports and
+            Today, we're proud to serve communities across Lagos State, with
+            plans to expand to more cities. We've processed 301+ reports and
             counting, with an average resolution time of just 48 hours.
           </p>
         </div>
 
         <div class="story-media">
-          <img src="assets/images/team.jpg" alt="Team working together" />
+          <img src="/assets/images/Frame 91.png" alt="Team working together" />
         </div>
       </div>
     </section>
@@ -84,35 +101,51 @@
 
         <div class="grid-4 values-grid">
           <div class="card value-card">
-            <h4>Transparency First</h4>
-            <p>
-              Residents deserve to know what’s happening. Real-time tracking and
-              status updates are essential.
-            </p>
+            <img src="/assets/icons/Featured icon (12).png" alt="" />
+            <div>
+              <h4>Transparency First</h4>
+              <p>
+                We believe residents deserve to know what's happening with their
+                reports. Real-time tracking and status updates aren't luxuries
+                they're necessities. No more black holes.
+              </p>
+            </div>
           </div>
 
           <div class="card value-card">
-            <h4>Mobile-First</h4>
-            <p>
-              Most Nigerians access the internet via mobile. We design for
-              speed, simplicity, and low data use.
-            </p>
+            <img src="/assets/icons/Featured icon (13).png" alt="" />
+            <div>
+              <h4>Mobile-First</h4>
+              <p>
+                Most Nigerians access the internet via mobile phones. We
+                designed TrashBeta mobile-first, ensuring it works perfectly on
+                any device, even with slow connections.
+              </p>
+            </div>
           </div>
 
           <div class="card value-card">
-            <h4>Community Focus</h4>
-            <p>
-              We build solutions for real communities and test features with
-              residents, workers, and admins.
-            </p>
+            <img src="/assets/icons/Featured icon (14).png" alt="" />
+            <div>
+              <h4>Community Focus</h4>
+              <p>
+                We're not just building software - we're building solutions for
+                real communities. Every feature is tested with actual residents,
+                workers, and administrators in Lagos.
+              </p>
+            </div>
           </div>
 
           <div class="card value-card">
-            <h4>Keep It Simple</h4>
-            <p>
-              Reporting waste shouldn’t be complicated. Anyone should report an
-              issue in under 2 minutes.
-            </p>
+            <img src="/assets/icons/Featured icon (15).png" alt="" />
+            <div>
+              <h4>Keep It Simple</h4>
+              <p>
+                Waste reporting shouldn't require tech expertise. Anyone with a
+                phone should be able to report an issue in under 2 minutes.
+                Simplicity is our superpower.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -122,12 +155,12 @@
     <section class="section">
       <div class="container impact-grid">
         <div class="impact-image">
-          <img src="assets/images/lagos-road.jpg" alt="Lagos community" />
+          <img src="/assets/images/Image.png" alt="Lagos community" />
         </div>
 
         <div class="impact-text">
-          <p class="impact-kicker">WE’VE HELPED HUNDREDS OF COMMUNITIES</p>
-          <h2>We’re only just getting started on our journey</h2>
+          <p class="impact-kicker">WE'VE HELPED HUNDREDS OF COMMUNITIES</p>
+          <h2>We're only just getting started on our journey</h2>
 
           <div class="impact-stats">
             <div class="stat-box">
@@ -152,41 +185,100 @@
     </section>
 
     <!-- CTA STRIP -->
-    <section class="cta about-cta">
-      <div class="container cta-content split">
-        <div>
+
+    <section class="cta">
+      <div class="cta-content">
+        <div class="cta-text">
           <h2>Want to Learn More?</h2>
           <p>We’re happy to answer any questions about TrashBeta.</p>
         </div>
-        <div>
-          <a href="contact.html" class="btn-primary">Contact Us →</a>
-          <a href="features.html" class="btn-outline">View Features</a>
+
+        <div class="cta-actions">
+          <a href="#" class="btn btn-primary">Contact Us →</a>
+          <a href="#" class="btn btn-outline">View Features</a>
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-      <div class="container footer-grid">
-        <div>
-          <strong>TrashBeta</strong>
-          <p>Smart waste management for modern communities.</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <!-- <h2 class="logo">Trash<span>Beta</span></h2> -->
+          <img src="/assets/images/LOGO.png" alt="" />
+          <p>Smart waste management for modern communities</p>
         </div>
-        <div>
-          <a href="features.html">Features</a>
-          <a href="#">How It Works</a>
-          <a href="#">For Residents</a>
-          <a href="#">For Workers</a>
-          <a href="#">For Admins</a>
-        </div>
-        <div>
-          <a href="#">Help Center</a>
-          <a href="#">Waste Tips</a>
-          <a href="#">Pickup Schedule</a>
-          <a href="#">Support</a>
+
+        <div class="footer-links">
+          <div>
+            <h4>Features</h4>
+            <ul>
+              <li>How It Works</li>
+              <li>For Residents</li>
+              <li>For Workers</li>
+              <li>For Admins</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li>About us</li>
+              <li>Our Story</li>
+              <li>Our Values</li>
+              <li>Our Impact</li>
+              <li>Careers</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li>Help Center</li>
+              <li>Waste Tips</li>
+              <li>Pickup Schedule</li>
+              <li>Community Guidelines</li>
+              <li>Blog</li>
+              <li>Support</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li>Privacy Policy</li>
+              <li>Terms of Service</li>
+              <li>Cookie Policy</li>
+              <li>Data Protection</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Social</h4>
+            <ul>
+              <li>Twitter</li>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>LinkedIn</li>
+              <li>YouTube</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <p class="copyright">© 2026 TrashBeta</p>
+
+      <div class="footer-bottom">
+        <p>© 2025 TrashBeta. All rights reserved.</p>
+        <a href="mailto:info@trashbeta.com">info@trashbeta.com</a>
+
+        <div class="social-icons">
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-linkedin"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+      </div>
     </footer>
 
     <script src="js/main.js"></script>

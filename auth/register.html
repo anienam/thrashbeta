@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account | TrashBeta</title>
+
+    <!-- Reuse base styles (buttons, inputs etc if you already have them there) -->
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="auth-body">
+    <main class="auth-wrap">
+      <section class="auth-card">
+        <div class="auth-brand">
+          <div class="auth-logo">
+            <img src="../assets/images/LOGO.png" alt="" />
+          </div>
+        </div>
+
+        <h1 class="auth-title">Get started</h1>
+        <p class="auth-subtitle">
+          Please enter your details to create your account.
+        </p>
+
+        <form id="registerForm" class="auth-form" novalidate>
+          <div class="grid-2">
+            <label class="field">
+              <span>First Name</span>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="Enter your first name"
+                required
+              />
+              <small class="error"></small>
+            </label>
+
+            <label class="field">
+              <span>Last Name</span>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Enter your last name"
+                required
+              />
+              <small class="error"></small>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Email</span>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+            <small class="error"></small>
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create password"
+              minlength="8"
+              required
+            />
+            <small class="hint"
+              >Must be up to 8 characters (minimum 8 recommended)</small
+            >
+            <small class="error"></small>
+          </label>
+
+          <label class="field">
+            <span>Confirm Password</span>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              minlength="8"
+              required
+            />
+            <small class="error"></small>
+          </label>
+
+          <label class="checkbox">
+            <input
+              type="checkbox"
+              name="agree"
+              required
+              class="checkbox-icon"
+            />
+            <span
+              >I agree with <a href="#">Terms</a> and
+              <a href="#">Privacy Policy</a></span
+            >
+          </label>
+          <small class="error" id="agreeError"></small>
+
+          <button type="submit" class="btn-primary auth-submit">
+            Create Account
+          </button>
+
+          <div class="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <div class="oauth-buttons">
+            <button type="button" class="oauth-btn">
+              <i class="fa-brands fa-google"></i>
+              <span>Sign up with Google</span>
+            </button>
+            <button type="button" class="oauth-btn">
+              <i class="fa-brands fa-facebook"></i>
+              <span>Sign up with Facebook</span>
+            </button>
+          </div>
+
+          <p class="auth-bottom">
+            Already have an account?
+            <a href="login.html">Log in</a>
+          </p>
+
+          <p class="form-success" id="registerSuccess" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

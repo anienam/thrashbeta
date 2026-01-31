@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="auth-body login-body">
+    <main class="auth-wrap">
+      <section class="auth-card auth-card-wide">
+        <div class="auth-brand">
+          <div class="auth-logo">♻ TrashBeta</div>
+        </div>
+
+        <h1 class="auth-title">Welcome back!</h1>
+        <p class="auth-subtitle">please enter your login details to log in.</p>
+
+        <form id="loginForm" class="auth-form" novalidate>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="Email" required />
+            <small class="error"></small>
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+
+            <div class="password-wrap">
+              <input
+                type="password"
+                name="password"
+                id="loginPassword"
+                placeholder="Password"
+                minlength="8"
+                required
+              />
+              <button
+                type="button"
+                class="eye-btn"
+                id="toggleLoginPassword"
+                aria-label="Show password"
+              >
+                👁
+              </button>
+            </div>
+
+            <small class="error"></small>
+          </label>
+
+          <div class="auth-row">
+            <label class="checkbox inline">
+              <input type="checkbox" name="remember" class="checkbox-icon" />
+              <span>Keep me logged in</span>
+            </label>
+
+            <a class="auth-link" href="reset-password.html">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary auth-submit">Log In</button>
+
+          <div class="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <div class="oauth-buttons">
+            <button type="button" class="oauth-btn">
+              <i class="fa-brands fa-google"></i>
+              <span>Log in with Google</span>
+            </button>
+            <button type="button" class="oauth-btn">
+              <i class="fa-brands fa-facebook"></i>
+              <span>Log in with Facebook</span>
+            </button>
+          </div>
+
+          <p class="auth-bottom">
+            New User?
+            <a href="register.html">Create Account</a>
+          </p>
+
+          <p class="form-success" id="loginSuccess" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

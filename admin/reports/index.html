@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Reports</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Sidebar (same as Dashboard page style) -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item" href="../dashboard/index.html"
+            ><span class="ico" aria-hidden="true">🏠</span> Dashboard</a
+          >
+          <a class="sidenav__item is-active" href="./index.html"
+            ><span class="ico" aria-hidden="true">🧾</span> Reports</a
+          >
+          <a class="sidenav__item" href="../fleet/index.html"
+            ><span class="ico" aria-hidden="true">🚚</span> Fleet Management</a
+          >
+          <a class="sidenav__item" href="../users/index.html"
+            ><span class="ico" aria-hidden="true">👥</span> Users</a
+          >
+          <a class="sidenav__item" href="../analytics/index.html"
+            ><span class="ico" aria-hidden="true">📊</span> Analytics</a
+          >
+          <a class="sidenav__item" href="../settings/index.html"
+            ><span class="ico" aria-hidden="true">⚙️</span> Settings</a
+          >
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>Reports Management</h1>
+            <p>Review and manage citizen-reported waste issues</p>
+          </div>
+
+          <img
+            class="avatar"
+            src="https://i.pravatar.cc/80?img=12"
+            alt="John Doe"
+          />
+        </header>
+
+        <!-- KPI cards -->
+        <section
+          class="stats"
+          id="stats"
+          aria-label="Reports metrics"
+        ></section>
+
+        <!-- Section header with controls -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2>All Reports</h2>
+              <p>Waste Composition</p>
+            </div>
+
+            <div class="controls">
+              <button class="ctrl-btn" type="button">
+                <span class="ctrl-ico" aria-hidden="true">⎚</span>
+                Filter
+              </button>
+
+              <button
+                class="ctrl-btn ctrl-btn--select"
+                type="button"
+                id="typeBtn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                Type All
+                <span class="caret" aria-hidden="true">▾</span>
+              </button>
+
+              <div
+                class="dropdown"
+                id="typeDrop"
+                role="listbox"
+                aria-label="Filter by type"
+                hidden
+              >
+                <button class="drop-item" data-type="All" role="option">
+                  All
+                </button>
+                <button
+                  class="drop-item"
+                  data-type="Missed PickUp"
+                  role="option"
+                >
+                  Missed PickUp
+                </button>
+                <button class="drop-item" data-type="Trashed" role="option">
+                  Trashed
+                </button>
+                <button
+                  class="drop-item"
+                  data-type="Overflowing Bin"
+                  role="option"
+                >
+                  Overflowing Bin
+                </button>
+                <button
+                  class="drop-item"
+                  data-type="Illegal Dumping"
+                  role="option"
+                >
+                  Illegal Dumping
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="panel table-panel">
+            <div
+              class="table-wrap"
+              role="region"
+              aria-label="Reports table"
+              tabindex="0"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>REPORT ID</th>
+                    <th>TYPE</th>
+                    <th>LOCATION</th>
+                    <th>STATUS</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bottom cards -->
+          <div class="bottom-grid">
+            <article class="panel">
+              <div class="panel__head">
+                <h3>Monthly Management</h3>
+                <p>Monthly Management Activity</p>
+              </div>
+
+              <div
+                class="bars"
+                id="monthBars"
+                aria-label="Monthly bars chart"
+              ></div>
+
+              <div class="months" aria-hidden="true">
+                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span
+                ><span>May</span><span>Jun</span> <span>Jul</span
+                ><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span
+                ><span>Dec</span>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel__head">
+                <h3>Waste Composition</h3>
+              </div>
+
+              <div class="donut-wrap">
+                <div class="donut">
+                  <svg
+                    viewBox="0 0 120 120"
+                    class="donut__svg"
+                    role="img"
+                    aria-label="Waste composition donut"
+                  >
+                    <circle
+                      class="donut__track"
+                      cx="60"
+                      cy="60"
+                      r="44"
+                    ></circle>
+                    <g id="donutSegments"></g>
+                    <circle class="donut__hole" cx="60" cy="60" r="28"></circle>
+                  </svg>
+
+                  <div class="donut__center">
+                    <div class="donut__label">Total Value</div>
+                    <div class="donut__value">72</div>
+                  </div>
+                </div>
+
+                <div class="legend">
+                  <div class="legend__head">
+                    <span>Label</span>
+                    <span>%</span>
+                  </div>
+                  <div class="legend__list" id="legendList"></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

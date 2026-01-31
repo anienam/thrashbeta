@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="auth-body auth-body-plain">
+    <a class="corner-back" href="reset-password.html" aria-label="Back">←</a>
+
+    <main class="auth-wrap password-body">
+      <section class="auth-card auth-card-small">
+        <h1 class="auth-title">OTP Code Verification</h1>
+
+        <p class="auth-subtitle" id="otpSubtitle">
+          We’ve sent an OTP code to your email. Enter the OTP code below to
+          verify.
+        </p>
+
+        <p class="otp-label">Enter the 4-digit verification code below</p>
+
+        <form id="otpForm" class="auth-form" novalidate>
+          <div class="otp-boxes">
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="OTP digit 1"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="OTP digit 2"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="OTP digit 3"
+            />
+            <input
+              class="otp-input"
+              inputmode="numeric"
+              maxlength="1"
+              aria-label="OTP digit 4"
+            />
+          </div>
+
+          <p class="otp-help">
+            <strong>Didn’t receive an email?</strong>
+          </p>
+
+          <p class="otp-resend">
+            You can resend code <span id="otpTimer" class="otp-timer">55s</span>
+          </p>
+
+          <button type="submit" class="btn-primary auth-submit">
+            Continue
+          </button>
+
+          <p class="auth-backline">
+            <a href="login.html" class="auth-link">← Back to login</a>
+          </p>
+
+          <p class="form-success" id="otpSuccess" aria-live="polite"></p>
+          <small class="error" id="otpError"></small>
+        </form>
+      </section>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

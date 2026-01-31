@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Task Completed</title>
+    <link rel="stylesheet" href="./task-complete.css" />
+  </head>
+
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+
+    <div class="app">
+      <!-- SIDEBAR (same system) -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+        <div class="sidebar__brand">
+          <div class="brand">
+            <img src="/assets/images/LOGO.png" alt="" />
+          </div>
+
+          <button
+            class="icon-btn sidebar__close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="sidebar__profile">
+          <div class="avatar" aria-hidden="true"><span>JD</span></div>
+          <div class="profile-meta">
+            <div class="profile-name">Jane Doe</div>
+            <div class="profile-sub">
+              <span class="dot dot--gold" aria-hidden="true"></span>
+              Verified worker
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <a class="nav-item" href="../dashboard/index.html">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>Dashboard</span>
+          </a>
+
+          <a
+            class="nav-item is-active"
+            href="worker-task-details.html"
+            aria-current="page"
+          >
+            <span class="nav-icon" aria-hidden="true">≣</span>
+            <span>Task Details</span>
+          </a>
+
+          <a class="nav-item" href="../route/index.html">
+            <span class="nav-icon" aria-hidden="true">🗺</span>
+            <span>Route View</span>
+          </a>
+
+          <a class="nav-item" href="../settings/index.html">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="status">
+            <div class="status__label">STATUS</div>
+            <div class="status__dot" aria-hidden="true"></div>
+          </div>
+
+          <button class="btn btn--dispatch" id="sidebarDispatch">
+            <span class="btn__icon" aria-hidden="true">🎧</span>
+            Contact Dispatch
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!-- TOPBAR (kept, minimal like screenshot) -->
+        <header class="topbar" aria-label="Top Bar">
+          <div class="topbar__left">
+            <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">
+              ☰
+            </button>
+          </div>
+          <div class="topbar__right"></div>
+        </header>
+
+        <main class="content">
+          <section class="success">
+            <div class="checkWrap" aria-hidden="true">
+              <div class="checkCircle">
+                <span class="check">✓</span>
+              </div>
+            </div>
+
+            <h1 class="title">Task Successfully Completed!</h1>
+            <p class="subtitle">
+              Great job, John. Your efforts keep our community clean.
+            </p>
+
+            <section class="summary" aria-label="Summary Details">
+              <div class="summaryHead">SUMMARY DETAILS</div>
+
+              <div class="summaryBody">
+                <div class="twoCol">
+                  <div class="kv">
+                    <div class="k">TASK ID</div>
+                    <div class="v mono" id="taskIdText">#TB-8942</div>
+                  </div>
+
+                  <div class="kv">
+                    <div class="k">TASK ID</div>
+                    <div class="v" id="durationText">42 Minutes</div>
+                  </div>
+                </div>
+
+                <div class="kv full">
+                  <div class="k">LOCATION</div>
+                  <div class="v" id="locationText">
+                    122 Oakwood Dr, Greenside Heights, North District
+                  </div>
+                </div>
+              </div>
+
+              <div class="summaryNote">
+                <span class="noteIcon" aria-hidden="true">⭐</span>
+                Evidence photos and site note have been synced with the cloud
+                database
+              </div>
+            </section>
+
+            <div class="actions">
+              <button class="btn btn--primary" id="nextTaskBtn" type="button">
+                <span aria-hidden="true">🚀</span>
+                Go to Next Task
+              </button>
+
+              <div class="actionRow">
+                <button
+                  class="btn btn--secondary"
+                  id="dashboardBtn"
+                  type="button"
+                >
+                  <span aria-hidden="true">▦</span>
+                  Doorboard
+                </button>
+                <button
+                  class="btn btn--secondary"
+                  id="viewReportBtn"
+                  type="button"
+                >
+                  <span aria-hidden="true">🧾</span>
+                  View Report
+                </button>
+              </div>
+
+              <p class="redirect" id="redirectText">
+                Auto-redirecting to dashboard in
+                <span class="mono" id="countdown">15</span> seconds
+              </p>
+            </div>
+
+            <div class="bgMark" aria-hidden="true">♻</div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="./task-complete.js"></script>
+  </body>
+</html>

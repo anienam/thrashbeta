@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Route View</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+
+    <div class="app">
+      <!-- SIDEBAR (same system) -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+        <div class="sidebar__brand">
+          <div class="brand">
+            <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+          </div>
+          <button
+            class="icon-btn sidebar__close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="sidebar__profile">
+          <div class="avatar" aria-hidden="true"><span>JD</span></div>
+          <div class="profile-meta">
+            <div class="profile-name">Jane Doe</div>
+            <div class="profile-sub">
+              <span class="dot dot--gold" aria-hidden="true"></span>
+              Verified worker
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <a class="nav-item" href="../dashboard/index.html">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-item" href="../task/index.html">
+            <span class="nav-icon" aria-hidden="true">≣</span>
+            <span>Task Details</span>
+          </a>
+          <a class="nav-item is-active" href="./index.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">🗺</span>
+            <span>Route View</span>
+          </a>
+          <a class="nav-item" href="../settings/index.html">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <button class="btn btn--outline" id="emergencyBtn" type="button">
+            <span aria-hidden="true">🆘</span>
+            Emergency Report
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!-- TOPBAR (kept minimal like your route view) -->
+        <header class="topbar" aria-label="Top Bar">
+          <div class="topbar__left">
+            <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">
+              ☰
+            </button>
+          </div>
+          <div class="topbar__right"></div>
+        </header>
+
+        <main class="canvas">
+          <!-- MAP BACKDROP -->
+          <section class="map" aria-label="Map">
+            <div class="map__bg" aria-hidden="true"></div>
+
+            <!-- Map controls (right) -->
+            <div class="mapControls" aria-label="Map controls">
+              <button class="mapBtn" id="zoomIn" aria-label="Zoom in">+</button>
+              <button class="mapBtn" id="zoomOut" aria-label="Zoom out">
+                −
+              </button>
+              <button class="mapBtn" id="recenter" aria-label="Recenter">
+                ⌖
+              </button>
+            </div>
+
+            <!-- Pin (visual) -->
+            <div class="pin" aria-hidden="true"></div>
+
+            <!-- LEFT OVERLAY PANEL -->
+            <section class="panel" aria-label="Route panel">
+              <header class="panelTop">
+                <div>
+                  <div class="panelTitle">North District Route</div>
+                  <div class="panelSub">Active Session. Drive: Jane Don</div>
+                </div>
+                <span class="pill pill--track">ON TRACK</span>
+              </header>
+
+              <div class="kpis">
+                <div class="kpi">
+                  <div class="kpiLabel">Distance</div>
+                  <div class="kpiValue">12.4km</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Time EST</div>
+                  <div class="kpiValue">1Hour 20min</div>
+                </div>
+                <div class="kpi">
+                  <div class="kpiLabel">Stop</div>
+                  <div class="kpiValue">2/5</div>
+                </div>
+              </div>
+
+              <div class="sequenceHead">
+                <div class="sequenceTitle">STOP SEQUENCE</div>
+                <button class="linkBtn" id="viewAllBtn" type="button">
+                  View All
+                </button>
+              </div>
+
+              <div class="sequence" id="sequence">
+                <!-- Row 1 completed -->
+                <div class="seqRow">
+                  <div class="rail">
+                    <div class="dot dot--done">✓</div>
+                    <div class="line"></div>
+                  </div>
+                  <div class="seqBody">
+                    <div class="seqMain">
+                      <div class="seqName">1. Oak Central Hub</div>
+                    </div>
+                    <div class="seqMeta">Completed at 09:45 AM</div>
+                  </div>
+                </div>
+
+                <!-- Row 2 current -->
+                <div class="seqRow">
+                  <div class="rail">
+                    <div class="dot dot--current">▲</div>
+                    <div class="line"></div>
+                  </div>
+                  <div class="seqBody">
+                    <div class="currentCard">
+                      <div class="currentTop">
+                        <div>
+                          <div class="seqName">2. Mapie Street Bin #4</div>
+                          <div class="seqMeta">Next Stop. 400m away</div>
+                        </div>
+                        <span class="tag tag--high">High</span>
+                      </div>
+
+                      <div class="currentActions">
+                        <button
+                          class="btn btn--soft"
+                          id="completedBtn"
+                          type="button"
+                        >
+                          Completed
+                        </button>
+                        <button
+                          class="btn btn--ghost"
+                          id="detailsBtn"
+                          type="button"
+                        >
+                          Details
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="seqRow">
+                  <div class="rail">
+                    <div class="dot dot--next"></div>
+                    <div class="line"></div>
+                  </div>
+                  <div class="seqBody">
+                    <div class="seqName">3. Pine Road Station</div>
+                    <div class="seqMeta">ETA: 10:15 AM . 1.2km</div>
+                  </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="seqRow">
+                  <div class="rail">
+                    <div class="dot dot--next"></div>
+                    <div class="line line--fade"></div>
+                  </div>
+                  <div class="seqBody">
+                    <div class="seqName">4. Cedar Lane Hub</div>
+                    <div class="seqMeta">ETA: 10:35 AM . 2.8km</div>
+                  </div>
+                </div>
+              </div>
+
+              <footer class="panelFooter">
+                <button class="resumeBtn" id="resumeBtn" type="button">
+                  <span aria-hidden="true">▶</span>
+                  Resume Collection
+                </button>
+              </footer>
+            </section>
+
+            <!-- Bottom right moving card -->
+            <section class="moving" aria-label="Currently moving">
+              <div class="movingIcon" aria-hidden="true">🚗</div>
+              <div class="movingBody">
+                <div class="movingLabel">CURRENTLY MOVING</div>
+                <div class="movingTitle">Heading to Maple Street</div>
+              </div>
+              <div class="movingEta">
+                <div class="etaLabel">Arrival in</div>
+                <div class="etaValue">
+                  4<br /><span class="etaUnit">min</span>
+                </div>
+              </div>
+              <button class="movingBtn" id="pauseMoveBtn" aria-label="Pause">
+                ⏸
+              </button>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

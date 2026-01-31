@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Settings</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="overlay" id="overlay" hidden></div>
+
+    <div class="app">
+      <!-- SIDEBAR (same layout system) -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+        <div class="sidebar__brand">
+          <div class="brand">
+            <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+          </div>
+          <button
+            class="icon-btn sidebar__close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="sidebar__profile">
+          <div class="avatar" aria-hidden="true"><span>JD</span></div>
+          <div class="profile-meta">
+            <div class="profile-name">Jane Doe</div>
+            <div class="profile-sub">
+              <span class="dot dot--gold" aria-hidden="true"></span>
+              Verified worker
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <a class="nav-item" href="../dashboard/index.html">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>Dashboard</span>
+          </a>
+
+          <a class="nav-item" href="../task/index.html">
+            <span class="nav-icon" aria-hidden="true">≣</span>
+            <span>Task Details</span>
+          </a>
+
+          <a class="nav-item" href="../route/index.html">
+            <span class="nav-icon" aria-hidden="true">🗺</span>
+            <span>Route View</span>
+          </a>
+
+          <a class="nav-item is-active" href="./index.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <button class="btn btn--dispatch" id="sidebarDispatch" type="button">
+            <span class="btn__icon" aria-hidden="true">🎧</span>
+            Contact Dispatch
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!-- Keep topbar structure for consistency (hidden on desktop like screenshot) -->
+        <header class="topbar" aria-label="Top Bar">
+          <div class="topbar__left">
+            <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">
+              ☰
+            </button>
+          </div>
+          <div class="topbar__right"></div>
+        </header>
+
+        <main class="content">
+          <div class="pageHead">
+            <h1 class="pageTitle">Settings</h1>
+          </div>
+
+          <section class="layout">
+            <!-- LEFT: SETTINGS SUB-MENU -->
+            <aside class="settingsNav" aria-label="Settings menu">
+              <button
+                class="snavItem is-active"
+                type="button"
+                data-target="general"
+              >
+                <span class="snavIcon" aria-hidden="true">☰</span>
+                <span>General</span>
+              </button>
+              <button
+                class="snavItem"
+                type="button"
+                data-target="notifications"
+              >
+                <span class="snavIcon" aria-hidden="true">🔔</span>
+                <span>Notifications</span>
+              </button>
+              <button class="snavItem" type="button" data-target="api">
+                <span class="snavIcon" aria-hidden="true">⬡</span>
+                <span>API &amp; Integrations</span>
+              </button>
+              <button class="snavItem" type="button" data-target="security">
+                <span class="snavIcon" aria-hidden="true">🛡</span>
+                <span>Security</span>
+              </button>
+            </aside>
+
+            <!-- RIGHT: CARDS -->
+            <section class="cards">
+              <!-- General Settings -->
+              <article class="card" id="general">
+                <div class="cardHead">
+                  <div class="cardTitle">General Settings</div>
+                  <div class="cardSub">
+                    Configure basic platform identity and behavior
+                  </div>
+                </div>
+
+                <div class="formGrid two">
+                  <label class="field">
+                    <span class="label">Platform Name</span>
+                    <input type="text" value="TrashBeta" />
+                  </label>
+
+                  <label class="field">
+                    <span class="label">Primary Contact Mail</span>
+                    <input type="email" value="ops@trashbeta.com" />
+                  </label>
+                </div>
+
+                <div class="formGrid one">
+                  <label class="field">
+                    <span class="label">Operational Region</span>
+                    <select>
+                      <option selected>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Port Harcourt</option>
+                      <option>Kano</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="toggleCard">
+                  <div>
+                    <div class="toggleTitle">Notification Mode</div>
+                    <div class="toggleSub">
+                      Temporarily disable public access to the platform
+                    </div>
+                  </div>
+
+                  <label class="switch" aria-label="Notification Mode">
+                    <input id="notifMode" type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </article>
+
+              <!-- Notification Configuration -->
+              <article class="card" id="notifications">
+                <div class="cardHead">
+                  <div class="cardTitle">Notification Configuration</div>
+                  <div class="cardSub">
+                    Manage how and when admin and users are notified
+                  </div>
+                </div>
+
+                <div class="toggleList">
+                  <div class="toggleRow">
+                    <div>
+                      <div class="toggleTitle">Email Alerts</div>
+                      <div class="toggleSub">
+                        Send official to administrative emails
+                      </div>
+                    </div>
+                    <label class="switch" aria-label="Email Alerts">
+                      <input type="checkbox" checked />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="toggleRow">
+                    <div>
+                      <div class="toggleTitle">SMS Gateways</div>
+                      <div class="toggleSub">
+                        Enable SMS notification for collection drivers
+                      </div>
+                    </div>
+                    <label class="switch" aria-label="SMS Gateways">
+                      <input type="checkbox" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="toggleRow">
+                    <div>
+                      <div class="toggleTitle">Push Notifications</div>
+                      <div class="toggleSub">Push updates for citizens</div>
+                    </div>
+                    <label class="switch" aria-label="Push Notifications">
+                      <input type="checkbox" checked />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </article>
+
+              <!-- API & Integration -->
+              <article class="card" id="api">
+                <div class="cardHead">
+                  <div class="cardTitle">API &amp; Integration</div>
+                  <div class="cardSub">
+                    Connect TrashBeta to external services and city systems
+                  </div>
+                </div>
+
+                <div class="apiRow">
+                  <label class="field apiField">
+                    <span class="label">Public API Key</span>
+                    <input
+                      id="apiKey"
+                      type="password"
+                      value="sk_live_1234567890abcdef"
+                    />
+                  </label>
+                  <button class="btn btn--copy" id="copyKeyBtn" type="button">
+                    Copy
+                  </button>
+                </div>
+
+                <div class="formGrid one">
+                  <label class="field">
+                    <span class="label">Webhook Endpoint</span>
+                    <input
+                      type="url"
+                      value="https://api.yourcity.gov/webhooks"
+                    />
+                  </label>
+                </div>
+
+                <button class="linkAdd" id="addIntegrationBtn" type="button">
+                  <span class="plus" aria-hidden="true">＋</span>
+                  Add New Integration
+                </button>
+              </article>
+
+              <!-- Security Settings -->
+              <article class="card" id="security">
+                <div class="cardHead">
+                  <div class="cardTitle">Security Settings</div>
+                  <div class="cardSub">
+                    Enforce strict access controls and session managements
+                  </div>
+                </div>
+
+                <div class="formGrid two">
+                  <label class="field">
+                    <span class="label">Password Expiry</span>
+                    <select>
+                      <option>Every 30 days</option>
+                      <option>Every 60 days</option>
+                      <option selected>Every 90 days</option>
+                      <option>Every 180 days</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    <span class="label">Session Timeout</span>
+                    <select>
+                      <option>10 minutes</option>
+                      <option selected>30 minutes</option>
+                      <option>60 minutes</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="twofa">
+                  <div>
+                    <div class="toggleTitle">
+                      Two - Factor Authentication (2FA)
+                    </div>
+                    <div class="toggleSub">
+                      Mandatory for all administrator roles
+                    </div>
+                  </div>
+
+                  <label class="switch" aria-label="2FA">
+                    <input id="twofaToggle" type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </article>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Users & Permission</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Sidebar (same as Dashboard layout) -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item" href="../dashboard/index.html"
+            ><span class="ico" aria-hidden="true">🏠</span> Dashboard</a
+          >
+          <a class="sidenav__item" href="../reports/index.html"
+            ><span class="ico" aria-hidden="true">🧾</span> Reports</a
+          >
+          <a class="sidenav__item" href="../fleet/index.html"
+            ><span class="ico" aria-hidden="true">🚚</span> Fleet Management</a
+          >
+          <a class="sidenav__item is-active" href="./index.html"
+            ><span class="ico" aria-hidden="true">👥</span> Users</a
+          >
+          <a class="sidenav__item" href="../analytics/index.html"
+            ><span class="ico" aria-hidden="true">📊</span> Analytics</a
+          >
+          <a class="sidenav__item" href="../settings/index.html"
+            ><span class="ico" aria-hidden="true">⚙️</span> Settings</a
+          >
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar topbar--actions">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>User & Permission</h1>
+            <p>
+              Manage community residents, collection staff and administrative
+              access levels
+            </p>
+          </div>
+
+          <div class="topbar__right">
+            <div class="top-actions">
+              <button class="btn btn--ghost" type="button">Invite User</button>
+              <button class="btn btn--primary" type="button">
+                Role Setting
+              </button>
+            </div>
+            <img
+              class="avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+          </div>
+        </header>
+
+        <!-- KPI cards -->
+        <section class="stats" id="stats" aria-label="User metrics"></section>
+
+        <!-- Roles + controls -->
+        <section class="section">
+          <div class="section__head">
+            <div>
+              <h2>All Roles</h2>
+            </div>
+
+            <div class="controls">
+              <button class="ctrl-btn" type="button">
+                <span class="ctrl-ico" aria-hidden="true">⎚</span>
+                Filter
+              </button>
+
+              <button
+                class="ctrl-btn ctrl-btn--select"
+                type="button"
+                id="typeBtn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                Type All
+                <span class="caret" aria-hidden="true">▾</span>
+              </button>
+
+              <div
+                class="dropdown"
+                id="typeDrop"
+                role="listbox"
+                aria-label="Filter by role"
+                hidden
+              >
+                <button class="drop-item" data-type="All" role="option">
+                  All
+                </button>
+                <button class="drop-item" data-type="Resident" role="option">
+                  Resident
+                </button>
+                <button class="drop-item" data-type="Admin" role="option">
+                  Admin
+                </button>
+                <button
+                  class="drop-item"
+                  data-type="Collection Staff"
+                  role="option"
+                >
+                  Collection Staff
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="panel table-panel">
+            <div
+              class="table-wrap"
+              role="region"
+              aria-label="Roles table"
+              tabindex="0"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>USER DETAILS</th>
+                    <th>ROLE</th>
+                    <th>ACTIVITY STATUS</th>
+                    <th>LAST ACTIVE</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="table-foot">
+              <div class="hint" id="rangeHint">
+                Showing 1 to 10 out of 2,145 users
+              </div>
+
+              <div class="pager" aria-label="Pagination">
+                <button class="pg" type="button">Previous</button>
+                <button class="pg is-active" type="button">1</button>
+                <button class="pg" type="button">2</button>
+                <button class="pg" type="button">3</button>
+                <button class="pg" type="button">Next</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom cards -->
+          <div class="bottom-grid">
+            <article class="panel">
+              <div class="panel__head">
+                <h3>Permission Groups</h3>
+              </div>
+
+              <div class="group">
+                <div class="group__title">Operations Management</div>
+                <div class="group__text">
+                  Fleet control, route assignment, staff logs
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="group__title">Community Relations</div>
+                <div class="group__text">
+                  Report resolution, citizen notification
+                </div>
+              </div>
+
+              <div class="group">
+                <div class="group__title">System Admin</div>
+                <div class="group__text">
+                  Full access, logs, system configuration
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel__head">
+                <h3>Security Audit Log</h3>
+              </div>
+
+              <div class="audit">
+                <p>
+                  <strong class="hl">Admin David Chen</strong> changed role for
+                  user <strong>#TR-8812</strong>
+                </p>
+                <p>
+                  Password reset requested for
+                  <strong class="hl">Elena Rodriguez</strong>
+                </p>
+                <p>
+                  <strong class="hl">New staff account</strong> created for
+                  Sector 3 Dispatch
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

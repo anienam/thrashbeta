@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Fleet Management</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Sidebar (same as Dashboard page style) -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item" href="../dashboard/index.html"
+            ><span class="ico" aria-hidden="true">🏠</span> Dashboard</a
+          >
+          <a class="sidenav__item" href="../reports/index.html"
+            ><span class="ico" aria-hidden="true">🧾</span> Reports</a
+          >
+          <a class="sidenav__item is-active" href="./index.html"
+            ><span class="ico" aria-hidden="true">🚚</span> Fleet Management</a
+          >
+          <a class="sidenav__item" href="../users/index.html"
+            ><span class="ico" aria-hidden="true">👥</span> Users</a
+          >
+          <a class="sidenav__item" href="../analytics/index.html"
+            ><span class="ico" aria-hidden="true">📊</span> Analytics</a
+          >
+          <a class="sidenav__item" href="../settings/index.html"
+            ><span class="ico" aria-hidden="true">⚙️</span> Settings</a
+          >
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>Fleet Management Overview</h1>
+            <p>Monitor vehicle efficiency and progress in real time</p>
+          </div>
+
+          <img
+            class="avatar"
+            src="https://i.pravatar.cc/80?img=12"
+            alt="John Doe"
+          />
+        </header>
+
+        <!-- KPI cards -->
+        <section class="stats" id="stats" aria-label="Fleet metrics"></section>
+
+        <!-- Table -->
+        <section class="panel table-panel">
+          <div class="panel__head">
+            <h2>Active Fleet Details</h2>
+          </div>
+
+          <div
+            class="table-wrap"
+            role="region"
+            aria-label="Fleet details table"
+            tabindex="0"
+          >
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>VEHICLE ID</th>
+                  <th>DRIVER/<br />TEAM</th>
+                  <th>ROUTE AREA</th>
+                  <th>LOAD</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Progress bars -->
+        <section class="panel">
+          <div class="panel__head">
+            <h2>Route Completion Status</h2>
+          </div>
+
+          <div class="routes" id="routes"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

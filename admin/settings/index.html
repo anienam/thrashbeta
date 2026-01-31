@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Settings</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Main Sidebar (same as Dashboard layout) -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item" href="../dashboard/index.html"
+            ><span class="ico" aria-hidden="true">🏠</span> Dashboard</a
+          >
+          <a class="sidenav__item" href="../reports/index.html"
+            ><span class="ico" aria-hidden="true">🧾</span> Reports</a
+          >
+          <a class="sidenav__item" href="../fleet/index.html"
+            ><span class="ico" aria-hidden="true">🚚</span> Fleet Management</a
+          >
+          <a class="sidenav__item" href="../users/index.html"
+            ><span class="ico" aria-hidden="true">👥</span> Users</a
+          >
+          <a class="sidenav__item" href="../analytics/index.html"
+            ><span class="ico" aria-hidden="true">📊</span> Analytics</a
+          >
+          <a class="sidenav__item is-active" href="./index.html"
+            ><span class="ico" aria-hidden="true">⚙️</span> Settings</a
+          >
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>Settings</h1>
+          </div>
+
+          <img
+            class="avatar"
+            src="https://i.pravatar.cc/80?img=12"
+            alt="John Doe"
+          />
+        </header>
+
+        <section class="settings-layout">
+          <!-- Inner settings nav -->
+          <aside class="subnav" aria-label="Settings sections">
+            <button
+              class="subnav__item is-active"
+              data-tab="general"
+              type="button"
+            >
+              <span class="sub-ico" aria-hidden="true">⚙</span> General
+            </button>
+            <button class="subnav__item" data-tab="notifications" type="button">
+              <span class="sub-ico" aria-hidden="true">🔔</span> Notifications
+            </button>
+            <button class="subnav__item" data-tab="api" type="button">
+              <span class="sub-ico" aria-hidden="true">🔗</span> API &amp;
+              Integrations
+            </button>
+            <button class="subnav__item" data-tab="security" type="button">
+              <span class="sub-ico" aria-hidden="true">🛡</span> Security
+            </button>
+          </aside>
+
+          <!-- Content -->
+          <div class="content">
+            <!-- General Settings card -->
+            <article class="panel" data-pane="general">
+              <div class="panel__head">
+                <h2>General Settings</h2>
+                <p>Configure basic platform identity and behavior</p>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="platformName">Platform Name</label>
+                  <input id="platformName" type="text" value="TrashBeta" />
+                </div>
+
+                <div class="field">
+                  <label for="contactMail">Primary Contact Mail</label>
+                  <input
+                    id="contactMail"
+                    type="email"
+                    value="ops@trashbeta.com"
+                  />
+                </div>
+
+                <div class="field field--full">
+                  <label for="region">Operational Region</label>
+                  <div class="select">
+                    <select id="region">
+                      <option selected>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Port Harcourt</option>
+                      <option>Kano</option>
+                    </select>
+                    <span class="chev" aria-hidden="true">▾</span>
+                  </div>
+                </div>
+
+                <div class="toggle-card field--full">
+                  <div>
+                    <div class="toggle-title">Notification Mode</div>
+                    <div class="toggle-sub">
+                      Temporarily disable public access to the platform
+                    </div>
+                  </div>
+                  <label class="switch" aria-label="Notification Mode">
+                    <input id="notifMode" type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </article>
+
+            <!-- Notification Configuration card -->
+            <article class="panel" data-pane="notifications">
+              <div class="panel__head">
+                <h2>Notification Configuration</h2>
+                <p>Manage how and when admin and users are notified</p>
+              </div>
+
+              <div class="stack">
+                <div class="toggle-row">
+                  <div>
+                    <div class="row-title">Email Alerts</div>
+                    <div class="row-sub">
+                      Send official to administrative emails
+                    </div>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <div>
+                    <div class="row-title">SMS Gateways</div>
+                    <div class="row-sub">
+                      Enable SMS notification for collection drivers
+                    </div>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-row">
+                  <div>
+                    <div class="row-title">Push Notifications</div>
+                    <div class="row-sub">Push updates for citizens</div>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </article>
+
+            <!-- API & Integration card -->
+            <article class="panel" data-pane="api">
+              <div class="panel__head">
+                <h2>API &amp; Integration</h2>
+                <p>Connect TrashBeta to external services and city systems</p>
+              </div>
+
+              <div class="api-grid">
+                <div class="field field--full">
+                  <label for="apiKey">Public API Key</label>
+                  <div class="copy-row">
+                    <input
+                      id="apiKey"
+                      type="password"
+                      value="••••••••••••••••"
+                      readonly
+                    />
+                    <button class="btn" id="copyBtn" type="button">Copy</button>
+                  </div>
+                </div>
+
+                <div class="field field--full">
+                  <label for="webhook">Webhook Endpoint</label>
+                  <input
+                    id="webhook"
+                    type="url"
+                    value="https://api.yourcity.gov/webhooks"
+                  />
+                </div>
+
+                <button class="link-btn" type="button">
+                  <span aria-hidden="true">＋</span> Add New Integration
+                </button>
+              </div>
+            </article>
+
+            <!-- Security (placeholder pane) -->
+            <article class="panel" data-pane="security">
+              <div class="panel__head">
+                <h2>Security</h2>
+                <p>Manage password rules, sessions, and access policies</p>
+              </div>
+
+              <div class="security">
+                <div class="hint">
+                  This section is a placeholder pane for now (matches screenshot
+                  where Security exists in the inner nav).
+                </div>
+                <div class="stack">
+                  <div class="toggle-row">
+                    <div>
+                      <div class="row-title">Require 2FA for Admins</div>
+                      <div class="row-sub">
+                        Add extra security for administrative accounts
+                      </div>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div class="toggle-row">
+                    <div>
+                      <div class="row-title">Session Timeout</div>
+                      <div class="row-sub">
+                        Auto log out inactive users after 30 minutes
+                      </div>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

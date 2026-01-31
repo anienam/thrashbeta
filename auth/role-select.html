@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose Role | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="auth-body auth-body-plain">
+    <a class="corner-back" href="onboarding.html" aria-label="Back">←</a>
+
+    <main class="auth-wrap role-container">
+      <section class="auth-card auth-card-small">
+        <h1 class="auth-title">Choose How You’ll Use TrashBeta</h1>
+        <p class="auth-subtitle">
+          Select the role that best describes you. This helps us tailor your
+          experience.
+        </p>
+
+        <div class="role-grid" role="radiogroup" aria-label="Select your role">
+          <!-- Resident -->
+          <button
+            type="button"
+            class="role-card selected"
+            data-role="resident"
+            role="radio"
+            aria-checked="true"
+          >
+            <span class="role-radio"><span class="role-dot"></span></span>
+
+            <div class="role-icon" aria-hidden="true">
+              <!-- simple inline icon -->
+              <svg width="72" height="72" viewBox="0 0 64 64" fill="none">
+                <path
+                  d="M10 28L32 10l22 18"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M16 26v26h32V26"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M22 52v-12h20v12"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <circle cx="32" cy="33" r="6" fill="currentColor" />
+                <circle
+                  cx="24"
+                  cy="35"
+                  r="4"
+                  fill="currentColor"
+                  opacity="0.9"
+                />
+                <circle
+                  cx="40"
+                  cy="35"
+                  r="4"
+                  fill="currentColor"
+                  opacity="0.9"
+                />
+              </svg>
+            </div>
+
+            <h3 class="role-title">Community Resident</h3>
+            <p class="role-text">
+              Report waste issues, track cleanup progress, and access pickup
+              schedules.
+            </p>
+          </button>
+
+          <!-- Staff -->
+          <button
+            type="button"
+            class="role-card"
+            data-role="staff"
+            role="radio"
+            aria-checked="false"
+          >
+            <span class="role-radio"><span class="role-dot"></span></span>
+
+            <div class="role-icon" aria-hidden="true">
+              <svg width="72" height="72" viewBox="0 0 64 64" fill="none">
+                <circle cx="20" cy="28" r="6" fill="currentColor" />
+                <circle cx="44" cy="28" r="6" fill="currentColor" />
+                <circle cx="32" cy="24" r="7" fill="currentColor" />
+                <path
+                  d="M10 52c2-8 10-12 18-12"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M54 52c-2-8-10-12-18-12"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M18 52c2-9 8-14 14-14s12 5 14 14"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+
+            <h3 class="role-title">Waste Management<br />Staff</h3>
+            <p class="role-text">
+              View and manage reported issues, update statuses, and coordinate
+              cleanups.
+            </p>
+          </button>
+        </div>
+
+        <button id="roleContinue" class="btn-primary auth-submit role-cta">
+          Continue as Resident
+        </button>
+      </section>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

@@ -5,25 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact | TrashBeta</title>
     <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <!-- NAVBAR -->
     <header class="navbar">
       <div class="container nav-content">
-        <div class="logo">♻ TrashBeta</div>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="features.html">Features</a>
-          <a href="about.html">About</a>
-          <a href="contact.html" class="active">Contact</a>
-          <a href="#" class="btn-primary">Get Started</a>
+        <div class="logo">
+          <img src="../assets/images/LOGO.png" alt="Thrashbeta logo" />
+        </div>
+        <nav class="nav-flex">
+          <a href="/public/index.html">Home</a>
+          <a href="/public/features.html">Features</a>
+          <a href="/public/about.html">About</a>
+          <a href="/public/contact.html">Contact</a>
         </nav>
+        <a href="#" class="btn-primary">Get Started</a>
       </div>
     </header>
 
     <!-- HERO -->
     <section class="section light contact-hero">
-      <div class="container">
+      <div class="container contact-flex">
         <h1>Get in Touch</h1>
         <p class="subtitle">
           Have questions? We’d love to hear from you. Send us a message and
@@ -37,10 +54,12 @@
       <div class="container contact-grid">
         <!-- Form -->
         <div class="contact-form">
-          <h2>Send Us a Message</h2>
-          <p class="muted">
-            Fill out the form below and we’ll get back to you within 24 hours
-          </p>
+          <div class="form-heading">
+            <h2>Send Us a Message</h2>
+            <p class="muted">
+              Fill out the form below and we’ll get back to you within 24 hours
+            </p>
+          </div>
 
           <form id="contactForm" novalidate>
             <label class="field">
@@ -95,7 +114,12 @@
             </label>
 
             <label class="checkbox">
-              <input type="checkbox" name="agree" required />
+              <input
+                type="checkbox"
+                name="agree"
+                required
+                class="checkbox-icon"
+              />
               <span>I agree to TrashBeta’s privacy policy</span>
             </label>
             <small class="error" id="agreeError"></small>
@@ -145,17 +169,27 @@
     </section>
 
     <!-- MAP -->
-    <section class="section light">
-      <div class="container">
+    <section class="section light map">
+      <div class="container map-size">
         <h2>Find Us on the Map</h2>
         <div class="map-wrap">
           <!-- Replace src later with your real Google Maps embed if you want -->
-          <iframe
+          <!-- <iframe
             title="TrashBeta Office Map"
             src="https://www.openstreetmap.org/export/embed.html?bbox=3.329%2C6.574%2C3.357%2C6.596&layer=mapnik"
             loading="lazy"
           >
-          </iframe>
+          </iframe> -->
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126845.9693230693!2d3.2811265300989003!3d6.529699313589289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b9228fa2a3999%3A0xd7a8324bddbba1f0!2sIkeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1769680616541!5m2!1sen!2sng"
+            width="800"
+            height="600"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </section>
@@ -165,7 +199,7 @@
       <div class="container faq">
         <h2>Frequently asked questions</h2>
         <p class="muted center-text">
-          Quick answers to common questions. Don’t see what you’re looking for?
+          Quick answers to common questions. Don't see what you're looking for?
           Contact us above.
         </p>
 
@@ -175,8 +209,9 @@
             <span class="faq-toggle">−</span>
           </button>
           <div class="faq-answer open">
-            Yes. Residents can sign up and report waste issues completely free.
-            There are no hidden fees.
+            Yes! Residents can sign up and report waste issues completely free.
+            There are no hidden fees or premium tiers for basic reporting and
+            tracking.
           </div>
 
           <button class="faq-item" aria-expanded="false">
@@ -229,7 +264,7 @@
 
     <!-- CTA STRIP -->
     <section class="cta about-cta">
-      <div class="container cta-content split">
+      <div class="container cta-content split cta-flex">
         <div>
           <h2>Still Have Questions?</h2>
           <p>
@@ -244,25 +279,83 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-      <div class="container footer-grid">
-        <div>
-          <strong>TrashBeta</strong>
-          <p>Smart waste management for modern communities.</p>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <!-- <h2 class="logo">Trash<span>Beta</span></h2> -->
+          <img src="/assets/images/LOGO.png" alt="" />
+          <p>Smart waste management for modern communities</p>
         </div>
-        <div>
-          <a href="features.html">Features</a>
-          <a href="#">How It Works</a>
-          <a href="#">For Residents</a>
-          <a href="#">For Workers</a>
-          <a href="#">For Admins</a>
-        </div>
-        <div>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Support</a>
+
+        <div class="footer-links">
+          <div>
+            <h4>Features</h4>
+            <ul>
+              <li>How It Works</li>
+              <li>For Residents</li>
+              <li>For Workers</li>
+              <li>For Admins</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Company</h4>
+            <ul>
+              <li>About us</li>
+              <li>Our Story</li>
+              <li>Our Values</li>
+              <li>Our Impact</li>
+              <li>Careers</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Resources</h4>
+            <ul>
+              <li>Help Center</li>
+              <li>Waste Tips</li>
+              <li>Pickup Schedule</li>
+              <li>Community Guidelines</li>
+              <li>Blog</li>
+              <li>Support</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li>Privacy Policy</li>
+              <li>Terms of Service</li>
+              <li>Cookie Policy</li>
+              <li>Data Protection</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Social</h4>
+            <ul>
+              <li>Twitter</li>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>LinkedIn</li>
+              <li>YouTube</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <p class="copyright">© 2026 TrashBeta</p>
+
+      <div class="footer-bottom">
+        <p>© 2025 TrashBeta. All rights reserved.</p>
+        <a href="mailto:info@trashbeta.com">info@trashbeta.com</a>
+
+        <div class="social-icons">
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-linkedin"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+      </div>
     </footer>
 
     <script src="js/main.js"></script>

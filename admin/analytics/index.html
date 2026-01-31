@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Analytics</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Sidebar (same as Dashboard layout) -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item" href="../dashboard/index.html"
+            ><span class="ico" aria-hidden="true">🏠</span> Dashboard</a
+          >
+          <a class="sidenav__item" href="../reports/index.html"
+            ><span class="ico" aria-hidden="true">🧾</span> Reports</a
+          >
+          <a class="sidenav__item" href="../fleet/index.html"
+            ><span class="ico" aria-hidden="true">🚚</span> Fleet Management</a
+          >
+          <a class="sidenav__item" href="../users/index.html"
+            ><span class="ico" aria-hidden="true">👥</span> Users</a
+          >
+          <a class="sidenav__item is-active" href="./index.html"
+            ><span class="ico" aria-hidden="true">📊</span> Analytics</a
+          >
+          <a class="sidenav__item" href="../settings/index.html"
+            ><span class="ico" aria-hidden="true">⚙️</span> Settings</a
+          >
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>Analytics</h1>
+            <p>Admin/Analytics</p>
+          </div>
+
+          <img
+            class="avatar"
+            src="https://i.pravatar.cc/80?img=12"
+            alt="John Doe"
+          />
+        </header>
+
+        <!-- Top cards -->
+        <section class="top-cards">
+          <!-- Card 1 -->
+          <article class="panel metric-card">
+            <div class="metric-head">
+              <div>
+                <div class="metric-title">Total Waste Collected</div>
+                <div class="metric-value">
+                  4,280 <span class="metric-unit">Tons</span>
+                </div>
+              </div>
+              <div class="metric-mini">
+                <span class="mini-txt">+8.4%</span>
+                <span class="mini-ico" aria-hidden="true">↗</span>
+              </div>
+            </div>
+
+            <div class="mini-bars" id="miniBars"></div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="panel metric-card">
+            <div class="metric-head">
+              <div>
+                <div class="metric-title">Avg. Response Time</div>
+                <div class="metric-value">1h 34m</div>
+              </div>
+              <div class="metric-mini">
+                <span class="mini-txt">-12m</span>
+                <span class="mini-ico" aria-hidden="true">↘</span>
+              </div>
+            </div>
+
+            <div class="target">
+              <div class="target-bar">
+                <div class="target-fill" style="width: 78%"></div>
+              </div>
+              <div class="target-txt">78% Target</div>
+            </div>
+
+            <p class="note">
+              Response efficiency improved by <strong>14%</strong> vs last month
+            </p>
+            <div class="dotline">•</div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="panel metric-card">
+            <div class="metric-head">
+              <div>
+                <div class="metric-title">Citizen Engagement</div>
+                <div class="metric-value">
+                  12.8k <span class="metric-unit">Users</span>
+                </div>
+              </div>
+              <div class="metric-mini">
+                <span class="mini-ico" aria-hidden="true">👤</span>
+                <span class="mini-txt">+1.2k</span>
+              </div>
+            </div>
+
+            <div class="avatars">
+              <img src="https://i.pravatar.cc/60?img=11" alt="User 1" />
+              <img src="https://i.pravatar.cc/60?img=32" alt="User 2" />
+              <img src="https://i.pravatar.cc/60?img=47" alt="User 3" />
+              <span class="more">+9k</span>
+            </div>
+
+            <p class="note">
+              Daily active reporting users are up to <strong>22%</strong>
+            </p>
+          </article>
+        </section>
+
+        <!-- Middle cards -->
+        <section class="mid-grid">
+          <article class="panel">
+            <div class="panel__head">
+              <h2>Waste Generation Trends</h2>
+              <p>Comparison of daily collection weight</p>
+            </div>
+
+            <div class="empty-chart">
+              <div class="y">
+                <span>100+</span>
+                <span>75+</span>
+                <span>50+</span>
+                <span>25+</span>
+                <span>0+</span>
+              </div>
+              <div class="x">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thur</span
+                ><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel__head">
+              <h2>Reporting Activity</h2>
+              <p>Citizen issue reports over time</p>
+            </div>
+
+            <div class="line-chart">
+              <svg
+                viewBox="0 0 520 240"
+                class="line-svg"
+                role="img"
+                aria-label="Reporting activity chart"
+              >
+                <!-- green line -->
+                <path
+                  class="line-green"
+                  d="M20,170 C90,60 150,120 210,120 C280,120 300,210 370,105 C430,30 480,40 500,50"
+                />
+                <!-- orange dotted line -->
+                <path
+                  class="line-orange"
+                  d="M20,190 C90,140 150,220 210,210 C280,200 330,180 370,160 C420,125 470,120 500,130"
+                />
+              </svg>
+
+              <div class="xlabels">
+                <span>01 OCT</span><span>08 OCT</span><span>13 OCT</span
+                ><span>22 OCT</span><span>29 OCT</span>
+              </div>
+
+              <div class="legend2">
+                <div class="leg2">
+                  <span class="dot dot--green"></span>
+                  <span>TOTAL REPORTS</span>
+                  <strong>1,452</strong>
+                </div>
+                <div class="leg2">
+                  <span class="dot dot--orange"></span>
+                  <span>RESOLVED RATE</span>
+                  <strong>94.2%</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Bottom -->
+        <section class="panel">
+          <div class="panel__head">
+            <h2>Response Time By Type</h2>
+          </div>
+
+          <div class="rt-list" id="rtList"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

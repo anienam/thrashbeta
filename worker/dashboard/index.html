@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Worker Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <!-- Mobile overlay -->
+    <div class="overlay" id="overlay" hidden></div>
+
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+        <div class="sidebar__brand">
+          <div class="brand">
+            <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+          </div>
+
+          <button
+            class="icon-btn sidebar__close"
+            id="sidebarClose"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="sidebar__profile">
+          <div class="avatar" aria-hidden="true">
+            <span>JD</span>
+          </div>
+          <div class="profile-meta">
+            <div class="profile-name">Jane Doe</div>
+            <div class="profile-sub">
+              <span class="dot dot--gold" aria-hidden="true"></span>
+              Verified worker
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+          <a class="nav-item is-active" href="./index.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-item" href="../task/index.html">
+            <span class="nav-icon" aria-hidden="true">≣</span>
+            <span>Task Details</span>
+          </a>
+          <a class="nav-item" href="../route/index.html">
+            <span class="nav-icon" aria-hidden="true">🗺</span>
+            <span>Route View</span>
+          </a>
+          <a class="nav-item" href="../settings/index.html">
+            <span class="nav-icon" aria-hidden="true">⚙</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="status">
+            <div class="status__label">STATUS</div>
+            <div class="status__dot" aria-hidden="true"></div>
+          </div>
+
+          <button class="btn btn--offline" id="goOfflineBtn">
+            <span class="btn__icon" aria-hidden="true">↩</span>
+            Go Offline
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!-- TOPBAR -->
+        <header class="topbar" aria-label="Top Bar">
+          <div class="topbar__left">
+            <button class="icon-btn" id="sidebarOpen" aria-label="Open sidebar">
+              ☰
+            </button>
+
+            <div class="search">
+              <span class="search__icon" aria-hidden="true">🔎</span>
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="search tasks ID or address"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="topbar__right">
+            <div
+              class="pill pill--online"
+              role="status"
+              aria-label="Sync status"
+            >
+              <span class="pill__icon" aria-hidden="true">📶</span>
+              Sync Status: Online
+            </div>
+
+            <button class="icon-btn" id="bellBtn" aria-label="Notifications">
+              🔔
+              <span class="badge" aria-hidden="true" hidden></span>
+            </button>
+          </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+          <section class="split">
+            <!-- LEFT PANEL -->
+            <section class="route-panel" aria-label="Today's Route">
+              <div class="route-header">
+                <h1>Today’s Route</h1>
+                <div class="chip chip--muted">12 Stop Left</div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat-card">
+                  <div class="stat-card__label">COMPLETED</div>
+                  <div class="stat-card__value">
+                    <span class="big big--green">8</span
+                    ><span class="big big--muted">/20</span>
+                  </div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-card__label">URGENT</div>
+                  <div class="stat-card__value">
+                    <span class="big big--amber">3</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="route-list" id="routeList">
+                <!-- Card 1 -->
+                <article
+                  class="task-card task-card--white"
+                  data-search="122 oakwood industrial waste overflow urgent"
+                >
+                  <div class="task-card__top">
+                    <div>
+                      <div class="task-title">122, Oakwood Dr.</div>
+                      <div class="task-meta">
+                        <span class="task-meta__icon" aria-hidden="true"
+                          >♻</span
+                        >
+                        Industrial Waste Overflow
+                      </div>
+                    </div>
+                    <span class="tag tag--urgent">URGENT</span>
+                  </div>
+
+                  <div class="task-card__actions">
+                    <button class="btn btn--amber" data-action="navigate">
+                      Start Navigation
+                    </button>
+                    <button
+                      class="icon-sq"
+                      title="Info"
+                      aria-label="Info"
+                      data-action="info"
+                    >
+                      i
+                    </button>
+                  </div>
+                </article>
+
+                <!-- Card 2 (current stop) -->
+                <article
+                  class="task-card task-card--mint is-current"
+                  data-search="45 high street regular residential current stop"
+                >
+                  <div class="task-card__top">
+                    <div>
+                      <div class="task-title">45, High Street</div>
+                      <div class="task-meta">
+                        <span class="task-meta__icon" aria-hidden="true"
+                          >▦</span
+                        >
+                        Regular Residential
+                      </div>
+                    </div>
+                    <span class="tag tag--current">CURRENT STOP</span>
+                  </div>
+
+                  <div class="task-card__actions">
+                    <button
+                      class="btn btn--outline-amber"
+                      data-action="complete"
+                    >
+                      Mark Complete
+                    </button>
+                    <button class="btn btn--green" data-action="report">
+                      Report Issue
+                    </button>
+                  </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article
+                  class="task-card task-card--mint"
+                  data-search="89 maple avenue eta 14:30"
+                >
+                  <div class="task-card__top">
+                    <div>
+                      <div class="task-title task-title--muted">
+                        89, Maple Avenue
+                      </div>
+                      <div class="task-meta task-meta--eta">
+                        <span class="task-meta__icon" aria-hidden="true"
+                          >🕒</span
+                        >
+                        ETA: <strong>14:30</strong>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <!-- MAP -->
+            <section class="map-panel" aria-label="Map Area">
+              <div class="map" id="map">
+                <!-- Map) -->
+                <div class="map__grid" aria-hidden="true">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126845.9736922828!2d3.2076266898241244!3d6.529682071364119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b9228fa2a3999%3A0xd7a8324bddbba1f0!2sIkeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1769859146229!5m2!1sen!2sng"
+                    width="800"
+                    height="600"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+
+                <div class="map-controls" aria-label="Map controls">
+                  <button class="map-btn" id="zoomIn" aria-label="Zoom in">
+                    +
+                  </button>
+                  <button class="map-btn" id="zoomOut" aria-label="Zoom out">
+                    −
+                  </button>
+                  <button class="map-btn" id="recenter" aria-label="Recenter">
+                    ⌖
+                  </button>
+                </div>
+
+                <div
+                  class="map-stats"
+                  role="contentinfo"
+                  aria-label="Route summary"
+                >
+                  <div class="map-stats__item map-stats__item--lead">
+                    <span class="car" aria-hidden="true">🚗</span>
+                    <div>
+                      <div class="ms-label">ESTIMATED COMPLETION</div>
+                      <div class="ms-value">17:45 (Today)</div>
+                    </div>
+                  </div>
+
+                  <div class="map-stats__divider" aria-hidden="true"></div>
+
+                  <div class="map-stats__item">
+                    <div>
+                      <div class="ms-label">TOTAL FUEL USAGE</div>
+                      <div class="ms-value">42%</div>
+                    </div>
+                  </div>
+
+                  <div class="map-stats__divider" aria-hidden="true"></div>
+
+                  <div class="map-stats__item">
+                    <div>
+                      <div class="ms-label">DISTANCE REMAINING</div>
+                      <div class="ms-value">14.2 km</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

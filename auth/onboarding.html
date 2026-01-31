@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome | TrashBeta</title>
+
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="onboard-body">
+    <!-- Top bar -->
+    <header class="onboard-top">
+      <div class="onboard-logo">
+        <img src="../assets/images/LOGO.png" alt="" />
+      </div>
+      <a href="login.html" class="btn-outline onboard-skip">Skip</a>
+    </header>
+
+    <!-- Slide content -->
+    <main class="onboard-main">
+      <section class="onboard-content">
+        <img
+          id="onboardImage"
+          class="onboard-image"
+          src="../assets/images/Onboarding 01.png"
+          alt="Onboarding illustration"
+        />
+
+        <h1 id="onboardTitle" class="onboard-title">
+          Report Waste Issues in Seconds
+        </h1>
+        <p id="onboardText" class="onboard-text">
+          Easily report overflowing bins, illegal dumping, or blocked drains in
+          your area and help keep your environment clean and safe.
+        </p>
+      </section>
+
+      <!-- Bottom controls -->
+      <section class="onboard-bottom">
+        <button id="onboardNext" class="btn-primary onboard-continue">
+          Continue
+        </button>
+
+        <div class="dots" aria-label="Onboarding progress">
+          <span class="dot active" data-dot="0"></span>
+          <span class="dot" data-dot="1"></span>
+          <span class="dot" data-dot="2"></span>
+        </div>
+      </section>
+    </main>
+
+    <script src="./js/auth.js"></script>
+  </body>
+</html>

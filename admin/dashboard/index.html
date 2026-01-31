@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashBeta • Admin Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="overlay" id="overlay" hidden></div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="Primary">
+        <div class="brand">
+          <!-- <div class="brand__logo" aria-hidden="true">🌿</div>
+          <div class="brand__text">TrashBeta</div> -->
+          <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+        </div>
+
+        <nav class="sidenav" aria-label="Navigation">
+          <a class="sidenav__item is-active" href="./index.html">
+            <span class="ico" aria-hidden="true">🏠</span> Dashboard
+          </a>
+          <a class="sidenav__item" href="../reports/index.html">
+            <span class="ico" aria-hidden="true">🧾</span> Reports
+          </a>
+          <a class="sidenav__item" href="../fleet/index.html">
+            <span class="ico" aria-hidden="true">🚚</span> Fleet Management
+          </a>
+          <a class="sidenav__item" href="../users/index.html">
+            <span class="ico" aria-hidden="true">👥</span> Users
+          </a>
+          <a class="sidenav__item" href="../analytics/index.html">
+            <span class="ico" aria-hidden="true">📊</span> Analytics
+          </a>
+          <a class="sidenav__item" href="../settings/index.html">
+            <span class="ico" aria-hidden="true">⚙️</span> Settings
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="userchip">
+            <img
+              class="userchip__avatar"
+              src="https://i.pravatar.cc/80?img=12"
+              alt="John Doe"
+            />
+            <div class="userchip__name">John Doe</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <header class="topbar">
+          <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+            <span aria-hidden="true">☰</span>
+          </button>
+
+          <div class="topbar__left">
+            <h1>Dashboard Overview</h1>
+            <p>
+              Welcome back, John! Here’s your system performance and waste
+              management metrics
+            </p>
+          </div>
+
+          <img
+            class="avatar"
+            src="https://i.pravatar.cc/80?img=12"
+            alt="John Doe"
+          />
+        </header>
+
+        <!-- Stats -->
+        <section class="stats" id="stats" aria-label="Key metrics"></section>
+
+        <!-- Map + Donut -->
+        <section class="grid-2">
+          <article class="panel">
+            <div class="panel__head">
+              <h2>Live Operation Map</h2>
+            </div>
+
+            <div class="map-card">
+              <!-- <img
+                class="map-card__img"
+                src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?auto=format&fit=crop&w=1200&q=60"
+                alt="Map preview"
+                loading="lazy"
+              />
+              <div class="pin" aria-hidden="true"></div> -->
+
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126845.9736922828!2d3.2076266898241244!3d6.529682071364119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b9228fa2a3999%3A0xd7a8324bddbba1f0!2sIkeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1769859146229!5m2!1sen!2sng"
+                width="800"
+                height="600"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </article>
+
+          <article class="panel panel--donut">
+            <div class="panel__head">
+              <h2>Waste Composition</h2>
+            </div>
+
+            <div class="donut-wrap">
+              <div class="donut" aria-label="Waste composition donut chart">
+                <svg
+                  viewBox="0 0 120 120"
+                  class="donut__svg"
+                  role="img"
+                  aria-label="Waste composition"
+                >
+                  <circle class="donut__track" cx="60" cy="60" r="44"></circle>
+                  <!-- segments injected by JS -->
+                  <g id="donutSegments"></g>
+                  <circle class="donut__hole" cx="60" cy="60" r="28"></circle>
+                </svg>
+
+                <div class="donut__center">
+                  <div class="donut__label">Total Value</div>
+                  <div class="donut__value" id="donutTotal">72</div>
+                </div>
+              </div>
+
+              <div class="legend">
+                <div class="legend__head">
+                  <span>Label</span>
+                  <span>%</span>
+                </div>
+                <div class="legend__list" id="legendList"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Table -->
+        <section class="panel table-panel">
+          <div class="panel__head">
+            <h2>Waste Composition</h2>
+          </div>
+
+          <div
+            class="table-wrap"
+            role="region"
+            aria-label="Waste composition table"
+            tabindex="0"
+          >
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>REPORT ID</th>
+                  <th>TYPE</th>
+                  <th>LOCATION</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
