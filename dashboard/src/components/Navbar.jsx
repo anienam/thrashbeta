@@ -2,7 +2,7 @@ import { Bell } from "lucide-react";
 
 export default function Navbar({ title }) {
   return (
-    <header className="flex justify-between items-center h-18 px-8 bg-white border-b border-neutra-300 sticky top-0 right-0 z-10 w-full font-manrope">
+    <header className="flex justify-between items-center h-18 px-8 bg-white border-b border-neutra-300 w-full font-manrope">
       {/* Title set to h-5 equivalent (text-xl) */}
       <h2 className="text-xl h-5 font-semibold text-neutra-900 flex items-center">
         {title}

@@ -6,14 +6,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="flex min-h-screen">
-        {/* Sidebar is now inside BrowserRouter, so NavLink will work */}
         <Sidebar />
 
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <Routes>
             <Route path="/" element={<Dashboard />} />
 
-            {/* Placeholder routes for your other nav links */}
             <Route
               path="/report"
               element={<div className="p-10">Report Issue Page</div>}

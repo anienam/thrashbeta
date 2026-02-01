@@ -20,9 +20,9 @@ export default function Sidebar() {
     }`;
 
   return (
-    <aside className="w-60 h-screen bg-white flex flex-col border-r border-neutra-300 sticky top-0 overflow-hidden font-manrope">
+    <aside className="w-60 h-screen bg-white flex flex-col sticky top-0 overflow-hidden font-manrope">
       {/* Logo Container */}
-      <div className="h-18 flex items-center justify-center px-4 py-3 border-b border-neutra-300">
+      <div className="h-18 flex items-center justify-center px-4 py-3 border-b border-r border-neutra-300">
         <img src={logo} alt="Trashbeta Logo" className="h-8 w-auto" />
       </div>
 
