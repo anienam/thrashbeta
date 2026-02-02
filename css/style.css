@@ -42,7 +42,7 @@ body {
 }
 
 /* NAV */
-.navbar {
+/* .navbar {
   background: #fff;
   border-bottom: 1px solid var(--n-300, #e0e0e0);
 }
@@ -65,7 +65,7 @@ nav a,
   margin-left: 1rem;
   text-decoration: none;
   color: #333;
-}
+} */
 
 /* BUTTONS */
 .btn-primary {
@@ -104,6 +104,10 @@ nav a,
   line-height: 4.25rem; /* 113.333% */
 }
 
+.hero-buttons a {
+  text-decoration: none;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -130,12 +134,12 @@ nav a,
 .section.light {
   background: #f9f9f9;
 
-  display: flex;
+  /* display: flex;
   padding: 5rem 6.25rem;
   flex-direction: column;
   align-items: center;
   gap: 3.75rem;
-  align-self: stretch;
+  align-self: stretch; */
 }
 
 .section.light h2 {
@@ -467,6 +471,83 @@ nav a,
   }
 }
 
+/* Mobile */
+@media (max-width: 768px) {
+  .hero {
+    text-align: center;
+  }
+
+  .hero-text {
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .hero-buttons a {
+    text-decoration: none;
+  }
+
+  .hero-image img {
+    margin: auto;
+    width: 100%;
+  }
+
+  .section {
+    padding: 3rem 1rem;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 0.5rem;
+  }
+
+  .cta {
+    text-align: center;
+  }
+
+  .cta-content {
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cta-actions {
+    justify-content: center;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 /* Features page starts here */
 
 .subtitle {
@@ -480,8 +561,10 @@ nav a,
 
 .feature-icon {
   display: flex;
+  flex-direction: column;
   width: 56px;
   height: 56px;
+  margin: auto;
 
   padding: 14px;
   justify-content: center;
@@ -489,6 +572,24 @@ nav a,
 }
 
 .feature-icon img {
+  text-align: center;
+  justify-content: center;
+}
+
+.feature-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.feature-content h2 {
+  display: flex;
+  text-align: center;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
 }
 
 .feature-block {
@@ -549,6 +650,11 @@ nav a,
     grid-template-columns: 1fr;
     text-align: center;
   }
+
+  .reverse {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
 /* About page starts here */
@@ -575,7 +681,7 @@ nav a.active {
 
 .story-text {
   display: flex;
-  width: 540px;
+  max-width: 540px;
   flex-direction: column;
   align-items: center;
   gap: 60px;
@@ -694,6 +800,20 @@ nav a.active {
   }
 }
 
+/* Mobile */
+@media (max-width: 768px) {
+  .about-hero {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 /* Contact page starts here */
 
 /* Contact page */
@@ -718,7 +838,7 @@ nav a.active {
   text-align: left;
 
   display: flex;
-  width: 1440px;
+  max-width: 1440px;
   padding: 5rem 6.25rem;
   justify-content: center;
   align-items: center;
@@ -756,7 +876,7 @@ nav a.active {
 
 .form-heading {
   display: flex;
-  width: 479px;
+  max-width: 479px;
   flex-direction: column;
   align-items: center;
   gap: 12px;
@@ -894,7 +1014,7 @@ textarea:focus {
 
 .map {
   display: flex;
-  width: 90rem;
+  max-width: 90rem;
   padding: 5rem 6.25rem;
   flex-direction: column;
   align-items: center;
@@ -914,7 +1034,7 @@ textarea:focus {
 }
 
 .map-size {
-  width: 1169px;
+  max-width: 1169px;
 }
 
 /* FAQ */
@@ -1004,13 +1124,59 @@ textarea:focus {
   .map-wrap iframe {
     height: 260px;
   }
+
+  .contact-hero {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .contact-flex {
+    padding: 1.5rem 1rem;
+  }
+
+  .contact-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .map {
+    padding: 1.5rem 1rem;
+  }
+
+  .cta-flex,
+  .cta {
+    padding: 1.5rem 1rem;
+  }
+
+  .cta-flex > div > h2,
+  .faq h2,
+  .map > .container > h2,
+  .contact-form h2,
+  .contact-flex h1,
+  .impact-text h2,
+  .section.light h2,
+  h1 {
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+  }
+
+  .section {
+    padding: 1.5rem 1rem;
+    gap: 2rem;
+  }
+
+  .story-text {
+    gap: 2rem;
+  }
 }
 
+.btn-primary {
+  text-decoration: none;
+}
 
-
-
-/* Final responsiveness for all pages  */
-
+/* Mobile */
 @media (max-width: 768px) {
-  
 }

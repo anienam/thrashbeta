@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Features | TrashBeta</title>
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/nav.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,7 +24,7 @@
   </head>
   <body>
     <!-- NAVBAR -->
-    <header class="navbar">
+    <!-- <header class="navbar">
       <div class="container nav-content">
         <div class="logo">
           <img src="./assets/images/LOGO.png" alt="Thrashbeta logo" />
@@ -35,6 +36,31 @@
           <a href="./contact.html">Contact</a>
         </nav>
         <a href="#" class="btn-primary">Get Started</a>
+      </div>
+    </header> -->
+
+    <header class="tb-navbar">
+      <div class="tb-nav-inner">
+        <a href="./index.html" class="tb-logo"
+          ><img src="./assets/images/LOGO.png" alt="thrashbeta logo" />
+        </a>
+
+        <nav class="tb-nav-links" id="tbNav">
+          <a href="./index.html" data-nav>Home</a>
+          <a href="./features.html" data-nav>Features</a>
+          <a href="./about.html" data-nav>About</a>
+          <a href="./contact.html" data-nav>Contact</a>
+
+          <a href="#" class="tb-cta mobile-only">Get Started</a>
+        </nav>
+
+        <button class="tb-burger" id="tbBurger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <a href="#" class="tb-cta desktop-only">Get Started</a>
       </div>
     </header>
 
@@ -57,7 +83,7 @@
     <section class="feature-block">
       <div class="container feature-grid">
         <img src="./assets/images/features.png" alt="Report Issue" />
-        <div>
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -77,8 +103,8 @@
     </section>
 
     <section class="feature-block alt">
-      <div class="container feature-grid">
-        <div>
+      <div class="container feature-grid reverse">
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -99,7 +125,7 @@
     <section class="feature-block">
       <div class="container feature-grid">
         <img src="./assets/images/features.png" alt="Collection" />
-        <div>
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -118,8 +144,8 @@
     </section>
 
     <section class="feature-block alt">
-      <div class="container feature-grid">
-        <div>
+      <div class="container feature-grid reverse">
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -142,7 +168,7 @@
     <section class="feature-block">
       <div class="container feature-grid">
         <img src="./assets/images/features.png" alt="Admin" />
-        <div>
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -161,8 +187,8 @@
     </section>
 
     <section class="feature-block alt">
-      <div class="container feature-grid">
-        <div>
+      <div class="container feature-grid reverse">
+        <div class="feature-content">
           <div class="feature-icon">
             <img
               src="./assets/icons/Featured icon (11).png"
@@ -189,7 +215,7 @@
         </div>
 
         <div class="cta-actions">
-          <a href="#" class="btn btn-primary">Get Started Free →</a>
+          <a href="#" class="btn btn-primary">Get Started Free </a>
           <a href="#" class="btn btn-outline">View Pickup Schedule</a>
         </div>
       </div>
@@ -277,5 +303,6 @@
     </footer>
 
     <script src="./js/main.js"></script>
+    <script src="./js/nav.js"></script>
   </body>
 </html>
