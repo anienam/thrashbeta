@@ -1005,3 +1005,12 @@ textarea:focus {
     height: 260px;
   }
 }
+
+
+
+
+/* Final responsiveness for all pages  */
+
+@media (max-width: 768px) {
+  
+}

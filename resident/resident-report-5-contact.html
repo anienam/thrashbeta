@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report Waste Issue | Contact</title>
+
+    <link rel="stylesheet" href="resident-dashboard.css" />
+    <link rel="stylesheet" href="resident-report-flow.css" />
+  </head>
+
+  <body>
+    <div class="app-shell" data-page="report-issue">
+      <!-- SIDEBAR (same exact sidebar from dashboard) -->
+      <!-- ... keep unchanged ... -->
+
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <div class="sidebar__top">
+          <a
+            class="brand"
+            href="./resident-dashboard.html"
+            aria-label="TrashBeta Home"
+          >
+            <img src="/assets/images/LOGO.png" alt="thrashbeta logo" />
+          </a>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <a
+            class="nav__link"
+            href="./resident-dashboard.html"
+            data-nav="dashboard"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M4 12a8 8 0 1 1 16 0v6a2 2 0 0 1-2 2h-3"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M6 12v6m0 0h4m-4 0a2 2 0 0 0 2 2h2"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+
+          <a
+            class="nav__link is-active"
+            href="./resident-report-1-waste-type.html"
+            data-nav="report-issue"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 3h10v18H7z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9 7h6M9 11h6M9 15h4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Report Issue</span>
+          </a>
+
+          <a
+            class="nav__link"
+            href="./resident-track-issue.html"
+            data-nav="track-issue"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M10 14a4 4 0 1 1 4 4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M21 21l-4.3-4.3"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Track Issue</span>
+          </a>
+
+          <a
+            class="nav__link"
+            href="./resident-my-reports.html"
+            data-nav="my-reports"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 4h10a2 2 0 0 1 2 2v14H5V6a2 2 0 0 1 2-2Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 9h8M8 13h8M8 17h5"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>My Reports</span>
+          </a>
+
+          <div class="nav__divider" role="separator" aria-hidden="true"></div>
+
+          <a
+            class="nav__link"
+            href="./resident-schedule.html"
+            data-nav="schedule"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M7 3v3M17 3v3M4.5 8.5h15"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M6 6h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 12h4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Schedule</span>
+          </a>
+
+          <a class="nav__link" href="./resident-tips.html" data-nav="tips">
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 3a7 7 0 0 0-4 12v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2a7 7 0 0 0-4-12Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10 21h4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Tips</span>
+          </a>
+
+          <a
+            class="nav__link"
+            href="./resident-profile.html"
+            data-nav="profile"
+          >
+            <span class="nav__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4 21a8 8 0 0 1 16 0"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <span>Profile</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__bottom">
+          <div class="user-mini">
+            <img
+              class="user-mini__avatar"
+              src="/assets/images/Avatar profile photo5.png"
+              alt="User avatar"
+              loading="lazy"
+            />
+            <div class="user-mini__meta">
+              <p class="user-mini__name">Whareez</p>
+              <p class="user-mini__sub">whareezdesign</p>
+            </div>
+            <button
+              class="icon-btn"
+              type="button"
+              aria-label="Open account menu"
+            >
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main">
+        <header class="topbar">
+          <button
+            class="icon-btn topbar__menu"
+            id="menuBtn"
+            aria-label="Open menu"
+          >
+            <span class="topbar__hamburger"></span>
+          </button>
+
+          <div class="topbar__title">
+            <h1>Report Waste Issue</h1>
+          </div>
+
+          <div class="topbar__actions">
+            <button class="icon-btn bell" aria-label="Notifications">
+              <span class="bell__dot"></span>
+            </button>
+            <button class="avatar-btn" aria-label="Profile">
+              <img
+                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=96&q=60"
+                alt="Profile"
+              />
+            </button>
+          </div>
+        </header>
+
+        <main class="content content--centered">
+          <section
+            class="card report-card report-card--wide report-card--flatpad"
+          >
+            <!-- Back -->
+            <button
+              class="back-btn"
+              type="button"
+              id="backBtn"
+              aria-label="Go back"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+
+            <header class="report-head report-head--tight">
+              <h2>Confirm your contact information</h2>
+              <p>We’ll use this to keep you updated on your report</p>
+            </header>
+
+            <!-- Stepper (5 active, 1-4 done) -->
+            <div class="stepper stepper--tight">
+              <div class="step is-done">
+                <span>1</span>
+                <p>Waste Type</p>
+              </div>
+              <div class="step is-done">
+                <span>2</span>
+                <p>Location</p>
+              </div>
+              <div class="step is-done">
+                <span>3</span>
+                <p>Description</p>
+              </div>
+              <div class="step is-done">
+                <span>4</span>
+                <p>Photo</p>
+              </div>
+              <div class="step is-active">
+                <span>5</span>
+                <p>Contact</p>
+              </div>
+            </div>
+
+            <form class="form contact-form" id="contactForm" novalidate>
+              <div class="field">
+                <label class="form-label">Full Name <span>*</span></label>
+                <input
+                  class="form-input"
+                  id="fullName"
+                  type="text"
+                  placeholder="Enter your full name"
+                  required
+                />
+                <p class="field-error" id="nameErr"></p>
+              </div>
+
+              <div class="field">
+                <label class="form-label">Phone Number <span>*</span></label>
+                <input
+                  class="form-input"
+                  id="phone"
+                  type="tel"
+                  inputmode="tel"
+                  placeholder="080 1234 7835"
+                  required
+                />
+                <p class="field-error" id="phoneErr"></p>
+              </div>
+
+              <div class="field">
+                <label class="form-label">Email Address <span>*</span></label>
+                <input
+                  class="form-input"
+                  id="email"
+                  type="email"
+                  inputmode="email"
+                  placeholder="name@email.com"
+                  required
+                />
+                <p class="field-error" id="emailErr"></p>
+              </div>
+
+              <div class="updates">
+                <h3>How would you like to receive updates?</h3>
+
+                <div
+                  class="updates__grid"
+                  role="radiogroup"
+                  aria-label="Update preferences"
+                >
+                  <button
+                    type="button"
+                    class="update-card"
+                    data-pref="email"
+                    role="radio"
+                    aria-checked="false"
+                  >
+                    <span class="update-card__left">
+                      <span
+                        class="update-card__check"
+                        aria-hidden="true"
+                      ></span>
+                      <span>Email Notifications</span>
+                    </span>
+                    <span class="update-card__chev" aria-hidden="true">›</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="update-card"
+                    data-pref="sms"
+                    role="radio"
+                    aria-checked="false"
+                  >
+                    <span class="update-card__left">
+                      <span
+                        class="update-card__check"
+                        aria-hidden="true"
+                      ></span>
+                      <span>SMS Notifications</span>
+                    </span>
+                    <span class="update-card__chev" aria-hidden="true">›</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="update-card is-selected"
+                    data-pref="both"
+                    role="radio"
+                    aria-checked="true"
+                  >
+                    <span class="update-card__left">
+                      <span
+                        class="update-card__check"
+                        aria-hidden="true"
+                      ></span>
+                      <span>Both</span>
+                    </span>
+                    <span class="update-card__chev" aria-hidden="true">›</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="contact-actions">
+                <button type="submit" class="btn btn--primary contact-submit">
+                  Submit
+                </button>
+              </div>
+
+              <p class="submit-hint" id="submitHint" aria-live="polite"></p>
+            </form>
+          </section>
+        </main>
+      </div>
+
+      <button class="overlay" id="overlay" hidden></button>
+    </div>
+
+    <script src="resident-report-flow.js"></script>
+  </body>
+</html>
