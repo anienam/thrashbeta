@@ -1,0 +1,70 @@
+//js/login.js
+
+//const API = 'http://localhost:5000/api/v1';   // Development 
+
+const API = 'https://trashbeta.onrender.com/api/v1'    //Production
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    alert("Please enter both email and password");
+    return;
+  }
+
+  	try {
+	    const res = await fetch(`${API}/auth/login`, {
+	      method: "POST",
+	      headers: { "Content-Type": "application/json" },
+	      body: JSON.stringify({ email, password }),
+	    });
+
+	    const data = await res.json();
+
+	    if (res.ok) {
+	      //Save token for future requests
+	      localStorage.setItem("token", data.token);
+
+	    	// If onboarding not completed
+	  		if (data.onboardingStep) {
+	    		localStorage.setItem("onboardingStep", data.onboardingStep);
+
+	    		if (data.onboardingStep === "VERIFIED") {
+	      			window.location.href = "select-role.html";
+	    		}
+	    		else if (data.onboardingStep === "ROLE_SELECTED" && data.role === "resident") {
+	      			window.location.href = "profile-resident.html";
+	    		}
+	    		else if (data.onboardingStep === "ROLE_SELECTED" && data.role === "staff") {
+	      			window.location.href = "profile-staff.html";
+	    		}
+	    		return;
+	  		}
+
+	  		// If onboarding completed
+	      	localStorage.setItem("userId", data._id);
+	      	localStorage.setItem("role", data.role);
+	      	localStorage.setItem("email", data.email);
+
+	      	if(data.role === 'resident') {
+	      		window.location.href = "../resident/resident-dashboard.html";
+	      	} 
+	      	else if (data.role === 'staff') {
+	      		window.location.href = "../worker/dashboard/index.html";
+	      	} 
+	      	else if(data.role === 'admin') {
+	      		window.location.href = "../admin/dashboard/index.html";
+	      	}
+
+    	} else {
+      	alert(data.message || "Login failed");
+    	}
+ 	} catch (err) {
+    	alert("Something went wrong. Please try again.");
+  	}
+});
+
+

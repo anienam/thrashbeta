@@ -36,6 +36,8 @@
         </p>
 
         <form id="staffProfileForm" class="profile-form" novalidate>
+
+          <!--
           <h2 class="profile-section">Work Information</h2>
 
           <label class="field">
@@ -61,6 +63,8 @@
             <small class="hint">This is the email you signed up with.</small>
           </label>
 
+          -->
+
           <h2 class="profile-section">Assigned Area</h2>
 
           <label class="field">
@@ -68,6 +72,7 @@
             <input
               type="text"
               name="zone"
+              id="locationArea"
               placeholder="Start typing your assigned zone..."
               required
             />
@@ -79,6 +84,7 @@
             <input
               type="text"
               name="city"
+              id="cityLGA"
               placeholder="Start typing your assigned city or LGA..."
               required
             />
@@ -103,6 +109,6 @@
       </aside>
     </main>
 
-    <script src="./js/auth.js"></script>
+    <script src="./js/profile-staff.js"></script>
   </body>
 </html>

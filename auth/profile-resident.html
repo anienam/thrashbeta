@@ -39,6 +39,7 @@
         <form id="residentProfileForm" class="profile-form" novalidate>
           <h2 class="profile-section">Basic Information</h2>
 
+          <!--
           <label class="field">
             <span>Full Name (required)</span>
             <input
@@ -49,7 +50,8 @@
             />
             <small class="error"></small>
           </label>
-
+          -->
+          <!--
           <label class="field">
             <span>Email Address (pre-filled)</span>
             <input
@@ -61,6 +63,7 @@
             />
             <small class="hint">This is the email you signed up with.</small>
           </label>
+          -->
 
           <label class="field">
             <span>Phone Number (optional)</span>
@@ -79,6 +82,7 @@
             <input
               type="text"
               name="area"
+              id="locationArea"
               placeholder="Start typing your area..."
               required
             />
@@ -90,6 +94,7 @@
             <input
               type="text"
               name="city"
+              id="cityLGA"
               placeholder="Start typing your city or LGA..."
               required
             />
@@ -123,6 +128,6 @@
       </aside>
     </main>
 
-    <script src="./js/auth.js"></script>
+    <script src="./js/profile-resident.js"></script>
   </body>
 </html>

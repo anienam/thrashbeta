@@ -1,83 +1,4 @@
-const form = document.getElementById("registerForm");
 
-function setFieldError(field, message) {
-  const wrapper = field.closest(".field");
-  if (!wrapper) return;
-  const error = wrapper.querySelector(".error");
-  if (error) error.textContent = message;
-}
-
-function clearAllErrors() {
-  document.querySelectorAll(".error").forEach((e) => (e.textContent = ""));
-  const agreeError = document.getElementById("agreeError");
-  if (agreeError) agreeError.textContent = "";
-  const success = document.getElementById("registerSuccess");
-  if (success) success.textContent = "";
-}
-
-function isValidEmail(email) {
-  return /^\S+@\S+\.\S+$/.test(email);
-}
-
-if (form) {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    clearAllErrors();
-
-    const firstName = form.elements["firstName"];
-    const lastName = form.elements["lastName"];
-    const email = form.elements["email"];
-    const password = form.elements["password"];
-    const confirmPassword = form.elements["confirmPassword"];
-    const agree = form.elements["agree"];
-
-    let ok = true;
-
-    if (!firstName.value.trim()) {
-      setFieldError(firstName, "First name is required.");
-      ok = false;
-    }
-
-    if (!lastName.value.trim()) {
-      setFieldError(lastName, "Last name is required.");
-      ok = false;
-    }
-
-    if (!email.value.trim() || !isValidEmail(email.value.trim())) {
-      setFieldError(email, "Enter a valid email address.");
-      ok = false;
-    }
-
-    if (!password.value || password.value.length < 8) {
-      setFieldError(password, "Password must be at least 8 characters.");
-      ok = false;
-    }
-
-    if (confirmPassword.value !== password.value) {
-      setFieldError(confirmPassword, "Passwords do not match.");
-      ok = false;
-    }
-
-    if (!agree.checked) {
-      const agreeError = document.getElementById("agreeError");
-      if (agreeError)
-        agreeError.textContent =
-          "You must agree to the Terms and Privacy Policy.";
-      ok = false;
-    }
-
-    if (ok) {
-      const success = document.getElementById("registerSuccess");
-      if (success)
-        success.textContent =
-          "Account created successfully (demo). Redirecting to login...";
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 1200);
-      form.reset();
-    }
-  });
-}
 
 // ---------- Helpers ----------
 function setFieldError(field, message) {
@@ -98,6 +19,8 @@ function isValidEmail(email) {
   return /^\S+@\S+\.\S+$/.test(email);
 }
 
+
+/*
 // ---------- REGISTER ----------
 const registerForm = document.getElementById("registerForm");
 
@@ -157,6 +80,8 @@ if (registerForm) {
     }
   });
 }
+*/
+
 
 // ---------- LOGIN ----------
 const loginForm = document.getElementById("loginForm");
@@ -534,171 +459,10 @@ if (verifyEmailForm) {
   if (inputs[0]) inputs[0].focus();
 }
 
-// ---------- ONBOARDING (3 slides) ----------
-const onboardNext = document.getElementById("onboardNext");
 
-if (onboardNext) {
-  const imageEl = document.getElementById("onboardImage");
-  const titleEl = document.getElementById("onboardTitle");
-  const textEl = document.getElementById("onboardText");
-  const dots = Array.from(document.querySelectorAll(".dot"));
 
-  const slides = [
-    {
-      img: "../assets/images/Onboarding 01.png",
-      title: "Report Waste Issues in Seconds",
-      text: "Easily report overflowing bins, illegal dumping, or blocked drains in your area and help keep your environment clean and safe.",
-    },
-    {
-      img: "../assets/images/Onboarding 02.png",
-      title: "Track Cleanup Progress in Real Time",
-      text: "Stay updated on the status of your report and see when action is taken, from review to final resolution.",
-    },
-    {
-      img: "../assets/images/Onboarding 03.png",
-      title: "Stay Informed and Dispose Waste Properly",
-      text: "View waste pickup schedules, learn proper disposal methods, and make smarter choices for a cleaner community.",
-    },
-  ];
 
-  let current = 0;
 
-  function renderSlide(idx) {
-    const s = slides[idx];
-    if (imageEl) imageEl.src = s.img;
-    if (titleEl) titleEl.textContent = s.title;
-    if (textEl) textEl.textContent = s.text;
-
-    dots.forEach((d, i) => d.classList.toggle("active", i === idx));
-    onboardNext.textContent =
-      idx === slides.length - 1 ? "Get Started" : "Continue";
-  }
-
-  // optional: click dots to jump
-  dots.forEach((d) => {
-    d.addEventListener("click", () => {
-      const idx = Number(d.dataset.dot);
-      current = idx;
-      renderSlide(current);
-    });
-    d.style.cursor = "pointer";
-  });
-
-  onboardNext.addEventListener("click", () => {
-    if (current < slides.length - 1) {
-      current += 1;
-      renderSlide(current);
-    } else {
-      // final step → login or register
-      window.location.href = "register.html";
-    }
-  });
-
-  renderSlide(current);
-}
-
-// ---------- ROLE SELECT ----------
-const roleContinue = document.getElementById("roleContinue");
-const roleCards = Array.from(document.querySelectorAll(".role-card"));
-
-if (roleContinue && roleCards.length) {
-  let selectedRole = "resident"; // default
-
-  function setSelected(role) {
-    selectedRole = role;
-
-    roleCards.forEach((card) => {
-      const isSelected = card.dataset.role === role;
-      card.classList.toggle("selected", isSelected);
-      card.setAttribute("aria-checked", isSelected ? "true" : "false");
-    });
-
-    roleContinue.textContent =
-      role === "resident" ? "Continue as Resident" : "Continue as Staff";
-  }
-
-  roleCards.forEach((card) => {
-    card.addEventListener("click", () => setSelected(card.dataset.role));
-  });
-
-  roleContinue.addEventListener("click", () => {
-    // store role for later routing
-    localStorage.setItem("tb_role", selectedRole);
-
-    // Demo routing:
-    // Resident -> login or resident dashboard later
-    // Staff -> login or staff dashboard later
-    if (selectedRole === "resident") {
-      window.location.href = "login.html";
-    } else {
-      window.location.href = "login.html";
-    }
-  });
-
-  setSelected(selectedRole);
-}
-
-// ---------- RESIDENT PROFILE ----------
-const residentProfileForm = document.getElementById("residentProfileForm");
-
-if (residentProfileForm) {
-  // Prefill email from remembered login/register/reset, whichever exists
-  const emailInput = document.getElementById("residentEmail");
-
-  const picked =
-    localStorage.getItem("tb_email") ||
-    localStorage.getItem("tb_reset_email") ||
-    "johndoe@gmail.com";
-
-  if (emailInput) emailInput.value = picked;
-
-  residentProfileForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    clearErrors(residentProfileForm);
-
-    const fullName = residentProfileForm.elements["fullName"];
-    const area = residentProfileForm.elements["area"];
-    const city = residentProfileForm.elements["city"];
-
-    let ok = true;
-
-    if (!fullName.value.trim()) {
-      setFieldError(fullName, "Full name is required.");
-      ok = false;
-    }
-    if (!area.value.trim()) {
-      setFieldError(area, "Area/Neighborhood is required.");
-      ok = false;
-    }
-    if (!city.value.trim()) {
-      setFieldError(city, "City/LGA is required.");
-      ok = false;
-    }
-
-    if (ok) {
-      const profile = {
-        role: "resident",
-        fullName: fullName.value.trim(),
-        email: (emailInput && emailInput.value.trim()) || "",
-        phone: residentProfileForm.elements["phone"].value.trim(),
-        area: area.value.trim(),
-        city: city.value.trim(),
-        address: residentProfileForm.elements["address"].value.trim(),
-        createdAt: new Date().toISOString(),
-      };
-
-      localStorage.setItem("tb_profile", JSON.stringify(profile));
-
-      const success = document.getElementById("profileSuccess");
-      if (success) success.textContent = "Profile saved (demo). Redirecting...";
-
-      setTimeout(() => {
-        // Later: route to resident dashboard
-        window.location.href = "../resident/dashboard.html";
-      }, 900);
-    }
-  });
-}
 
 // ---------- STAFF PROFILE ----------
 const staffProfileForm = document.getElementById("staffProfileForm");
