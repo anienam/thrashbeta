@@ -91,21 +91,22 @@ if (roleContinue && roleCards.length) {
       				"Content-Type": "application/json",
       				"Authorization": `Bearer ${token}`
       			},
-      			body: JSON.stringify({ email, role: selectedRole }),
+      			body: JSON.stringify({ role: selectedRole }),
     		});
 
     		const data = await res.json();
 
     		if (res.ok) {
-      			// Save user details from backend response
-      			localStorage.setItem("role", data.role);
+      			// Save role from nested user object
+            const role = data.user.role;
+            localStorage.setItem("role", role);
       		
 
-      			alert(`${data.role} Account verified successfully`);
+      			alert(`${role} Account verified successfully`);
       	
       			if (data.role === "resident") {
       				window.location.href = "profile-resident.html";
-    			} else if (data.role === "sttaff"){
+    			} else if (data.role === "sttaf"){
       				window.location.href = "profile-staff.html";
     			}
 
