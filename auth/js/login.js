@@ -24,6 +24,18 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
 	    const data = await res.json();
 
+	    //IF USER NOT VERIFIED
+	    if (!res.ok && data.message === "Please verify your account first") {
+	      alert("Please verify your email first. OTP will be sent.");
+
+	      // Save email temporarily
+	      localStorage.setItem("verifyEmail", email);
+
+	      // Redirect to resend OTP page
+	      window.location.href = `resend-otp.html?email=${encodeURIComponent(email)}`;
+	      return;
+	    }
+
 	    if (res.ok) {
 	      //Save token for future requests
 	      localStorage.setItem("token", data.token);
@@ -51,6 +63,8 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 	      	localStorage.setItem("firstName", data.firstName);
 					localStorage.setItem("lastName", data.lastName);
 					localStorage.setItem("phone", data.phone);
+					localStorage.setItem("isVerified", data.isVerified);
+
 
 	      	if(data.role === 'resident') {
 	      		window.location.href = "../resident/resident-dashboard.html";

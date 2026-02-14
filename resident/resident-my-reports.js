@@ -1,62 +1,230 @@
-const body = document.getElementById("reportsBody");
-const tabs = document.querySelectorAll(".tab");
-const searchInput = document.getElementById("searchInput");
-const tableInfo = document.getElementById("tableInfo");
+//resident-my-reports.js
 
+//const API = 'http://localhost:5000/api/v1';   // Development 
+
+const API = 'https://trashbeta.onrender.com/api/v1'    //Production
+
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
+
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
+
+
+if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
+
+    // If expired already
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../auth/login.html";
+    } else {
+      // Auto logout when it expires
+      setTimeout(() => {
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+  }
+} else {
+  alert("Kindly login");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+}
+
+
+const reportsBody = document.getElementById("reportsBody");
+const searchInput = document.getElementById("searchInput");
+const tabs = document.querySelectorAll(".tab");
+
+const tableInfo = document.getElementById("tableInfo");
+const prevBtn = document.getElementById("prevPage");
+const nextBtn = document.getElementById("nextPage");
+const pageNumber = document.getElementById("pageNumber");
+
+let allReports = [];
+let filteredReports = [];
+let currentPage = 1;
+const limit = 5;
 let currentStatus = "all";
 
-function getReports() {
-  return JSON.parse(localStorage.getItem("resident_reports") || "[]");
-}
 
-function renderReports() {
-  const reports = getReports().filter((r) => {
-    if (currentStatus !== "all" && r.status !== currentStatus) return false;
-
-    const q = searchInput.value.toLowerCase();
-    return (
-      r.id.toLowerCase().includes(q) ||
-      r.wasteType.toLowerCase().includes(q) ||
-      r.lga.toLowerCase().includes(q)
-    );
-  });
-
-  body.innerHTML = "";
-  tableInfo.textContent = `Showing ${reports.length} reports`;
-
-  reports.forEach((r) => {
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td class="photo-cell">
-        <img src="${r.photos?.[0] || "https://via.placeholder.com/80"}" />
-      </td>
-      <td>${r.id}</td>
-      <td>${r.wasteType}</td>
-      <td>${r.lga}</td>
-      <td>${new Date(r.createdAt).toDateString()}</td>
-      <td><span class="badge ${r.priority}">${r.priority}</span></td>
-      <td><span class="badge status ${r.status}">${r.status.replace("_", " ")}</span></td>
-      <td class="menu">⋮</td>
-    `;
-
-    tr.addEventListener("click", () => {
-      window.location.href = `resident-track-issue.html?tid=${r.id}`;
+// ===============================
+// FETCH USER REPORTS
+// ===============================
+async function fetchReports() {
+  try {
+    const res = await fetch(`${API}/reports`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    body.appendChild(tr);
-  });
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Failed to fetch reports");
+      return;
+    }
+
+    allReports = data;
+    applyFilters();
+
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-tabs.forEach((tab) => {
+
+// ===============================
+// FILTER LOGIC
+// ===============================
+function applyFilters() {
+
+  filteredReports = allReports.filter(report => {
+
+    // STATUS FILTER
+    const statusMatch =
+      currentStatus === "all" ||
+      report.status === currentStatus.toUpperCase();
+
+    // SEARCH FILTER
+    const searchValue = searchInput.value.toLowerCase();
+
+    const searchMatch =
+      report.trackingId.toLowerCase().includes(searchValue) ||
+      report.address.toLowerCase().includes(searchValue) ||
+      report.category.toLowerCase().includes(searchValue);
+
+    return statusMatch && searchMatch;
+  });
+
+  currentPage = 1;
+  renderReports();
+}
+
+
+// ===============================
+// RENDER TABLE
+// ===============================
+function renderReports() {
+
+  reportsBody.innerHTML = "";
+
+  if (filteredReports.length === 0) {
+    reportsBody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align:center;">No reports found</td>
+      </tr>
+    `;
+    tableInfo.textContent = "Showing 0 reports";
+    return;
+  }
+
+  const start = (currentPage - 1) * limit;
+  const end = start + limit;
+
+  const pageData = filteredReports.slice(start, end);
+
+  pageData.forEach(report => {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>
+        ${
+          report.images?.length
+            ? `<img src="${report.images[0]}" width="50" height="50" />`
+            : "—"
+        }
+      </td>
+      <td>${report.trackingId}</td>
+      <td>${report.category}</td>
+      <td>${report.address}</td>
+      <td>${new Date(report.createdAt).toLocaleDateString()}</td>
+      <td>${report.priority}</td>
+      <td>
+        <span class="status ${report.status.toLowerCase()}">
+          ${report.status.replace("_", " ")}
+        </span>
+      </td>
+      <td>
+        <button onclick="viewReport('${report.trackingId}')">View</button>
+      </td>
+    `;
+
+    reportsBody.appendChild(row);
+  });
+
+  tableInfo.textContent = `Showing ${pageData.length} of ${filteredReports.length} reports`;
+  pageNumber.textContent = currentPage;
+}
+
+
+// ===============================
+// TAB CLICK
+// ===============================
+tabs.forEach(tab => {
   tab.addEventListener("click", () => {
-    tabs.forEach((t) => t.classList.remove("active"));
+
+    tabs.forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
+
     currentStatus = tab.dataset.status;
-    renderReports();
+    applyFilters();
   });
 });
 
-searchInput.addEventListener("input", renderReports);
 
-renderReports();
+// ===============================
+// SEARCH INPUT
+// ===============================
+searchInput.addEventListener("input", () => {
+  applyFilters();
+});
+
+
+// ===============================
+// PAGINATION
+// ===============================
+nextBtn.addEventListener("click", () => {
+  if (currentPage * limit < filteredReports.length) {
+    currentPage++;
+    renderReports();
+  }
+});
+
+prevBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderReports();
+  }
+});
+
+
+// ===============================
+// VIEW REPORT
+// ===============================
+function viewReport(id) {
+  window.location.href = `resident-track-issue.html?trackingId=${id}`;
+}
+
+
+// INIT
+fetchReports();

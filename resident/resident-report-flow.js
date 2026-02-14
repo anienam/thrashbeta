@@ -1,7 +1,7 @@
 //resident-report-flow.js
 
 //const API = 'http://localhost:5000/api/v1';   // Development
- const API = 'https://trashbeta.onrender.com/api/v1'    // Production
+const API = 'https://trashbeta.onrender.com/api/v1'    // Production
 
 function getCurrentStep() {
   return document.body?.dataset?.step;
@@ -315,10 +315,18 @@ if (photoForm) {
    STEP 5 (CONTACT + SUBMIT)
 ===================== */
 
+
+
+/* =====================
+   STEP 5 (CONTACT + SUBMIT)
+===================== */
+
 const contactForm = document.getElementById("contactForm");
+let selectedPreference = "BOTH"; // default matches UI
 
 if (contactForm) {
 
+  // ===== Prefill user data =====
   const firstName = localStorage.getItem("firstName") || "";
   const lastName = localStorage.getItem("lastName") || "";
 
@@ -331,6 +339,31 @@ if (contactForm) {
   document.getElementById("previewPhone").value =
     localStorage.getItem("phone") || "";
 
+  // ===== NOTIFICATION PREFERENCE (FIXED LOCATION) =====
+  const updateCards = document.querySelectorAll(".update-card");
+
+  updateCards.forEach(card => {
+    card.addEventListener("click", () => {
+
+      // Remove selection from all
+      updateCards.forEach(c => {
+        c.classList.remove("is-selected");
+        c.setAttribute("aria-checked", "false");
+      });
+
+      // Add selection to clicked
+      card.classList.add("is-selected");
+      card.setAttribute("aria-checked", "true");
+
+      const pref = card.dataset.pref;
+
+      if (pref === "email") selectedPreference = "EMAIL";
+      if (pref === "sms") selectedPreference = "SMS";
+      if (pref === "both") selectedPreference = "BOTH";
+    });
+  });
+
+  // ===== FORM SUBMIT =====
   contactForm.addEventListener("submit", async e => {
 
     e.preventDefault();
@@ -346,29 +379,12 @@ if (contactForm) {
       formData.append("lga", draft.lga);
       formData.append("address", draft.address);
       formData.append("description", draft.description || "");
+      formData.append("notificationPreference", selectedPreference);
 
       (draft.images || []).forEach(img => {
-
         const file = base64ToFile(img.data, img.name, img.type);
         formData.append("images", file);
-
       });
-
-      function base64ToFile(base64, name, type) {
-
-        const arr = base64.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-
-        while (n--) {
-          u8arr[n] = bstr.charCodeAt(n);
-        }
-
-        return new File([u8arr], name, { type: mime });
-      }
 
       const res = await fetch(`${API}/reports`, {
         method: "POST",
@@ -389,6 +405,26 @@ if (contactForm) {
     }
   });
 }
+
+// ===== Helper =====
+function base64ToFile(base64, name, type) {
+
+  const arr = base64.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], name, { type: mime });
+}
+
+
+
 
 /* =====================
    SUCCESS PAGE TRACKING

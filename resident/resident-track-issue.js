@@ -269,3 +269,16 @@ trackBtn.addEventListener("click", () => {
 
   fetchReport(trackingId);
 });
+
+// =============================
+// Auto Load From URL
+// =============================
+
+const urlParams = new URLSearchParams(window.location.search);
+const trackingIdFromUrl = urlParams.get("trackingId");
+
+if (trackingIdFromUrl) {
+  trackingInput.value = trackingIdFromUrl;
+  fetchReport(trackingIdFromUrl);
+}
+
