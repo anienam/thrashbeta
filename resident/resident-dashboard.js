@@ -1,67 +1,176 @@
-(() => {
-  const shell = document.querySelector(".app-shell");
-  const menuBtn = document.getElementById("menuBtn");
-  const overlay = document.getElementById("overlay");
+//resident-dashboard.js
 
-  const addToCalendarBtn = document.getElementById("addToCalendarBtn");
-  const calendarHint = document.getElementById("calendarHint");
+//const API = 'http://localhost:5000/api/v1';   // Development 
 
-  // Sidebar toggle (mobile)
-  function openSidebar() {
-    shell.classList.add("is-sidebar-open");
-    overlay.hidden = false;
-  }
+const API = 'https://trashbeta.onrender.com/api/v1'    //Production
 
-  function closeSidebar() {
-    shell.classList.remove("is-sidebar-open");
-    overlay.hidden = true;
-  }
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-  if (menuBtn) menuBtn.addEventListener("click", openSidebar);
-  if (overlay) overlay.addEventListener("click", closeSidebar);
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
 
-  // Close sidebar when clicking a nav link on mobile
-  document.querySelectorAll(".nav__link").forEach((link) => {
-    link.addEventListener("click", () => {
-      if (window.matchMedia("(max-width: 880px)").matches) closeSidebar();
-      setActiveNav(link.dataset.nav);
-    });
-  });
 
-  // Active nav (keeps consistent behavior across pages)
-  function setActiveNav(key) {
-    document.querySelectorAll(".nav__link").forEach((a) => {
-      a.classList.toggle("is-active", a.dataset.nav === key);
-    });
-  }
+if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
 
-  // Page default active (if you use data-page on shell)
-  const page = shell?.dataset.page;
-  if (page) setActiveNav(page);
-
-  // Add to calendar (simple demo action)
-  if (addToCalendarBtn) {
-    addToCalendarBtn.addEventListener("click", () => {
-      calendarHint.textContent = "Saved. Pickup reminder added.";
-      addToCalendarBtn.disabled = true;
-      addToCalendarBtn.style.opacity = "0.9";
+    // If expired already
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../auth/login.html";
+    } else {
+      // Auto logout when it expires
       setTimeout(() => {
-        addToCalendarBtn.disabled = false;
-        addToCalendarBtn.style.opacity = "1";
-        calendarHint.textContent = "";
-      }, 2200);
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+  }
+} else {
+  alert("Kindly login");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+}
+
+
+const firstName = localStorage.getItem("firstName") || "Resident";
+
+
+// ===============================
+// Load Dashboard Data
+// ===============================
+document.addEventListener("DOMContentLoaded", async () => {
+  setWelcome();
+  await loadRecentReports();
+});
+
+
+// ===============================
+// Set Welcome Name
+// ===============================
+function setWelcome() {
+  document.getElementById("welcomeName").textContent =
+    `Welcome back, ${firstName}!`;
+}
+
+
+
+// ===============================
+// Fetch User Reports
+// ===============================
+async function loadRecentReports() {
+  try {
+    const res = await fetch(`${API}/reports`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
+
+    const reports = await res.json();
+
+    // Total number of reports
+    document.getElementById("activeReports").textContent = reports.length;
+
+    // Get latest 3 reports
+    const recentReports = reports.slice(0, 3);
+
+    renderReports(recentReports);
+
+  } catch (err) {
+    console.error("Dashboard error:", err);
+  }
+}
+
+
+
+// ===============================
+// Render Reports Table
+// ===============================
+function renderReports(reports) {
+
+  const tbody = document.getElementById("recentReportsBody");
+
+  tbody.innerHTML = "";
+
+  if (!reports.length) {
+    tbody.innerHTML = `<tr><td colspan="8">No reports yet</td></tr>`;
+    return;
   }
 
-  // Quick actions (hook your routing here)
-  document.querySelectorAll("[data-action]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const action = btn.dataset.action;
+  reports.forEach(report => {
 
-      // Replace these with real routes later
-      if (action === "report") alert("Go to: Report Issue");
-      if (action === "track") alert("Go to: Track Issue");
-      if (action === "schedule") alert("Go to: Schedule");
-    });
+    const image = report.images?.[0] || "/assets/images/no-image.png";
+
+    const row = `
+      <tr>
+        <td>
+          <img class="thumb" src="${image}" alt="Report photo" />
+        </td>
+
+        <td>${report.trackingId}</td>
+
+        <td>${formatCategory(report.category)}</td>
+
+        <td>${report.lga}</td>
+
+        <td>${formatDate(report.createdAt)}</td>
+
+        <td>
+          <span class="pill pill--${report.priority.toLowerCase()}">
+            ${report.priority}
+          </span>
+        </td>
+
+        <td>
+          <span class="status status--${formatStatusClass(report.status)}">
+            ${formatStatusText(report.status)}
+          </span>
+        </td>
+
+        <td class="td-actions">
+          <button class="kebab">⋮</button>
+        </td>
+      </tr>
+    `;
+
+    tbody.insertAdjacentHTML("beforeend", row);
   });
-})();
+}
+
+
+
+// ===============================
+// Helper Functions
+// ===============================
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString();
+}
+
+function formatCategory(cat) {
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function formatStatusText(status) {
+  return status.replace("_", " ");
+}
+
+function formatStatusClass(status) {
+  return status.toLowerCase().replace("_", "-");
+}

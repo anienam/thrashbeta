@@ -1,107 +1,68 @@
-(function () {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const sidebarOpen = document.getElementById("sidebarOpen");
-  const sidebarClose = document.getElementById("sidebarClose");
+//app.js
 
-  const toast = document.getElementById("toast");
-  const sidebarDispatch = document.getElementById("sidebarDispatch");
+//const API = 'http://localhost:5000/api/v1'; // Development
+const API = 'https://trashbeta.onrender.com/api/v1'; // Production
 
-  const navButtons = Array.from(document.querySelectorAll(".snavItem"));
-  const copyKeyBtn = document.getElementById("copyKeyBtn");
-  const apiKey = document.getElementById("apiKey");
-  const addIntegrationBtn = document.getElementById("addIntegrationBtn");
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-  function showToast(message) {
-    toast.textContent = message;
-    toast.hidden = false;
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => (toast.hidden = true), 2200);
-  }
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
 
-  function openSidebar() {
-    sidebar.classList.add("is-open");
-    overlay.hidden = false;
-  }
-  function closeSidebar() {
-    sidebar.classList.remove("is-open");
-    overlay.hidden = true;
-  }
+if (!token || !role || (role !== "staff" && role !== "admin")) {
+  clearUserSession();
+  window.location.href = "../../auth/login.html";
+} else {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
 
-  if (sidebarOpen) sidebarOpen.addEventListener("click", openSidebar);
-  if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
-  if (overlay) overlay.addEventListener("click", closeSidebar);
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sidebar.classList.contains("is-open"))
-      closeSidebar();
-  });
-
-  function setActive(targetId) {
-    navButtons.forEach((b) => b.classList.remove("is-active"));
-    const active = navButtons.find((b) => b.dataset.target === targetId);
-    if (active) active.classList.add("is-active");
-  }
-
-  function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActive(id);
-    history.replaceState(null, "", `#${id}`);
-  }
-
-  navButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.target;
-      scrollToSection(id);
-    });
-  });
-
-  // Start on hash if present
-  const initialHash = (window.location.hash || "").replace("#", "");
-  if (initialHash) {
-    setActive(initialHash);
-  }
-
-  // Copy API key
-  copyKeyBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(apiKey.value);
-      showToast("API key copied.");
-    } catch {
-      const ta = document.createElement("textarea");
-      ta.value = apiKey.value;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      showToast("API key copied.");
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../../auth/login.html";
+    } else {
+      setTimeout(() => {
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../../auth/login.html";
+      }, expiryTime);
     }
-  });
+  } catch {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+app.js    window.location.href = "../../auth/login.html";
+  }
 
-  addIntegrationBtn.addEventListener("click", () => {
-    showToast("Add New Integration clicked.");
-  });
 
-  sidebarDispatch.addEventListener("click", () => {
-    showToast("Connecting to dispatch…");
-  });
+}
+async function loadIntegration() {
+  try {
+    const res = await fetch(`${API}/integration`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-  // Optional: update active tab as you scroll
-  const sections = ["general", "notifications", "api", "security"]
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
+    const data = await res.json();
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(visible.target.id);
-    },
-    { root: null, threshold: [0.25, 0.45, 0.65] },
-  );
+    document.getElementById("apiKey").value = data.apiKey;
+    
+    if (data.webhookUrl) {
+      document.querySelector("input[type='url']").value = data.webhookUrl;
+    }
 
-  sections.forEach((s) => io.observe(s));
-})();
+  } catch (err) {
+    showToast("Failed to load integration");
+  }
+}
+
+loadIntegration();

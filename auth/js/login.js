@@ -48,6 +48,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 	      	localStorage.setItem("userId", data._id);
 	      	localStorage.setItem("role", data.role);
 	      	localStorage.setItem("email", data.email);
+	      	localStorage.setItem("firstName", data.firstName);
+					localStorage.setItem("lastName", data.lastName);
+					localStorage.setItem("phone", data.phone);
 
 	      	if(data.role === 'resident') {
 	      		window.location.href = "../resident/resident-dashboard.html";

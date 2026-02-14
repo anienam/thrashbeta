@@ -1,162 +1,222 @@
-(function () {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const sidebarOpen = document.getElementById("sidebarOpen");
-  const sidebarClose = document.getElementById("sidebarClose");
+//main.js
 
-  const toast = document.getElementById("toast");
-  const backBtn = document.getElementById("backBtn");
+//const API = 'http://localhost:5000/api/v1'; // Development
+const API = 'https://trashbeta.onrender.com/api/v1'; // Production
 
-  const copyAddressBtn = document.getElementById("copyAddressBtn");
-  const markCompleteBtn = document.getElementById("markCompleteBtn");
-  const statusSelect = document.getElementById("statusSelect");
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-  const addPhotoBtn = document.getElementById("addPhotoBtn");
-  const uploadTile = document.getElementById("uploadTile");
-  const photoInput = document.getElementById("photoInput");
-  const photoRow = document.getElementById("photoRow");
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
 
-  const sidebarDispatch = document.getElementById("sidebarDispatch");
-  const contactDispatchBtn = document.getElementById("contactDispatchBtn");
+if (!token || !role || (role !== "staff" && role !== "admin")) {
+  clearUserSession();
+  window.location.href = "../../auth/login.html";
+} else {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
 
-  const zoomIn = document.getElementById("zoomIn");
-  const zoomOut = document.getElementById("zoomOut");
-  const recenter = document.getElementById("recenter");
-  const mapBg = document.querySelector(".map__bg");
-
-  const TASK_ID = "TB-8942";
-  const ADDRESS = "122 Oakwood Dr., Greenside Heights, North District";
-  let mapScale = 1;
-
-  function showToast(message) {
-    toast.textContent = message;
-    toast.hidden = false;
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => (toast.hidden = true), 2200);
-  }
-
-  function openSidebar() {
-    sidebar.classList.add("is-open");
-    overlay.hidden = false;
-  }
-  function closeSidebar() {
-    sidebar.classList.remove("is-open");
-    overlay.hidden = true;
-  }
-
-  // Sidebar (mobile)
-  if (sidebarOpen) sidebarOpen.addEventListener("click", openSidebar);
-  if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
-  if (overlay) overlay.addEventListener("click", closeSidebar);
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sidebar.classList.contains("is-open"))
-      closeSidebar();
-  });
-
-  // Back
-  backBtn.addEventListener("click", () => {
-    // safe fallback to dashboard
-    if (history.length > 1) history.back();
-    else window.location.href = "worker-dashboard.html";
-  });
-
-  // Copy address
-  copyAddressBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(ADDRESS);
-      showToast("Address copied.");
-    } catch {
-      // Fallback
-      const ta = document.createElement("textarea");
-      ta.value = ADDRESS;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
-      showToast("Address copied.");
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../../auth/login.html";
+    } else {
+      setTimeout(() => {
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../../auth/login.html";
+      }, expiryTime);
     }
-  });
-
-  // Status change
-  statusSelect.addEventListener("change", () => {
-    const label = statusSelect.options[statusSelect.selectedIndex].text;
-    showToast(`Status: ${label}`);
-  });
-
-  // Mark complete -> go to success page
-  markCompleteBtn.addEventListener("click", () => {
-    // If you want to enforce status before completing:
-    // if (statusSelect.value !== "completed") { ... }
-    showToast("Completing task…");
-    setTimeout(() => {
-      window.location.href = `worker-task-complete.html?id=${encodeURIComponent(TASK_ID)}`;
-    }, 450);
-  });
-
-  // Evidence upload
-  function openFilePicker() {
-    photoInput.click();
+  } catch {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+    window.location.href = "../../auth/login.html";
   }
-  addPhotoBtn.addEventListener("click", openFilePicker);
-  uploadTile.addEventListener("click", openFilePicker);
-  uploadTile.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") openFilePicker();
+}
+
+// ===== DOM ELEMENTS =====
+const reportContainer = document.getElementById("reportContainer");
+const trackingInput = document.getElementById("trackingSearch");
+const searchBtn = document.getElementById("searchReportBtn");
+const addressEl = document.getElementById("taskAddress");
+const locationEl = document.getElementById("taskLocation");
+const wasteTypeEl = document.getElementById("wasteType");
+const reporterEl = document.getElementById("reporter");
+const descriptionEl = document.getElementById("description");
+const photoRow = document.getElementById("photoRow");
+const toastEl = document.getElementById("toast");
+const copyAddressBtn = document.getElementById("copyAddressBtn");
+
+const statusSelect = document.getElementById("statusSelect");
+const markCompleteBtn = document.getElementById("markCompleteBtn");
+
+// ===== TOAST =====
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.hidden = false;
+  setTimeout(() => toastEl.hidden = true, 3000);
+}
+
+// ===== SEARCH REPORT =====
+searchBtn.onclick = fetchReport;
+trackingInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") fetchReport();
+});
+
+async function fetchReport() {
+  const trackingId = trackingInput.value.trim();
+  if (!trackingId) return showToast("Enter Tracking ID");
+
+  try {
+    const res = await fetch(`${API}/reports/track/${trackingId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+
+    if (!res.ok) return showToast(data.message || "Report not found");
+
+    populateReport(data);
+    reportContainer.hidden = false;
+    showToast("Report loaded");
+  } catch (err) {
+    console.error(err);
+    showToast("Error loading report");
+  }
+}
+
+function populateReport(report) {
+  addressEl.textContent = report.address || "--";
+  locationEl.textContent = `${report.lga || "--"}, ${report.state || "--"}`;
+  wasteTypeEl.textContent = report.category || "--";
+  reporterEl.textContent = report.contactDetails?.name || "Unknown Reporter";
+  descriptionEl.textContent = report.description || "No instructions provided";
+
+  loadImages(report.images || []);
+  updateMap(report);
+
+  // Set dropdown to current status
+  if (statusSelect) statusSelect.value = report.status || "in_progress";
+}
+
+function loadImages(images) {
+  photoRow.innerHTML = "";
+  if (!images.length) {
+    photoRow.innerHTML = "<p>No evidence photos uploaded</p>";
+    return;
+  }
+  images.forEach((img) => {
+    const div = document.createElement("div");
+    div.className = "photo photo--img";
+    div.innerHTML = `<img src="${img}" alt="Evidence" style="width:100%;height:100%;object-fit:cover;">`;
+    photoRow.appendChild(div);
   });
+}
 
-  photoInput.addEventListener("change", () => {
-    const files = Array.from(photoInput.files || []);
-    if (!files.length) return;
+function updateMap(report) {
+  const mapFrame = document.querySelector(".map__bg iframe");
+  if (!mapFrame || !report.address) return;
+  const encoded = encodeURIComponent(`${report.address}, ${report.lga}, ${report.state}`);
+  mapFrame.src = `https://www.google.com/maps?q=${encoded}&output=embed`;
+}
 
-    files.slice(0, 6).forEach((file) => {
-      const url = URL.createObjectURL(file);
+// ===== COPY ADDRESS =====
+copyAddressBtn.onclick = () => {
+  if (!addressEl.textContent || addressEl.textContent === "--") return;
+  navigator.clipboard.writeText(addressEl.textContent);
+  showToast("Address copied");
+};
 
-      const wrap = document.createElement("div");
-      wrap.className = "photo photo--img";
-      wrap.title = file.name;
+// ===== SIDEBAR TOGGLE =====
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+document.getElementById("sidebarOpen").onclick = () => {
+  sidebar.classList.add("is-open");
+  overlay.hidden = false;
+};
+overlay.onclick = () => {
+  sidebar.classList.remove("is-open");
+  overlay.hidden = true;
+};
 
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Evidence photo";
-      img.style.width = "100%";
-      img.style.height = "100%";
-      img.style.objectFit = "cover";
+// ===== BACK BUTTON =====
+document.getElementById("backBtn").onclick = () => window.history.back();
 
-      wrap.appendChild(img);
-      photoRow.insertBefore(wrap, uploadTile);
+// ===== PHOTO UPLOAD =====
+const addPhotoBtn = document.getElementById("addPhotoBtn");
+const photoInput = document.getElementById("photoInput");
+const uploadTile = document.getElementById("uploadTile");
+[addPhotoBtn, uploadTile].forEach(btn => {
+  if (btn) btn.onclick = () => photoInput.click();
+});
+
+// ===== MANAGE TASK (UPDATE STATUS) =====
+// Dropdown change
+if (statusSelect) {
+  statusSelect.addEventListener("change", async () => {
+    const newStatus = statusSelect.value;
+    await updateReportStatus(newStatus);
+  });
+}
+
+// Mark as completed button
+if (markCompleteBtn) {
+  markCompleteBtn.addEventListener("click", async () => {
+    if (!statusSelect) return;
+    statusSelect.value = "COMPLETED"; // must match allowed status
+    await updateReportStatus("COMPLETED");
+  });
+}
+
+// Dropdown change
+if (statusSelect) {
+  statusSelect.addEventListener("change", async () => {
+    const newStatus = statusSelect.value;
+    const allowedStatuses = ["PENDING","ASSIGNED","IN_PROGRESS","COMPLETED","CANCELLED"];
+
+    if (!allowedStatuses.includes(newStatus)) {
+      showToast("Invalid status selected");
+      return;
+    }
+
+    await updateReportStatus(newStatus);
+  });
+}
+
+// Function to update status via API
+async function updateReportStatus(status) {
+  const trackingId = trackingInput.value.trim();
+  if (!trackingId) return showToast("No report selected");
+
+  try {
+    const res = await fetch(`${API}/reports/tracking/${trackingId}/status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status }),
     });
 
-    showToast("Photo added.");
-    photoInput.value = "";
-  });
+    const data = await res.json();
 
-  // Dispatch buttons
-  function contactDispatch() {
-    showToast("Connecting to dispatch…");
+    if (!res.ok) {
+      showToast(data.message || "Failed to update status");
+      return;
+    }
+
+    showToast(`Report status updated to "${status}"`);
+    fetchReport(); // refresh report info
+  } catch (err) {
+    console.error(err);
+    showToast("Error updating status");
   }
-  sidebarDispatch.addEventListener("click", contactDispatch);
-  contactDispatchBtn.addEventListener("click", contactDispatch);
-
-  // Map controls (placeholder zoom effect)
-  function applyMapScale() {
-    mapBg.style.transform = `scale(${mapScale})`;
-    mapBg.style.transformOrigin = "center";
-  }
-  zoomIn.addEventListener("click", () => {
-    mapScale = Math.min(1.35, +(mapScale + 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
-  zoomOut.addEventListener("click", () => {
-    mapScale = Math.max(0.85, +(mapScale - 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
-  recenter.addEventListener("click", () => {
-    mapScale = 1;
-    applyMapScale();
-    showToast("Recentered.");
-  });
-
-  applyMapScale();
-})();
+}

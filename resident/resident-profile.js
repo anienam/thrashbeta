@@ -1,80 +1,160 @@
+//resident-profile.js
+
+//const API = 'http://localhost:5000/api/v1';   // Development 
+
+const API = 'https://trashbeta.onrender.com/api/v1'    //Production
+
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
+
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
+
+
+if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
+
+    // If expired already
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../auth/login.html";
+    } else {
+      // Auto logout when it expires
+      setTimeout(() => {
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+  }
+} else {
+  alert("Kindly login");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+}
+
+
+
+// DOM elements
+const displayName = document.getElementById("displayName");
+const displayEmail = document.getElementById("displayEmail");
+const memberSince = document.getElementById("memberSince");
+const profileAvatar = document.getElementById("profileAvatar");
+const topAvatar = document.getElementById("topAvatar");
+
+const fullNameInput = document.getElementById("fullName");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const addressInput = document.getElementById("address");
+const lgaInput = document.getElementById("lga");
+const profileForm = document.getElementById("profileForm");
+const photoInput = document.getElementById("photoInput");
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const saveMsg = document.getElementById("saveMsg");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let selectedPhoto = null;
+
+// Fetch and display profile
+async function loadProfile() {
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const user = await res.json();
+
+    fullNameInput.value = `${user.firstName || ""} ${user.lastName || ""}`;
+    emailInput.value = user.email || "";
+    phoneInput.value = user.phone || "";
+    addressInput.value = user.address || "";
+    lgaInput.value = user.cityLGA || "";
+
+    displayName.textContent = `${user.firstName || ""} ${user.lastName || ""}`;
+    displayEmail.textContent = user.email;
+    memberSince.textContent = `Member since ${new Date(user.createdAt).toLocaleDateString()}`;
+
+    const avatarUrl = user.avatar || "/assets/images/Avatar profile photo5.png";
+    profileAvatar.src = avatarUrl;
+    topAvatar.src = avatarUrl;
+
+  } catch (err) {
+    console.error("Error loading profile:", err);
+  }
+}
+
+loadProfile();
+
+// Handle avatar selection
+changePhotoBtn.addEventListener("click", () => photoInput.click());
+photoInput.addEventListener("change", () => {
+  selectedPhoto = photoInput.files[0];
+  if (selectedPhoto) profileAvatar.src = URL.createObjectURL(selectedPhoto);
+});
+
+// Update profile
+profileForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  try {
+    saveMsg.textContent = "Saving...";
+
+    const fullName = fullNameInput.value.trim();
+    const [firstName, ...lastParts] = fullName.split(" ");
+    const lastName = lastParts.join(" ");
+
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("phone", phoneInput.value);
+    formData.append("address", addressInput.value);
+    formData.append("cityLGA", lgaInput.value);
+    if (selectedPhoto) formData.append("avatar", selectedPhoto);
+
+    const res = await fetch(`${API}/auth/user/profile`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to update profile");
+
+    saveMsg.textContent = "Profile updated successfully!";
+    selectedPhoto = null;
+    loadProfile();
+  } catch (err) {
+    saveMsg.textContent = err.message;
+  }
+});
+
+// Cancel button reloads profile
+cancelBtn.addEventListener("click", loadProfile);
+
+
+
 (() => {
   const $ = (q) => document.querySelector(q);
 
   const tabs = document.querySelectorAll(".tab-pill");
   const panels = document.querySelectorAll(".panel");
 
-  const topAvatar = $("#topAvatar");
-  const profileAvatar = $("#profileAvatar");
 
-  const displayName = $("#displayName");
-  const displayEmail = $("#displayEmail");
-  const memberSince = $("#memberSince");
 
-  const form = $("#profileForm");
-  const saveMsg = $("#saveMsg");
-
-  const fullName = $("#fullName");
-  const email = $("#email");
-  const phone = $("#phone");
-  const address = $("#address");
-  const lga = $("#lga");
-
-  const cancelBtn = $("#cancelBtn");
-
-  const changePhotoBtn = $("#changePhotoBtn");
-  const photoInput = $("#photoInput");
-
-  const STORAGE_KEY = "resident_profile";
-
-  const defaultProfile = {
-    fullName: "Abdul Whareez",
-    email: "whareezdesigns@gmail.com",
-    phone: "080 1234 7835",
-    address: "",
-    lga: "Ikeja",
-    memberSince: "Oct 2025",
-    photo:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=240&q=60",
-  };
-
-  function safeGet() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultProfile;
-    } catch {
-      return defaultProfile;
-    }
-  }
-
-  function setProfileUI(p) {
-    displayName.textContent = p.fullName || "—";
-    displayEmail.textContent = p.email || "—";
-    memberSince.textContent = `Member since ${p.memberSince || "—"}`;
-
-    profileAvatar.src = p.photo || defaultProfile.photo;
-    topAvatar.src = p.photo || defaultProfile.photo;
-
-    fullName.value = p.fullName || "";
-    email.value = p.email || "";
-    phone.value = p.phone || "";
-    address.value = p.address || "";
-    lga.value = p.lga || "";
-  }
-
-  function saveProfile(p) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
-  }
-
-  function currentFormProfile(existing) {
-    return {
-      ...existing,
-      fullName: fullName.value.trim(),
-      email: email.value.trim(),
-      phone: phone.value.trim(),
-      address: address.value.trim(),
-      lga: lga.value,
-    };
-  }
+  
 
   // Tabs
   tabs.forEach((btn) => {
@@ -89,64 +169,7 @@
     });
   });
 
-  // Save
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
 
-    const prev = safeGet();
-    const next = currentFormProfile(prev);
 
-    // light validation
-    if (!next.fullName) {
-      saveMsg.style.color = "#b91c1c";
-      saveMsg.textContent = "Full name is required.";
-      return;
-    }
-    if (!next.email || !next.email.includes("@")) {
-      saveMsg.style.color = "#b91c1c";
-      saveMsg.textContent = "Enter a valid email address.";
-      return;
-    }
-
-    saveProfile(next);
-    setProfileUI(next);
-
-    saveMsg.style.color = "#2f7d32";
-    saveMsg.textContent = "Changes saved successfully.";
-    setTimeout(() => (saveMsg.textContent = ""), 2500);
-  });
-
-  // Cancel = reset to saved
-  cancelBtn.addEventListener("click", () => {
-    const p = safeGet();
-    setProfileUI(p);
-    saveMsg.textContent = "";
-  });
-
-  // Change photo
-  changePhotoBtn.addEventListener("click", () => {
-    photoInput.click();
-  });
-
-  photoInput.addEventListener("change", () => {
-    const file = photoInput.files && photoInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const p = safeGet();
-      const next = { ...p, photo: reader.result };
-      saveProfile(next);
-      setProfileUI(next);
-
-      saveMsg.style.color = "#2f7d32";
-      saveMsg.textContent = "Profile photo updated.";
-      setTimeout(() => (saveMsg.textContent = ""), 2500);
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // Init
-  const p = safeGet();
-  setProfileUI(p);
+  
 })();

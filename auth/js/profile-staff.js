@@ -18,7 +18,7 @@ function clearUserSession() {
   localStorage.removeItem("onboardingStep");
 }
 
-if(role !== "staff" || role !== "admin") {
+if(role !== "staff" && role !== "admin") {
 	alert("You are not a staff");
     window.location.href = "profile-resident.html";
 }

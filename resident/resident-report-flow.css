@@ -839,3 +839,41 @@
     font-size: 22px;
   }
 }
+
+
+/* BACKEND */
+
+.upload-card {
+  position: relative;
+  width: 250px;
+}
+
+.upload-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.replace-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background: black;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}

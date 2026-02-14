@@ -104,9 +104,9 @@ if (roleContinue && roleCards.length) {
 
       			alert(`${role} Account verified successfully`);
       	
-      			if (data.role === "resident") {
+      			if (role === "resident") {
       				window.location.href = "profile-resident.html";
-    			} else if (data.role === "sttaf"){
+    			} else if (role === "staff"){
       				window.location.href = "profile-staff.html";
     			}
 

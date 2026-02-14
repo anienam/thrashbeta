@@ -293,11 +293,13 @@
             </div>
 
             <form class="form contact-form" id="contactForm" novalidate>
+
+              
               <div class="field">
                 <label class="form-label">Full Name <span>*</span></label>
                 <input
                   class="form-input"
-                  id="fullName"
+                  id="previewName"
                   type="text"
                   placeholder="Enter your full name"
                   required
@@ -309,20 +311,20 @@
                 <label class="form-label">Phone Number <span>*</span></label>
                 <input
                   class="form-input"
-                  id="phone"
+                  id="previewPhone"
                   type="tel"
                   inputmode="tel"
                   placeholder="080 1234 7835"
-                  required
+                  requiredpreviewName
                 />
                 <p class="field-error" id="phoneErr"></p>
-              </div>
+              </div> 
 
               <div class="field">
                 <label class="form-label">Email Address <span>*</span></label>
                 <input
                   class="form-input"
-                  id="email"
+                  id="previewEmail"
                   type="email"
                   inputmode="email"
                   placeholder="name@email.com"
@@ -330,6 +332,8 @@
                 />
                 <p class="field-error" id="emailErr"></p>
               </div>
+
+              
 
               <div class="updates">
                 <h3>How would you like to receive updates?</h3>
@@ -406,6 +410,7 @@
 
       <button class="overlay" id="overlay" hidden></button>
     </div>
+      <body data-step="5">
 
     <script src="resident-report-flow.js"></script>
   </body>

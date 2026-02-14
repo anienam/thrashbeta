@@ -274,7 +274,7 @@
           <section class="grid-2">
             <article class="card hero">
               <div class="hero__text">
-                <h2>Welcome back, Whareez!</h2>
+                <h2 id="welcomeName">Welcome back!</h2>
                 <p>
                   Your active reports: <strong id="activeReports">2</strong>
                 </p>
@@ -450,6 +450,7 @@
               aria-label="Recent Reports table"
             >
               <table class="table">
+               
                 <thead>
                   <tr>
                     <th>Photo</th>
@@ -462,7 +463,8 @@
                     <th></th>
                   </tr>
                 </thead>
-
+                
+                <!--
                 <tbody>
                   <tr>
                     <td>
@@ -544,6 +546,9 @@
                     </td>
                   </tr>
                 </tbody>
+                -->
+                <tbody id="recentReportsBody"> </tbody>
+
               </table>
             </div>
           </section>

@@ -1,124 +1,297 @@
-(function () {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
+//app.js
 
-  const sidebarOpen = document.getElementById("sidebarOpen");
-  const sidebarClose = document.getElementById("sidebarClose");
+//const API = 'http://localhost:5000/api/v1';   // Development
+const API = 'https://trashbeta.onrender.com/api/v1' // Production
 
-  const searchInput = document.getElementById("searchInput");
-  const routeList = document.getElementById("routeList");
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-  const toast = document.getElementById("toast");
+const routeList = document.getElementById("routeList");
+const searchInput = document.getElementById("searchInput");
+const logoutBtn = document.getElementById("goOfflineBtn");
 
-  const zoomIn = document.getElementById("zoomIn");
-  const zoomOut = document.getElementById("zoomOut");
-  const recenter = document.getElementById("recenter");
-  const map = document.getElementById("map");
-  const mapGrid = map.querySelector(".map__grid");
+let assignedReports = [];
 
-  const goOfflineBtn = document.getElementById("goOfflineBtn");
+if (!role || (role !== 'staff' && role !== 'admin')) {
+  clearUserSession();
+  window.location.href = "../auth/login.html";
+}
 
-  let mapScale = 1;
 
-  function openSidebar() {
-    sidebar.classList.add("is-open");
-    overlay.hidden = false;
+// =============================
+// SESSION MANAGEMENT
+// =============================
+
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
+
+function redirectToLogin() {
+  window.location.href = "../../auth/login.html";
+}
+
+// Token validation + auto logout
+(function validateSession() {
+
+  if (!token) {
+    alert("Kindly login");
+    clearUserSession();
+    return redirectToLogin();
   }
 
-  function closeSidebar() {
-    sidebar.classList.remove("is-open");
-    overlay.hidden = true;
+  try {
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
+
+    if (expiryTime <= 0) {
+      alert("Session expired. Login again.");
+      clearUserSession();
+      return redirectToLogin();
+    }
+
+    setTimeout(() => {
+      alert("Session expired. Login again.");
+      clearUserSession();
+      redirectToLogin();
+    }, expiryTime);
+
+  } catch (err) {
+    alert("Invalid session.");
+    clearUserSession();
+    redirectToLogin();
   }
 
-  function showToast(message) {
-    toast.textContent = message;
-    toast.hidden = false;
-    window.clearTimeout(showToast._t);
-    showToast._t = window.setTimeout(() => {
-      toast.hidden = true;
-    }, 2200);
-  }
+})();
 
-  // Sidebar toggle (mobile)
-  if (sidebarOpen) sidebarOpen.addEventListener("click", openSidebar);
-  if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
-  if (overlay) overlay.addEventListener("click", closeSidebar);
 
-  // ESC closes sidebar (mobile)
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sidebar.classList.contains("is-open"))
-      closeSidebar();
-  });
+// =============================
+// FETCH USER PROFILE
+// =============================
 
-  // Search filter for tasks
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const q = String(e.target.value || "")
-        .trim()
-        .toLowerCase();
-      const cards = routeList.querySelectorAll(".task-card");
-      cards.forEach((card) => {
-        const hay = (card.getAttribute("data-search") || "").toLowerCase();
-        const show = !q || hay.includes(q);
-        card.style.display = show ? "" : "none";
-      });
+async function loadWorkerProfile() {
+  try {
+
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
     });
+
+    if (!res.ok) throw new Error("Failed to fetch profile");
+
+    const user = await res.json();
+
+    const nameEl = document.querySelector(".profile-name");
+    const avatarEl = document.querySelector(".avatar span");
+
+    if (nameEl) {
+      nameEl.textContent = `${user.firstName} ${user.lastName}`;
+    }
+
+    if (avatarEl) {
+      avatarEl.textContent =
+        `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`;
+    }
+
+  } catch (err) {
+    console.error("Profile Load Error:", err.message);
+  }
+}
+
+
+// =============================
+// FETCH ASSIGNED REPORTS
+// =============================
+
+async function loadReports() {
+
+  try {
+
+    const res = await fetch(`${API}/reports/assign/assigned`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("Reports fetch failed:", data.message);
+      assignedReports = [];
+    } else {
+      assignedReports = Array.isArray(data) ? data : [];
+    }
+
+    renderStats();
+    renderRouteCards(assignedReports);
+
+  } catch (err) {
+    console.error("Reports Load Error:", err.message);
+    assignedReports = [];
+  }
+}
+
+
+// =============================
+// RENDER DASHBOARD STATS
+// =============================
+
+function renderStats() {
+
+  const total = assignedReports.length;
+
+  const completed = assignedReports.filter(
+    r => r.status === "COMPLETED"
+  ).length;
+
+  const urgent = assignedReports.filter(
+    r => r.priority === "HIGH"
+  ).length;
+
+  const completedEl = document.querySelector(".big--green");
+  const totalEl = document.querySelector(".big--muted");
+  const urgentEl = document.querySelector(".big--amber");
+
+  if (completedEl) completedEl.textContent = completed;
+  if (totalEl) totalEl.textContent = `/${total}`;
+  if (urgentEl) urgentEl.textContent = urgent;
+}
+
+
+// =============================
+// RENDER TASK CARDS
+// =============================
+
+function renderRouteCards(reports) {
+
+  if (!routeList) return;
+
+  routeList.innerHTML = "";
+
+  if (!reports.length) {
+    routeList.innerHTML = `<p>No assigned tasks.</p>`;
+    return;
   }
 
-  // Button actions
-  routeList.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-action]");
+  reports.forEach(report => {
+
+    const isCurrent = report.status === "IN_PROGRESS";
+
+    const card = document.createElement("article");
+
+    card.className =
+      `task-card ${isCurrent ? "task-card--mint is-current" : "task-card--white"}`;
+
+    card.dataset.id = report._id;
+    card.dataset.search =
+      `${report.trackingId} ${report.address} ${report.category}`.toLowerCase();
+
+    card.innerHTML = `
+      <div class="task-card__top">
+        <div>
+          <div class="task-title">${report.address || "No address"}</div>
+          <div class="task-meta">
+            <span class="task-meta__icon">♻</span>
+            ${report.category || "Uncategorized"}
+          </div>
+        </div>
+
+        ${report.priority === "HIGH"
+          ? `<span class="tag tag--urgent">URGENT</span>`
+          : ""
+        }
+      </div>
+
+      <div class="task-card__actions">
+        ${
+          report.status !== "COMPLETED"
+            ? `<button class="btn btn--green" data-complete="${report._id}">
+                Mark Complete
+              </button>`
+            : `<span class="tag tag--current">COMPLETED</span>`
+        }
+      </div>
+    `;
+
+    routeList.appendChild(card);
+  });
+}
+
+
+// =============================
+// MARK TASK COMPLETE
+// =============================
+
+if (routeList) {
+  routeList.addEventListener("click", async (e) => {
+
+    const btn = e.target.closest("[data-complete]");
     if (!btn) return;
 
-    const action = btn.getAttribute("data-action");
-    if (action === "navigate") showToast("Starting navigation…");
-    if (action === "info") showToast("Opening task info…");
-    if (action === "complete") showToast("Marked as complete.");
-    if (action === "report") showToast("Opening issue report…");
-  });
+    const reportId = btn.dataset.complete;
 
-  // Map controls (placeholder zoom)
-  function applyMapScale() {
-    mapGrid.style.transform = `scale(${mapScale})`;
-    mapGrid.style.transformOrigin = "center";
-  }
+    if (!reportId) return;
 
-  zoomIn.addEventListener("click", () => {
-    mapScale = Math.min(1.35, +(mapScale + 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
+    try {
 
-  zoomOut.addEventListener("click", () => {
-    mapScale = Math.max(0.85, +(mapScale - 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
+      const res = await fetch(`${API}/reports/${reportId}/complete`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
-  recenter.addEventListener("click", () => {
-    mapScale = 1;
-    applyMapScale();
-    showToast("Recentered.");
-  });
+      if (!res.ok) {
+        console.error("Failed to mark complete");
+        return;
+      }
 
-  // Offline button
-  goOfflineBtn.addEventListener("click", () => {
-    const isOffline = goOfflineBtn.getAttribute("data-state") === "offline";
+      await loadReports();
 
-    if (!isOffline) {
-      goOfflineBtn.setAttribute("data-state", "offline");
-      goOfflineBtn.textContent = "Go Online";
-      goOfflineBtn.style.background = "#111827";
-      showToast("You are now offline.");
-    } else {
-      goOfflineBtn.setAttribute("data-state", "online");
-      goOfflineBtn.innerHTML =
-        '<span class="btn__icon" aria-hidden="true">↩</span> Go Offline';
-      goOfflineBtn.style.background = "";
-      showToast("Back online.");
+    } catch (err) {
+      console.error("Completion Error:", err.message);
     }
-  });
 
-  // Initial
-  applyMapScale();
-})();
+  });
+}
+
+
+// =============================
+// SEARCH TASKS
+// =============================
+
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+
+    const term = searchInput.value.toLowerCase();
+
+    const filtered = assignedReports.filter(r =>
+      `${r.trackingId} ${r.address}`
+        .toLowerCase()
+        .includes(term)
+    );
+
+    renderRouteCards(filtered);
+  });
+}
+
+
+// =============================
+// LOGOUT
+// =============================
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    clearUserSession();
+    redirectToLogin();
+  });
+}
+
+
+// =============================
+// INIT
+// =============================
+
+loadWorkerProfile();
+loadReports();

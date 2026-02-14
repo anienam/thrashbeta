@@ -224,6 +224,8 @@
       </aside>
 
       <div class="main">
+
+
         <!-- TOPBAR -->
         <header class="topbar">
           <button
@@ -253,6 +255,7 @@
         </header>
 
         <main class="content profile-page">
+
           <!-- PROFILE HEADER CARD -->
           <section class="card profile-head">
             <div class="head-left">
@@ -284,6 +287,8 @@
             </div>
           </section>
 
+
+
           <!-- TABS -->
           <section class="tabs-row" role="tablist" aria-label="Profile tabs">
             <button
@@ -301,7 +306,10 @@
             </button>
           </section>
 
+
           <!-- PANELS -->
+
+          <section> 
           <section class="panel is-active" data-panel="personal">
             <h3 class="section-title">Personal Information</h3>
 
@@ -342,16 +350,11 @@
 
                   <div class="field field--full">
                     <label for="lga">Preffered LGA</label>
-                    <div class="select">
-                      <select id="lga">
-                        <option value="">Select LGA</option>
-                        <option value="Ikeja">Ikeja</option>
-                        <option value="Surulere">Surulere</option>
-                        <option value="Agege">Agege</option>
-                        <option value="Ibeju-Lekki">Ibeju-Lekki</option>
-                      </select>
-                      <span class="chev">▾</span>
-                    </div>
+                   
+
+                    <input id="lga" type="lga" placeholder="Loca Govenment Area" />
+                  </div>
+
                   </div>
                 </div>
 
@@ -379,6 +382,13 @@
                 toggles).
               </p>
             </section>
+
+            <!--<div class="form-actions">
+             <button class="btn-primary" id="saveNotificationBtn" type="button">
+               Save Changes
+             </button>
+           </div> -->
+
           </section>
 
           <!-- Account panel (placeholder) -->
@@ -391,6 +401,16 @@
                 Logout, Delete account).
               </p>
             </section>
+
+           <!-- <div class="form-actions">
+             <button class="btn-primary" id="saveAccountBtn" type="button">
+               Save Changes
+             </button>
+           </div> -->
+
+          </section>
+
+
           </section>
         </main>
       </div>
