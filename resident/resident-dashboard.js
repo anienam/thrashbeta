@@ -54,11 +54,6 @@ const firstName = localStorage.getItem("firstName") || "Resident";
 
 // ===============================
 // Load Dashboard Data
-// ===============================
-document.addEventListener("DOMContentLoaded", async () => {
-  setWelcome();
-  await loadRecentReports();
-});
 
 
 // ===============================
@@ -174,3 +169,59 @@ function formatStatusText(status) {
 function formatStatusClass(status) {
   return status.toLowerCase().replace("_", "-");
 }
+
+
+
+
+
+// ===============================
+// Load User Details
+// ===============================
+async function loadUserDetails() {
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    const user = await res.json();
+
+    // Update welcome name
+    document.getElementById("welcomeName").textContent =
+      `Welcome back, ${user.firstName}!`;
+
+    // Update sidebar name and email
+    const nameEl = document.querySelector(".user-mini__name");
+    const subEl = document.querySelector(".user-mini__sub");
+    nameEl.textContent = `${user.firstName} ${user.lastName}`;
+    subEl.textContent = user.email;
+
+    // Update avatar
+    const avatarEls = document.querySelectorAll(".user-mini__avatar, .avatar-btn img");
+
+    let avatarUrl = user.avatar || user.profile?.avatar || "/assets/images/Avatar profile photo5.png";
+
+    // If avatar is a relative path, prepend API host
+    if (avatarUrl && !avatarUrl.startsWith("http")) {
+      avatarUrl = `${API}/${avatarUrl.replace(/^\/+/, '')}`; // remove leading slash if exists
+    }
+
+    avatarEls.forEach(img => img.src = avatarUrl);
+
+  } catch (err) {
+    console.error("Error loading user details:", err);
+  }
+}
+
+
+// ===============================
+// Load Dashboard Data
+// ===============================
+document.addEventListener("DOMContentLoaded", async () => {
+  setWelcome();
+  await loadRecentReports();
+  await loadUserDetails(); 
+});

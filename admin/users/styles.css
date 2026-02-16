@@ -524,3 +524,16 @@ tbody tr:hover td {
     padding: 18px;
   }
 }
+
+
+
+/* BACKEND  */
+/* Small avatar in user table */
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* makes it circular */
+  object-fit: cover;  /* keeps image aspect ratio and crops if needed */
+  margin-right: 10px; /* space between avatar and name */
+  vertical-align: middle;
+}

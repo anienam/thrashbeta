@@ -220,3 +220,47 @@ async function updateReportStatus(status) {
     showToast("Error updating status");
   }
 }
+
+
+async function loadWorkerProfile() {
+  try {
+
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch profile");
+
+    const user = await res.json();
+
+    const nameEl = document.querySelector(".profile-name");
+    const avatarImg = document.getElementById("profileAvatar");
+    const avatarInitials = document.getElementById("avatarInitials");
+
+    if (nameEl) {
+      nameEl.textContent = `${user.firstName} ${user.lastName}`;
+    }
+
+    // ✅ If user has uploaded avatar
+    if (user.avatar) {
+      avatarImg.src = user.avatar;
+      avatarImg.style.display = "block";
+      avatarInitials.style.display = "none";
+    } else {
+      // ✅ Fallback to initials
+      avatarInitials.textContent =
+        `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`;
+      avatarInitials.style.display = "block";
+      avatarImg.style.display = "none";
+    }
+
+  } catch (err) {
+    console.error("Profile Load Error:", err.message);
+  }
+}
+
+
+
+
+
+loadWorkerProfile()

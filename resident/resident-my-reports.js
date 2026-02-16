@@ -226,5 +226,69 @@ function viewReport(id) {
 }
 
 
-// INIT
-fetchReports();
+
+
+
+// ===============================
+// Load User Details
+// ===============================
+async function loadUserDetails() {
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    const user = await res.json();
+
+    // Save firstName locally for welcome message
+    localStorage.setItem("firstName", user.firstName);
+
+    // Update welcome
+    const welcomeEl = document.getElementById("welcomeName");
+    if (welcomeEl) welcomeEl.textContent = `Welcome back, ${user.firstName}!`;
+
+    // Update sidebar
+    const nameEl = document.querySelector(".user-mini__name");
+    const subEl = document.querySelector(".user-mini__sub");
+    if (nameEl) nameEl.textContent = `${user.firstName} ${user.lastName}`;
+    if (subEl) subEl.textContent = user.email;
+
+    // Update avatar
+    const avatarEls = document.querySelectorAll(".user-mini__avatar, .avatar-btn img");
+    let avatarUrl = user.profile?.avatar || "/assets/images/Avatar profile photo5.png";
+
+    if (avatarUrl && !avatarUrl.startsWith("http")) {
+      avatarUrl = `${API}/${avatarUrl.replace(/^\/+/, '')}`;
+    }
+
+    avatarEls.forEach(img => (img.src = avatarUrl));
+
+  } catch (err) {
+    console.error("Error loading user details:", err);
+  }
+}
+
+function setWelcome() {
+  const welcomeEl = document.getElementById("welcomeName");
+  const firstName = localStorage.getItem("firstName") || "Resident";
+  if (welcomeEl) {
+    welcomeEl.textContent = `Welcome back, ${firstName}!`;
+  }
+}
+
+// ===============================
+// Load Dashboard Data
+// ===============================
+document.addEventListener("DOMContentLoaded", async () => {
+  setWelcome();
+  await fetchReports();
+  await loadUserDetails(); 
+});
+
+
+
+
+
+

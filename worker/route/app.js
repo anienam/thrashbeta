@@ -1,94 +1,89 @@
-(function () {
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
-  const sidebarOpen = document.getElementById("sidebarOpen");
-  const sidebarClose = document.getElementById("sidebarClose");
 
-  const toast = document.getElementById("toast");
-  const mapBg = document.querySelector(".map__bg");
+//const API = "http://localhost:5000/api/v1"; 
+ const API = "https://trashbeta.onrender.com/api/v1";
 
-  const zoomIn = document.getElementById("zoomIn");
-  const zoomOut = document.getElementById("zoomOut");
-  const recenter = document.getElementById("recenter");
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-  const emergencyBtn = document.getElementById("emergencyBtn");
-  const resumeBtn = document.getElementById("resumeBtn");
-  const completedBtn = document.getElementById("completedBtn");
-  const detailsBtn = document.getElementById("detailsBtn");
-  const pauseMoveBtn = document.getElementById("pauseMoveBtn");
-  const viewAllBtn = document.getElementById("viewAllBtn");
+// =============================
+// SESSION HANDLING
+// =============================
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
 
-  let mapScale = 1;
+if (!token || !role || (role !== "staff" && role !== "admin")) {
+  clearUserSession();
+  window.location.href = "../../auth/login.html";
+} else {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
 
-  function showToast(message) {
-    toast.textContent = message;
-    toast.hidden = false;
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => (toast.hidden = true), 2200);
+    if (expiryTime <= 0) {
+      clearUserSession();
+      window.location.href = "../../auth/login.html";
+    } else {
+      setTimeout(() => {
+        clearUserSession();
+        window.location.href = "../../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    clearUserSession();
+    window.location.href = "../../auth/login.html";
   }
+}
 
-  function openSidebar() {
-    sidebar.classList.add("is-open");
-    overlay.hidden = false;
+
+
+
+
+async function loadWorkerProfile() {
+  try {
+
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch profile");
+
+    const user = await res.json();
+
+    const nameEl = document.querySelector(".profile-name");
+    const avatarImg = document.getElementById("profileAvatar");
+    const avatarInitials = document.getElementById("avatarInitials");
+
+    if (nameEl) {
+      nameEl.textContent = `${user.firstName} ${user.lastName}`;
+    }
+
+    // ✅ If user has uploaded avatar
+    if (user.avatar) {
+      avatarImg.src = user.avatar;
+      avatarImg.style.display = "block";
+      avatarInitials.style.display = "none";
+    } else {
+      // ✅ Fallback to initials
+      avatarInitials.textContent =
+        `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`;
+      avatarInitials.style.display = "block";
+      avatarImg.style.display = "none";
+    }
+
+  } catch (err) {
+    console.error("Profile Load Error:", err.message);
   }
-  function closeSidebar() {
-    sidebar.classList.remove("is-open");
-    overlay.hidden = true;
-  }
+}
 
-  if (sidebarOpen) sidebarOpen.addEventListener("click", openSidebar);
-  if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
-  if (overlay) overlay.addEventListener("click", closeSidebar);
 
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sidebar.classList.contains("is-open"))
-      closeSidebar();
-  });
 
-  function applyMapScale() {
-    mapBg.style.transform = `scale(${mapScale})`;
-    mapBg.style.transformOrigin = "center";
-  }
 
-  zoomIn.addEventListener("click", () => {
-    mapScale = Math.min(1.35, +(mapScale + 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
 
-  zoomOut.addEventListener("click", () => {
-    mapScale = Math.max(0.85, +(mapScale - 0.08).toFixed(2));
-    applyMapScale();
-    showToast(`Zoom: ${Math.round(mapScale * 100)}%`);
-  });
-
-  recenter.addEventListener("click", () => {
-    mapScale = 1;
-    applyMapScale();
-    showToast("Recentered.");
-  });
-
-  emergencyBtn.addEventListener("click", () =>
-    showToast("Emergency report opened…"),
-  );
-  resumeBtn.addEventListener("click", () => showToast("Resuming collection…"));
-  completedBtn.addEventListener("click", () =>
-    showToast("Stop marked completed."),
-  );
-  detailsBtn.addEventListener("click", () => {
-    showToast("Opening stop details…");
-    // You can route to task details if needed:
-    // window.location.href = "worker-task-details.html?id=TB-xxxx";
-  });
-
-  let paused = false;
-  pauseMoveBtn.addEventListener("click", () => {
-    paused = !paused;
-    pauseMoveBtn.textContent = paused ? "▶" : "⏸";
-    showToast(paused ? "Movement paused." : "Resumed moving.");
-  });
-
-  viewAllBtn.addEventListener("click", () => showToast("Viewing all stops…"));
-
-  applyMapScale();
-})();
+loadWorkerProfile()

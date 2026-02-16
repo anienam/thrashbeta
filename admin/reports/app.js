@@ -1,310 +1,247 @@
-/* =========================
-   TrashBeta • Admin Reports
-   Matches Admin Dashboard nav/layout
-   ========================= */
+//const API = "http://localhost:5000/api/v1"; 
+ const API = "https://trashbeta.onrender.com/api/v1";
 
-const $ = (q, el = document) => el.querySelector(q);
-const $$ = (q, el = document) => [...el.querySelectorAll(q, el)];
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
 
-/* ---------- Sidebar (mobile) ---------- */
-const sidebar = $("#sidebar");
-const overlay = $("#overlay");
-const menuBtn = $("#menuBtn");
-
-function openSidebar() {
-  sidebar.classList.add("is-open");
-  overlay.hidden = false;
-}
-function closeSidebar() {
-  sidebar.classList.remove("is-open");
-  overlay.hidden = true;
+// =============================
+// SESSION HANDLING
+// =============================
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
 }
 
-menuBtn?.addEventListener("click", () => {
-  sidebar.classList.contains("is-open") ? closeSidebar() : openSidebar();
-});
-overlay?.addEventListener("click", closeSidebar);
-
-/* ---------- KPI cards ---------- */
-const stats = [
-  { title: "Total Active Reports", value: "432", meta: "+12%", icon: "🗓️" },
-  { title: "Pending Review", value: "87", meta: "+5%", icon: "📋" },
-  {
-    title: "In Progress",
-    value: "156",
-    meta: "New alerts available",
-    icon: "🔁",
-  },
-  {
-    title: "Resolution Rate",
-    value: "94.2%",
-    meta: "New alerts available",
-    icon: "⚙️",
-  },
-];
-
-$("#stats").innerHTML = stats
-  .map(
-    (s) => `
-  <article class="stat">
-    <div class="stat__top">
-      <div class="stat__title">${s.title}</div>
-      <div class="stat__icon" aria-hidden="true">${s.icon}</div>
-    </div>
-    <div class="stat__value">${s.value}</div>
-    <div class="stat__meta">
-      <span>${s.meta}</span>
-      <span class="spark" aria-hidden="true">↗</span>
-    </div>
-  </article>
-`,
-  )
-  .join("");
-
-/* ---------- Table data + render + filter ---------- */
-const rows = [
-  {
-    id: "#TR-8821",
-    type: "Missed PickUp",
-    typeKey: "missed",
-    loc: "Ikeja",
-    status: "Pending",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8820",
-    type: "Trashed",
-    typeKey: "trashed",
-    loc: "Marina",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8819",
-    type: "Overflowing Bin",
-    typeKey: "overflow",
-    loc: "Ikoyi",
-    status: "In Progress",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8818",
-    type: "Illegal Dumping",
-    typeKey: "illegal",
-    loc: "Ibeju Lekki",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8817",
-    type: "Missed PickUp",
-    typeKey: "missed",
-    loc: "Surulere",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8816",
-    type: "Illegal Dumping",
-    typeKey: "illegal",
-    loc: "Yaba",
-    status: "In Progress",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8815",
-    type: "Illegal Dumping",
-    typeKey: "illegal",
-    loc: "Ketu",
-    status: "In Progress",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8814",
-    type: "Overflowing Bin",
-    typeKey: "overflow",
-    loc: "Ebute Metta",
-    status: "In Progress",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8813",
-    type: "Trashed",
-    typeKey: "trashed",
-    loc: "Ajah",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8812",
-    type: "Trashed",
-    typeKey: "trashed",
-    loc: "Badagry",
-    status: "Pending",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8811",
-    type: "Trashed",
-    typeKey: "trashed",
-    loc: "Iyana-Ipaja",
-    status: "Pending",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8810",
-    type: "Trashed",
-    typeKey: "trashed",
-    loc: "Ikotun",
-    status: "Pending",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8809",
-    type: "Overflowing Bin",
-    typeKey: "overflow",
-    loc: "Ikorodu",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-  {
-    id: "#TR-8808",
-    type: "Missed PickUp",
-    typeKey: "missed",
-    loc: "Ajegunle",
-    status: "Resolved",
-    date: "23/07/2025",
-  },
-];
-
-function pillClass(status) {
-  if (status === "Pending") return "pill--pending";
-  if (status === "Resolved") return "pill--resolved";
-  return "pill--progress";
-}
-function badgeClass(key) {
-  return `badge--${key}`;
+if (!token || !role || ( role !== "admin")) {
+  clearUserSession();
+  window.location.href = "../../auth/login.html";
+} else {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
+    if (expiryTime <= 0) {
+      clearUserSession();
+      window.location.href = "../../auth/login.html";
+    } else {
+      setTimeout(() => {
+        clearUserSession();
+        window.location.href = "../../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    clearUserSession();
+    window.location.href = "../../auth/login.html";
+  }
 }
 
-const tbody = $("#tbody");
+/* =========================================================
+   AUTH HEADERS
+========================================================= */
+function authHeaders() {
+  return {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+  };
+}
 
-function renderTable(list) {
-  tbody.innerHTML = list
-    .map(
-      (r) => `
-    <tr>
-      <td><strong>${r.id}</strong></td>
+/* =========================================================
+   USER PROFILE (NAME + AVATAR)
+========================================================= */
+async function loadUserProfile() {
+  try {
+    const res = await fetch(`${API}/auth/me`, { headers: authHeaders() });
+    const user = await res.json();
+
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const avatar = user.avatar || "https://i.pravatar.cc/80?img=12";
+
+    document.querySelector(".userchip__name").textContent = fullName;
+    document.querySelector(".userchip__avatar").src = avatar;
+    document.querySelector(".avatar").src = avatar;
+  } catch (err) {
+    console.error("Failed to load user profile", err);
+  }
+}
+
+/* =========================================================
+   REPORT STATS (KPI CARDS)
+========================================================= */
+async function loadStats() {
+  try {
+    const res = await fetch(`${API}/stats`, { headers: authHeaders() });
+    const text = await res.text();
+    if (!res.ok) {
+      document.getElementById("stats").innerHTML = `
+        <div style="text-align:center; color:red;">
+          Failed to load stats (${res.status})
+        </div>
+      `;
+      return;
+    }
+
+    const stats = JSON.parse(text);
+
+    document.getElementById("stats").innerHTML = `
+      <div class="stat-card">
+        <h3>Total Active Reports</h3>
+        <p class="stat-value">${stats.totalActive}</p>
+        <span class="stat-change">
+          ${stats.percentChange}% vs last month
+        </span>
+      </div>
+
+      <div class="stat-card">
+        <h3>Pending Review</h3>
+        <p class="stat-value">${stats.pending}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>In Progress</h3>
+        <p class="stat-value">${stats.inProgress}</p>
+      </div>
+    `;
+  } catch (err) {
+    console.error("Stats error:", err);
+  }
+}
+
+/* =========================================================
+   LOAD REPORTS (WITH CATEGORY FILTER)
+========================================================= */
+let currentCategory = "All";
+
+const categoryMap = {
+  "All": null,
+  "Missed PickUp": "missed",
+  "Trashed": "blocked",
+  "Overflowing Bin": "overflowing",
+  "Illegal Dumping": "illegal"
+};
+
+async function loadReports(category = "All") {
+  try {
+    let backendCategory = categoryMap[category] || null;
+    let url = `${API}/allReports?page=1&limit=20`;
+    if (backendCategory) url += `&category=${backendCategory}`;
+
+    const res = await fetch(url, { headers: authHeaders() });
+    if (!res.ok) {
+      console.error("Failed to fetch reports:", res.status);
+      return;
+    }
+
+    const data = await res.json();
+    let reportsArray = [];
+
+    if (Array.isArray(data.reports)) {
+      reportsArray = data.reports;
+    } else if (data.reports && Array.isArray(data.reports.reports)) {
+      reportsArray = data.reports.reports;
+    }
+
+    renderReports(reportsArray);
+  } catch (err) {
+    console.error("Failed to load reports", err);
+  }
+}
+
+/* =========================================================
+   RENDER REPORT TABLE
+========================================================= */
+function renderReports(reports) {
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+
+  if (!Array.isArray(reports) || reports.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align:center;">
+          No reports found
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  reports.forEach(report => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${report.trackingId || "-"}</td>
+      <td>${report.category || "-"}</td>
+      <td>${report.lga || "-"}, ${report.state || "-"}</td>
       <td>
-        <span class="badge ${badgeClass(r.typeKey)}">
-          <span class="badge__dot" style="background:rgba(0,0,0,.15)"></span>
-          ${r.type}
+        <span class="status ${(report.status || "").toLowerCase()}">
+          ${report.status || "-"}
         </span>
       </td>
-      <td style="color:#4b5563;font-weight:700;">${r.loc}</td>
-      <td><span class="pill ${pillClass(r.status)}">${r.status}</span></td>
-      <td style="color:#111827;font-weight:800;">${r.date}</td>
-    </tr>
-  `,
-    )
-    .join("");
-}
-renderTable(rows);
-
-/* ---------- Dropdown filter (Type All) ---------- */
-const typeBtn = $("#typeBtn");
-const typeDrop = $("#typeDrop");
-let selectedType = "All";
-
-function openDrop() {
-  typeDrop.hidden = false;
-  typeBtn.setAttribute("aria-expanded", "true");
-}
-function closeDrop() {
-  typeDrop.hidden = true;
-  typeBtn.setAttribute("aria-expanded", "false");
+      <td>
+        <button class="btn-view"
+          onclick="viewReport('${report.trackingId}')">
+          View
+        </button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-typeBtn?.addEventListener("click", () => {
-  typeDrop.hidden ? openDrop() : closeDrop();
+/* =========================================================
+   VIEW REPORT
+========================================================= */
+function viewReport(trackingId) {
+  window.location.href = `../../worker/task/index.html?trackingId=${trackingId}`;
+}
+
+/* =========================================================
+   CATEGORY FILTER DROPDOWN
+========================================================= */
+const typeBtn = document.getElementById("typeBtn");
+const typeDrop = document.getElementById("typeDrop");
+
+typeBtn.addEventListener("click", () => {
+  typeDrop.hidden = !typeDrop.hidden;
 });
 
-document.addEventListener("click", (e) => {
-  if (e.target.closest("#typeBtn") || e.target.closest("#typeDrop")) return;
-  closeDrop();
-});
+document.querySelectorAll(".drop-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const selectedLabel = item.dataset.type;
+    const backendCategory = categoryMap[selectedLabel] || "All";
 
-$$(".drop-item").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    selectedType = btn.dataset.type;
-    typeBtn.childNodes[0].textContent = `Type ${selectedType} `;
-    closeDrop();
+    typeBtn.innerHTML = `Type ${selectedLabel} <span class="caret">▾</span>`;
+    typeDrop.hidden = true;
 
-    if (selectedType === "All") return renderTable(rows);
-    renderTable(rows.filter((r) => r.type === selectedType));
+    currentCategory = selectedLabel;
+    loadReports(selectedLabel);
   });
 });
 
-/* ---------- Monthly bars ---------- */
-const monthBars = $("#monthBars");
-const vals = [28, 45, 62, 44, 35, 48, 52, 86, 70, 56, 40, 66]; // approx visual
-const max = Math.max(...vals);
+/* =========================================================
+   SIDEBAR TOGGLE (MOBILE)
+========================================================= */
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-monthBars.innerHTML = vals
-  .map((v, idx) => {
-    const h = Math.max(14, Math.round((v / max) * 100));
-    const cls =
-      idx === 7
-        ? "bar is-dark"
-        : v > 70
-          ? "bar is-strong"
-          : v > 50
-            ? "bar is-mid"
-            : "bar";
-    return `<div class="${cls}" style="height:${h}%"></div>`;
-  })
-  .join("");
+menuBtn?.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  overlay.hidden = !overlay.hidden;
+});
 
-/* ---------- Donut chart ---------- */
-const donutData = [
-  { label: "Organic", pct: 32, color: "#00c853" },
-  { label: "Recyclable", pct: 24, color: "#98fca5" },
-  { label: "Waste", pct: 21, color: "#0b3d16" },
-  { label: "Non", pct: 18, color: "#ff4d4d" },
-  { label: "Inorganic", pct: 15, color: "#b45309" },
-  { label: "Others", pct: 11, color: "#6b7280" },
-];
+overlay?.addEventListener("click", () => {
+  sidebar.classList.remove("open");
+  overlay.hidden = true;
+});
 
-const r = 44;
-const C = 2 * Math.PI * r;
-let offset = 0;
-
-$("#donutSegments").innerHTML = donutData
-  .map((d) => {
-    const dash = (d.pct / 100) * C;
-    const seg = `
-    <circle
-      cx="60" cy="60" r="${r}"
-      fill="none"
-      stroke="${d.color}"
-      stroke-width="14"
-      stroke-linecap="butt"
-      stroke-dasharray="${dash} ${C - dash}"
-      stroke-dashoffset="${-offset}"
-    ></circle>
-  `;
-    offset += dash;
-    return seg;
-  })
-  .join("");
-
-$("#legendList").innerHTML = donutData
-  .map(
-    (d) => `
-  <div class="leg">
-    <span class="dot" style="background:${d.color}"></span>
-    <span>${d.label}</span>
-    <span style="color:#111827;font-weight:900;">${d.pct}%</span>
-  </div>
-`,
-  )
-  .join("");
+/* =========================================================
+   PAGE INIT
+========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  loadUserProfile();
+  loadStats();
+  loadReports();
+});
