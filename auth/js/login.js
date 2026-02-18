@@ -45,7 +45,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 	    		localStorage.setItem("onboardingStep", data.onboardingStep);
 
 	    		if (data.onboardingStep === "VERIFIED") {
-	      			window.location.href = "select-role.html";
+	      			window.location.href = "role-select.html";
 	    		}
 	    		else if (data.onboardingStep === "ROLE_SELECTED" && data.role === "resident") {
 	      			window.location.href = "profile-resident.html";
