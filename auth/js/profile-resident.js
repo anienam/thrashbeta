@@ -70,8 +70,9 @@ residentProfileForm.addEventListener("submit", async (e) => {
       return;
     }
 
+
     try {
-    	const res = await fetch(`${API}/auth/profile`, {
+    	const res = await fetch(`${API}/auth/profile/profile`, {
     		method: 'PUT',
     		headers: { 
     			"Content-Type": "application/json",
