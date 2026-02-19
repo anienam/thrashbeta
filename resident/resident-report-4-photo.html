@@ -319,11 +319,13 @@
               <h3>Drag and drop photos here or click to browse</h3>
 
               <div class="dropzone__actions">
+                <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden />
                 <button type="button" class="btn-soft" id="takePhotoBtn">
                   <span aria-hidden="true">📷</span>
                   Take Photo
                 </button>
 
+                <input id="galleryInput" type="file" accept="image/*" multiple hidden />
                 <button type="button" class="btn-solid" id="chooseGalleryBtn">
                   <span aria-hidden="true">🖼️</span>
                   Choose from Gallery

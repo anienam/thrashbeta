@@ -8,6 +8,7 @@
   const calendarViewBtn = $("#calendarViewBtn");
   const listViewBtn = $("#listViewBtn");
   const calendarWrap = $("#calendarWrap");
+
   const listWrap = $("#listWrap");
   const listBody = $("#listBody");
 
@@ -16,6 +17,22 @@
 
   const monthLabel = $("#monthLabel");
   const calendarGrid = $("#calendarGrid");
+
+  calendarGrid.addEventListener("click", (e) => {
+    const cell = e.target.closest(".cell");
+    if (!cell || !cell.dataset.date) return;
+
+    // remove old selection
+    calendarGrid.querySelectorAll(".cell.is-selected").forEach((c) => {
+      c.classList.remove("is-selected");
+    });
+
+    // add new selection
+    cell.classList.add("is-selected");
+
+    console.log("Selected date:", cell.dataset.date);
+  });
+
   const prevMonth = $("#prevMonth");
   const nextMonth = $("#nextMonth");
   const prevMini = $("#prevMini");
@@ -147,6 +164,7 @@
 
       const cell = document.createElement("div");
       cell.className = "cell" + (isOut ? " is-out" : "");
+      cell.dataset.date = ymd(d);
 
       const num = document.createElement("div");
       num.className = "day-num";
@@ -184,6 +202,7 @@
 
       const cell = document.createElement("div");
       cell.className = "cell";
+      cell.dataset.date = ymd(day);
 
       const num = document.createElement("div");
       num.className = "day-num";

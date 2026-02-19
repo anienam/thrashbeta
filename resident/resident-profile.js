@@ -1,8 +1,8 @@
 //resident-profile.js
 
-//const API = 'http://localhost:5000/api/v1';   // Development 
+//const API = 'http://localhost:5000/api/v1';   // Development
 
-const API = 'https://trashbeta.onrender.com/api/v1'    //Production
+const API = "https://trashbeta.onrender.com/api/v1"; //Production
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
@@ -18,10 +18,9 @@ function clearUserSession() {
   localStorage.removeItem("onboardingStep");
 }
 
-
 if (token) {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     const expiryTime = payload.exp * 1000 - Date.now();
 
     // If expired already
@@ -44,11 +43,9 @@ if (token) {
   }
 } else {
   alert("Kindly login");
-    clearUserSession();
-    window.location.href = "../auth/login.html";
+  clearUserSession();
+  window.location.href = "../auth/login.html";
 }
-
-
 
 // DOM elements
 const displayName = document.getElementById("displayName");
@@ -91,7 +88,6 @@ async function loadProfile() {
     const avatarUrl = user.avatar || "/assets/images/Avatar profile photo5.png";
     profileAvatar.src = avatarUrl;
     topAvatar.src = avatarUrl;
-
   } catch (err) {
     console.error("Error loading profile:", err);
   }
@@ -144,17 +140,11 @@ profileForm.addEventListener("submit", async (e) => {
 // Cancel button reloads profile
 cancelBtn.addEventListener("click", loadProfile);
 
-
-
 (() => {
   const $ = (q) => document.querySelector(q);
 
   const tabs = document.querySelectorAll(".tab-pill");
   const panels = document.querySelectorAll(".panel");
-
-
-
-  
 
   // Tabs
   tabs.forEach((btn) => {
@@ -168,8 +158,210 @@ cancelBtn.addEventListener("click", loadProfile);
       );
     });
   });
-
-
-
-  
 })();
+
+// ===== Notification Settings (match screenshot) =====
+const NOTIFY_KEY = "resident_profile_notifications";
+
+const notifyEmail = document.getElementById("notifyEmail");
+const notifySMS = document.getElementById("notifySMS");
+const notifyReportUpdates = document.getElementById("notifyReportUpdates");
+const notifyPickupReminders = document.getElementById("notifyPickupReminders");
+const notifyCommunityNews = document.getElementById("notifyCommunityNews");
+
+const notifyCancelBtn = document.getElementById("notifyCancelBtn");
+const notifySaveBtn = document.getElementById("notifySaveBtn");
+const notifyMsg = document.getElementById("notifyMsg");
+
+function getNotifySettings() {
+  try {
+    return (
+      JSON.parse(localStorage.getItem(NOTIFY_KEY)) || {
+        email: true,
+        sms: false,
+        reportUpdates: true,
+        pickupReminders: false,
+        communityNews: true,
+      }
+    );
+  } catch {
+    return {
+      email: true,
+      sms: false,
+      reportUpdates: true,
+      pickupReminders: false,
+      communityNews: true,
+    };
+  }
+}
+
+function setNotifyUI(s) {
+  if (!notifyEmail) return;
+  notifyEmail.checked = !!s.email;
+  notifySMS.checked = !!s.sms;
+  notifyReportUpdates.checked = !!s.reportUpdates;
+  notifyPickupReminders.checked = !!s.pickupReminders;
+  notifyCommunityNews.checked = !!s.communityNews;
+}
+
+function saveNotifySettings(s) {
+  localStorage.setItem(NOTIFY_KEY, JSON.stringify(s));
+}
+
+function toastNotify(text, ok = true) {
+  if (!notifyMsg) return;
+  notifyMsg.style.color = ok ? "#2f7d32" : "#b91c1c";
+  notifyMsg.textContent = text;
+  setTimeout(() => (notifyMsg.textContent = ""), 2200);
+}
+
+if (notifySaveBtn) {
+  // init UI
+  setNotifyUI(getNotifySettings());
+
+  notifySaveBtn.addEventListener("click", () => {
+    const next = {
+      email: notifyEmail.checked,
+      sms: notifySMS.checked,
+      reportUpdates: notifyReportUpdates.checked,
+      pickupReminders: notifyPickupReminders.checked,
+      communityNews: notifyCommunityNews.checked,
+    };
+    saveNotifySettings(next);
+    toastNotify("Preferences saved.");
+  });
+
+  notifyCancelBtn.addEventListener("click", () => {
+    setNotifyUI(getNotifySettings());
+    if (notifyMsg) notifyMsg.textContent = "";
+  });
+}
+
+// ===== Account Actions (match screenshot) =====
+const accountMsg = document.getElementById("accountMsg");
+const downloadDataBtn = document.getElementById("downloadDataBtn");
+const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+// modal
+const confirmModal = document.getElementById("confirmModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalDesc = document.getElementById("modalDesc");
+const modalCancel = document.getElementById("modalCancel");
+const modalConfirm = document.getElementById("modalConfirm");
+
+let pendingAction = null;
+
+function toastAccount(text, ok = true) {
+  if (!accountMsg) return;
+  accountMsg.style.color = ok ? "#2f7d32" : "#b91c1c";
+  accountMsg.textContent = text;
+  setTimeout(() => (accountMsg.textContent = ""), 2500);
+}
+
+function openModal(title, desc, actionFn) {
+  if (!confirmModal) return;
+  modalTitle.textContent = title;
+  modalDesc.textContent = desc;
+  pendingAction = actionFn;
+  confirmModal.hidden = false;
+}
+
+function closeModal() {
+  if (!confirmModal) return;
+  confirmModal.hidden = true;
+  pendingAction = null;
+}
+
+if (modalCancel) modalCancel.addEventListener("click", closeModal);
+if (confirmModal) {
+  confirmModal.addEventListener("click", (e) => {
+    if (e.target === confirmModal) closeModal();
+  });
+}
+if (modalConfirm) {
+  modalConfirm.addEventListener("click", () => {
+    if (typeof pendingAction === "function") pendingAction();
+    closeModal();
+  });
+}
+
+// Download my data
+if (downloadDataBtn) {
+  downloadDataBtn.addEventListener("click", () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      profile: (() => {
+        try {
+          return JSON.parse(localStorage.getItem("resident_profile")) || {};
+        } catch {
+          return {};
+        }
+      })(),
+      notifications: (() => {
+        try {
+          return (
+            JSON.parse(
+              localStorage.getItem("resident_profile_notifications"),
+            ) || {}
+          );
+        } catch {
+          return {};
+        }
+      })(),
+      reports: (() => {
+        // only if you stored reports; otherwise empty
+        try {
+          return JSON.parse(localStorage.getItem("resident_reports")) || [];
+        } catch {
+          return [];
+        }
+      })(),
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "trashbeta-my-data.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+    toastAccount("Your data download is ready.");
+  });
+}
+
+// Delete account
+if (deleteAccountBtn) {
+  deleteAccountBtn.addEventListener("click", () => {
+    openModal(
+      "Delete Account",
+      "This will permanently remove your profile and saved data on this device. Continue?",
+      () => {
+        localStorage.removeItem("resident_profile");
+        localStorage.removeItem("resident_profile_notifications");
+        localStorage.removeItem("resident_reports");
+        toastAccount("Account deleted (demo).", false);
+
+        // Optional redirect:
+        // window.location.href = "login.html";
+      },
+    );
+  });
+}
+
+// Logout
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    openModal("Logout", "Are you sure you want to logout?", () => {
+      toastAccount("Logged out (demo).");
+      // Optional redirect:
+      // window.location.href = "login.html";
+    });
+  });
+}

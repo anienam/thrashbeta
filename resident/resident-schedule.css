@@ -328,3 +328,9 @@
     justify-content: center;
   }
 }
+
+.cell.is-selected {
+  outline: 2px solid rgba(47, 125, 50, 0.35);
+  background: rgba(47, 125, 50, 0.06);
+  border-radius: 10px;
+}

@@ -224,8 +224,6 @@
       </aside>
 
       <div class="main">
-
-
         <!-- TOPBAR -->
         <header class="topbar">
           <button
@@ -255,7 +253,6 @@
         </header>
 
         <main class="content profile-page">
-
           <!-- PROFILE HEADER CARD -->
           <section class="card profile-head">
             <div class="head-left">
@@ -287,8 +284,6 @@
             </div>
           </section>
 
-
-
           <!-- TABS -->
           <section class="tabs-row" role="tablist" aria-label="Profile tabs">
             <button
@@ -306,74 +301,78 @@
             </button>
           </section>
 
-
           <!-- PANELS -->
 
-          <section> 
-          <section class="panel is-active" data-panel="personal">
-            <h3 class="section-title">Personal Information</h3>
+          <section>
+            <section class="panel is-active" data-panel="personal">
+              <h3 class="section-title">Personal Information</h3>
 
-            <section class="card form-card">
-              <form id="profileForm">
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="fullName">Full Name</label>
-                    <input
-                      id="fullName"
-                      type="text"
-                      placeholder="Your full name"
-                    />
+              <section class="card form-card">
+                <form id="profileForm">
+                  <div class="form-grid">
+                    <div class="field">
+                      <label for="fullName">Full Name</label>
+                      <input
+                        id="fullName"
+                        type="text"
+                        placeholder="Your full name"
+                      />
+                    </div>
+
+                    <div class="field">
+                      <label for="email">Email Address</label>
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="name@email.com"
+                      />
+                    </div>
+
+                    <div class="field">
+                      <label for="phone">Phone Number</label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        placeholder="080 1234 7835"
+                      />
+                    </div>
+
+                    <div class="field field--full">
+                      <label for="address">Home Address</label>
+                      <textarea
+                        id="address"
+                        rows="3"
+                        placeholder="Enter your street address, landmark....."
+                      ></textarea>
+                    </div>
+
+                    <div class="field field--full">
+                      <label for="lga">Preffered LGA</label>
+
+                      <input
+                        id="lga"
+                        type="lga"
+                        placeholder="Loca Govenment Area"
+                      />
+                    </div>
                   </div>
 
-                  <div class="field">
-                    <label for="email">Email Address</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="name@email.com"
-                    />
+                  <div class="form-actions">
+                    <button class="btn-ghost" id="cancelBtn" type="button">
+                      Cancel
+                    </button>
+                    <button class="btn-primary" id="saveBtn" type="submit">
+                      Save Changes
+                    </button>
                   </div>
 
-                  <div class="field">
-                    <label for="phone">Phone Number</label>
-                    <input id="phone" type="tel" placeholder="080 1234 7835" />
-                  </div>
-
-                  <div class="field field--full">
-                    <label for="address">Home Address</label>
-                    <textarea
-                      id="address"
-                      rows="3"
-                      placeholder="Enter your street address, landmark....."
-                    ></textarea>
-                  </div>
-
-                  <div class="field field--full">
-                    <label for="lga">Preffered LGA</label>
-                   
-
-                    <input id="lga" type="lga" placeholder="Loca Govenment Area" />
-                  </div>
-
-                  </div>
-                
-
-                <div class="form-actions">
-                  <button class="btn-ghost" id="cancelBtn" type="button">
-                    Cancel
-                  </button>
-                  <button class="btn-primary" id="saveBtn" type="submit">
-                    Save Changes
-                  </button>
-                </div>
-
-                <p class="save-msg" id="saveMsg" aria-live="polite"></p>
-              </form>
+                  <p class="save-msg" id="saveMsg" aria-live="polite"></p>
+                </form>
+              </section>
             </section>
-          </section>
 
-          <!-- Notifications panel (placeholder) -->
-          <section class="panel" data-panel="notifications">
+            <!-- Notifications panel (placeholder) -->
+            <!-- <section class="panel" data-panel="notifications">
             <h3 class="section-title">Notification Settings</h3>
 
             <section class="card placeholder">
@@ -383,34 +382,195 @@
               </p>
             </section>
 
-            <!--<div class="form-actions">
+            <div class="form-actions">
              <button class="btn-primary" id="saveNotificationBtn" type="button">
                Save Changes
              </button>
-           </div> -->
+           </div>
 
-          </section>
+          </section> -->
 
-          <!-- Account panel (placeholder) -->
-          <section class="panel" data-panel="account">
-            <h3 class="section-title">Account Action</h3>
+            <section class="panel" data-panel="notifications">
+              <h3 class="section-title">Notification Settings</h3>
 
-            <section class="card placeholder">
-              <p>
-                Account actions will be implemented here (Reset password,
-                Logout, Delete account).
-              </p>
+              <!-- Card 1 -->
+              <section class="card notify-card">
+                <div class="notify-card__head">Notification Channels</div>
+
+                <div class="notify-row">
+                  <div class="notify-left">
+                    <div class="notify-ico">✉</div>
+                    <div class="notify-text">
+                      <h4>Email Notifications</h4>
+                      <p>Receive updates via email</p>
+                    </div>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" id="notifyEmail" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="notify-divider"></div>
+
+                <div class="notify-row">
+                  <div class="notify-left">
+                    <div class="notify-ico">💬</div>
+                    <div class="notify-text">
+                      <h4>SMS Notifications</h4>
+                      <p>Receive updates via SMS</p>
+                    </div>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" id="notifySMS" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </section>
+
+              <!-- Card 2 -->
+              <section class="card notify-card">
+                <div class="notify-card__head">
+                  What do you want to be notified about?
+                </div>
+
+                <div class="notify-row">
+                  <div class="notify-left">
+                    <div class="notify-ico">✓</div>
+                    <div class="notify-text">
+                      <h4>Report Updates</h4>
+                      <p>Status changes on your reports</p>
+                    </div>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" id="notifyReportUpdates" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="notify-divider"></div>
+
+                <div class="notify-row">
+                  <div class="notify-left">
+                    <div class="notify-ico">✓</div>
+                    <div class="notify-text">
+                      <h4>Pickup Reminders</h4>
+                      <p>Upcoming waste collection schedules</p>
+                    </div>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" id="notifyPickupReminders" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+
+                <div class="notify-divider"></div>
+
+                <div class="notify-row">
+                  <div class="notify-left">
+                    <div class="notify-ico">✓</div>
+                    <div class="notify-text">
+                      <h4>Community News</h4>
+                      <p>Lastest Updates and initiatives</p>
+                    </div>
+                  </div>
+
+                  <label class="switch">
+                    <input type="checkbox" id="notifyCommunityNews" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </section>
+
+              <!-- Actions -->
+              <div class="form-actions notify-actions">
+                <button class="btn-ghost" id="notifyCancelBtn" type="button">
+                  Cancel
+                </button>
+                <button class="btn-primary" id="notifySaveBtn" type="button">
+                  Save Preferences
+                </button>
+              </div>
+
+              <p class="save-msg" id="notifyMsg" aria-live="polite"></p>
             </section>
 
-           <!-- <div class="form-actions">
+            <!-- Account panel (placeholder) -->
+            <!-- <section class="panel" data-panel="account">
+              <h3 class="section-title">Account Action</h3>
+
+              <section class="card placeholder">
+                <p>
+                  Account actions will be implemented here (Reset password,
+                  Logout, Delete account).
+                </p>
+              </section>
+
+              <div class="form-actions">
              <button class="btn-primary" id="saveAccountBtn" type="button">
                Save Changes
              </button>
-           </div> -->
+           </div>
+            </section> -->
 
-          </section>
+            <section class="panel" data-panel="account">
+              <section class="card account-card">
+                <div class="account-head">
+                  <h3>Account Actions</h3>
+                </div>
+                <div class="account-line"></div>
 
+                <button class="action-row" id="downloadDataBtn" type="button">
+                  <span class="action-left">
+                    <span class="action-icon">⭳</span>
+                    <span class="action-title">Download my Data</span>
+                  </span>
+                  <span class="action-right">›</span>
+                </button>
 
+                <button
+                  class="action-row action-row--danger"
+                  id="deleteAccountBtn"
+                  type="button"
+                >
+                  <span class="action-left">
+                    <span class="action-icon action-icon--danger">🗑</span>
+                    <span class="action-title action-title--danger"
+                      >Delete Account</span
+                    >
+                  </span>
+                  <span class="action-right action-right--danger">›</span>
+                </button>
+
+                <button class="logout-wide" id="logoutBtn" type="button">
+                  <span class="logout-ico">⎋</span>
+                  <span>Logout</span>
+                </button>
+
+                <p class="save-msg" id="accountMsg" aria-live="polite"></p>
+              </section>
+
+              <!-- Confirm modal (reusable) -->
+              <div class="modal" id="confirmModal" hidden>
+                <div class="modal-card">
+                  <h4 id="modalTitle">Confirm action</h4>
+                  <p id="modalDesc">Are you sure?</p>
+
+                  <div class="modal-actions">
+                    <button class="btn-ghost" id="modalCancel" type="button">
+                      Cancel
+                    </button>
+                    <button class="btn-primary" id="modalConfirm" type="button">
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
           </section>
         </main>
       </div>

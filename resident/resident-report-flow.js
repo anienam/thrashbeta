@@ -1,7 +1,7 @@
 //resident-report-flow.js
 
 //const API = 'http://localhost:5000/api/v1';   // Development
-const API = 'https://trashbeta.onrender.com/api/v1'    // Production
+const API = "https://trashbeta.onrender.com/api/v1"; // Production
 
 function getCurrentStep() {
   return document.body?.dataset?.step;
@@ -26,7 +26,7 @@ function clearUserSession() {
 
 if (token) {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     const expiryTime = payload.exp * 1000 - Date.now();
 
     if (expiryTime <= 0) {
@@ -35,13 +35,15 @@ if (token) {
       window.location.href = "../auth/login.html";
     } else {
       const MAX_TIMEOUT = 2147483647;
-      setTimeout(() => {
-        alert("Your session has expired. Please log in again.");
-        clearUserSession();
-        window.location.href = "../auth/login.html";
-      }, Math.min(expiryTime, MAX_TIMEOUT));
+      setTimeout(
+        () => {
+          alert("Your session has expired. Please log in again.");
+          clearUserSession();
+          window.location.href = "../auth/login.html";
+        },
+        Math.min(expiryTime, MAX_TIMEOUT),
+      );
     }
-
   } catch {
     alert("Invalid session. Please log in again.");
     clearUserSession();
@@ -78,7 +80,6 @@ function goTo(page) {
 ===================== */
 
 function wizardPageGuard() {
-
   const CURRENT_STEP = getCurrentStep();
   const draft = getDraft();
 
@@ -88,14 +89,14 @@ function wizardPageGuard() {
     2: ["category"],
     3: ["category", "state"],
     4: ["category", "state", "description"],
-    5: ["category", "state", "description"]
+    5: ["category", "state", "description"],
   };
 
   const requiredFields = stepRequirements[CURRENT_STEP];
 
   if (!requiredFields) return;
 
-  const isValid = requiredFields.every(field => draft[field]);
+  const isValid = requiredFields.every((field) => draft[field]);
 
   if (!isValid) {
     sessionStorage.removeItem(STORAGE_KEY);
@@ -105,7 +106,7 @@ function wizardPageGuard() {
 
 wizardPageGuard();
 
-window.addEventListener("pageshow", event => {
+window.addEventListener("pageshow", (event) => {
   if (event.persisted) wizardPageGuard();
 });
 
@@ -118,16 +119,16 @@ const CATEGORY_MAP = {
   "overflowing-bin": "overflowing",
   "blocked-drainage": "blocked",
   "uncollected-waste": "missed",
-  "general": "general",
-  "burning": "burning",
-  "uncategorized": "uncategorized",
-  "others": "other"
+  general: "general",
+  burning: "burning",
+  uncategorized: "uncategorized",
+  others: "other",
 };
 
 const wasteTypeForm = document.getElementById("wasteTypeForm");
 
 if (wasteTypeForm) {
-  wasteTypeForm.addEventListener("submit", e => {
+  wasteTypeForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const uiCategory = document.getElementById("wasteType").value;
@@ -145,13 +146,13 @@ if (wasteTypeForm) {
 const locationForm = document.getElementById("locationForm");
 
 if (locationForm) {
-  locationForm.addEventListener("submit", e => {
+  locationForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     saveDraft({
       state: document.getElementById("state").value,
       lga: document.getElementById("lga").value,
-      address: document.getElementById("address").value
+      address: document.getElementById("address").value,
     });
 
     goTo("resident-report-3-description.html");
@@ -165,11 +166,11 @@ if (locationForm) {
 const descriptionForm = document.getElementById("descriptionForm");
 
 if (descriptionForm) {
-  descriptionForm.addEventListener("submit", e => {
+  descriptionForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     saveDraft({
-      description: document.getElementById("issueDescription").value
+      description: document.getElementById("issueDescription").value,
     });
 
     goTo("resident-report-4-photo.html");
@@ -183,7 +184,6 @@ if (descriptionForm) {
 const photoForm = document.getElementById("photoForm");
 
 if (photoForm) {
-
   const input = document.getElementById("photoInput");
   const preview = document.getElementById("uploadsGrid");
   const addMoreBtn = document.getElementById("addMoreBtn");
@@ -201,7 +201,6 @@ if (photoForm) {
   });
 
   async function handleFiles(files) {
-
     const MAX_IMAGES = 5;
 
     if (selectedImages.length + files.length > MAX_IMAGES) {
@@ -210,7 +209,6 @@ if (photoForm) {
     }
 
     for (const file of files) {
-
       if (!file.type.startsWith("image/")) continue;
 
       if (file.size > 5 * 1024 * 1024) {
@@ -223,7 +221,7 @@ if (photoForm) {
       selectedImages.push({
         name: file.name,
         type: file.type,
-        data: base64
+        data: base64,
       });
     }
 
@@ -232,11 +230,9 @@ if (photoForm) {
   }
 
   function renderImages() {
-
     preview.innerHTML = "";
 
     selectedImages.forEach((imgObj, index) => {
-
       const card = document.createElement("div");
       card.className = "upload-card";
 
@@ -260,13 +256,11 @@ if (photoForm) {
       replaceBtn.textContent = "Replace";
 
       replaceBtn.onclick = () => {
-
         const tempInput = document.createElement("input");
         tempInput.type = "file";
         tempInput.accept = "image/*";
 
         tempInput.onchange = async () => {
-
           const file = tempInput.files[0];
           if (!file) return;
 
@@ -280,7 +274,7 @@ if (photoForm) {
           selectedImages[index] = {
             name: file.name,
             type: file.type,
-            data: base64
+            data: base64,
           };
 
           saveDraft({ images: selectedImages });
@@ -298,24 +292,85 @@ if (photoForm) {
   }
 
   function fileToBase64(file) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
       reader.readAsDataURL(file);
     });
   }
 
-  photoForm.addEventListener("submit", e => {
+  photoForm.addEventListener("submit", (e) => {
     e.preventDefault();
     goTo("resident-report-5-contact.html");
   });
 }
 
+const takePhotoBtn = document.getElementById("takePhotoBtn");
+const chooseGalleryBtn = document.getElementById("chooseGalleryBtn");
+const addMoreBtn = document.getElementById("addMoreBtn");
+
+const cameraInput = document.getElementById("cameraInput");
+const galleryInput = document.getElementById("galleryInput");
+const uploadsGrid = document.getElementById("uploadsGrid");
+
+// OPEN CAMERA
+takePhotoBtn.addEventListener("click", () => {
+  cameraInput.click();
+});
+
+// OPEN GALLERY
+chooseGalleryBtn.addEventListener("click", () => {
+  galleryInput.click();
+});
+
+// ADD MORE → OPEN GALLERY
+addMoreBtn.addEventListener("click", () => {
+  galleryInput.click();
+});
+
+// HANDLE FILES
+function handleFiles(files) {
+  const fileArray = Array.from(files);
+
+  fileArray.forEach((file) => {
+    if (!file.type.startsWith("image/")) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const card = document.createElement("div");
+      card.className = "upload-card";
+
+      card.innerHTML = `
+        <img src="${e.target.result}" alt="Uploaded photo" />
+        <button class="remove-btn">✕</button>
+      `;
+
+      uploadsGrid.insertBefore(card, addMoreBtn);
+
+      // remove image
+      card.querySelector(".remove-btn").addEventListener("click", () => {
+        card.remove();
+      });
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+// LISTEN FOR FILE SELECTION
+cameraInput.addEventListener("change", (e) => {
+  handleFiles(e.target.files);
+  e.target.value = "";
+});
+
+galleryInput.addEventListener("change", (e) => {
+  handleFiles(e.target.files);
+  e.target.value = "";
+});
+
 /* =====================
    STEP 5 (CONTACT + SUBMIT)
 ===================== */
-
-
 
 /* =====================
    STEP 5 (CONTACT + SUBMIT)
@@ -325,7 +380,6 @@ const contactForm = document.getElementById("contactForm");
 let selectedPreference = "BOTH"; // default matches UI
 
 if (contactForm) {
-
   // ===== Prefill user data =====
   const firstName = localStorage.getItem("firstName") || "";
   const lastName = localStorage.getItem("lastName") || "";
@@ -342,11 +396,10 @@ if (contactForm) {
   // ===== NOTIFICATION PREFERENCE (FIXED LOCATION) =====
   const updateCards = document.querySelectorAll(".update-card");
 
-  updateCards.forEach(card => {
+  updateCards.forEach((card) => {
     card.addEventListener("click", () => {
-
       // Remove selection from all
-      updateCards.forEach(c => {
+      updateCards.forEach((c) => {
         c.classList.remove("is-selected");
         c.setAttribute("aria-checked", "false");
       });
@@ -364,14 +417,12 @@ if (contactForm) {
   });
 
   // ===== FORM SUBMIT =====
-  contactForm.addEventListener("submit", async e => {
-
+  contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const draft = getDraft();
 
     try {
-
       const formData = new FormData();
 
       formData.append("category", draft.category);
@@ -381,7 +432,7 @@ if (contactForm) {
       formData.append("description", draft.description || "");
       formData.append("notificationPreference", selectedPreference);
 
-      (draft.images || []).forEach(img => {
+      (draft.images || []).forEach((img) => {
         const file = base64ToFile(img.data, img.name, img.type);
         formData.append("images", file);
       });
@@ -389,7 +440,7 @@ if (contactForm) {
       const res = await fetch(`${API}/reports`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
-        body: formData
+        body: formData,
       });
 
       const data = await res.json();
@@ -399,7 +450,6 @@ if (contactForm) {
       sessionStorage.setItem("trackingId", data.report.trackingId);
 
       window.location.replace("resident-report-success.html");
-
     } catch (err) {
       alert(err.message);
     }
@@ -408,8 +458,7 @@ if (contactForm) {
 
 // ===== Helper =====
 function base64ToFile(base64, name, type) {
-
-  const arr = base64.split(',');
+  const arr = base64.split(",");
   const mime = arr[0].match(/:(.*?);/)[1];
   const bstr = atob(arr[1]);
 
@@ -423,9 +472,6 @@ function base64ToFile(base64, name, type) {
   return new File([u8arr], name, { type: mime });
 }
 
-
-
-
 /* =====================
    SUCCESS PAGE TRACKING
 ===================== */
@@ -433,7 +479,6 @@ function base64ToFile(base64, name, type) {
 const trackingEl = document.getElementById("trackingId");
 
 if (trackingEl) {
-
   const id = sessionStorage.getItem("trackingId");
 
   if (!id) {
