@@ -3,7 +3,7 @@
 
 
 //const API = "http://localhost:5000/api/v1"; 
- const API = "https://trashbeta.onrender.com/api/v1";
+const API = "https://trashbeta.onrender.com/api/v1";
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");

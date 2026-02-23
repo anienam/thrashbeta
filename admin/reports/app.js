@@ -1,5 +1,5 @@
 //const API = "http://localhost:5000/api/v1"; 
- const API = "https://trashbeta.onrender.com/api/v1";
+const API = "https://trashbeta.onrender.com/api/v1";
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
@@ -103,6 +103,11 @@ async function loadStats() {
       <div class="stat-card">
         <h3>In Progress</h3>
         <p class="stat-value">${stats.inProgress}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Resolution Rate</h3>
+        <p class="stat-value">94.2%</p>
       </div>
     `;
   } catch (err) {
@@ -237,6 +242,200 @@ overlay?.addEventListener("click", () => {
   overlay.hidden = true;
 });
 
+
+
+
+
+
+
+
+
+
+
+// =============================
+// DONUT CHART (Dynamic from Reports)
+// =============================
+async function loadDonutChart() {
+  try {
+    const res = await fetch(`${API}/allReports?limit=1000&_=${Date.now()}`, {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch reports");
+
+    const data = await res.json();
+
+    const reports = Array.isArray(data.reports)
+      ? data.reports
+      : Array.isArray(data.reports?.reports)
+      ? data.reports.reports
+      : [];
+
+    const totalReports = reports.length;
+
+    // ✅ Update center total
+    document.getElementById("donutTotal").textContent = totalReports;
+
+    if (totalReports === 0) return;
+
+    // Count categories
+    const categoryCount = {};
+
+    reports.forEach((report) => {
+      const category = report.category || "other";
+      categoryCount[category] = (categoryCount[category] || 0) + 1;
+    });
+
+    // Convert to percentage array
+    const colors = {
+      illegal: "#ef4444",
+      overflowing: "#f97316",
+      blocked: "#eab308",
+      missed: "#3b82f6",
+      general: "#10b981",
+      burning: "#8b5cf6",
+      uncategorized: "#6b7280",
+      other: "#111827",
+    };
+
+    const donutData = Object.keys(categoryCount).map((cat) => {
+      const pct = ((categoryCount[cat] / totalReports) * 100).toFixed(1);
+      return {
+        label: cat,
+        pct: parseFloat(pct),
+        color: colors[cat] || "#9ca3af",
+      };
+    });
+
+    renderDonut(donutData);
+
+  } catch (err) {
+    console.error("Donut load error:", err);
+  }
+}
+
+
+
+
+
+// =============================
+// DONUT CHART (Dynamic from Reports)
+// =============================
+function renderDonut(donutData) {
+  const r = 44;
+  const C = 2 * Math.PI * r;
+  let offset = 0;
+
+  const segmentsG = document.getElementById("donutSegments");
+  segmentsG.innerHTML = "";
+
+  donutData.forEach((d) => {
+    const dash = (d.pct / 100) * C;
+
+    const circle = `
+      <circle
+        cx="60" cy="60" r="${r}"
+        fill="none"
+        stroke="${d.color}"
+        stroke-width="14"
+        stroke-linecap="butt"
+        stroke-dasharray="${dash} ${C - dash}"
+        stroke-dashoffset="${-offset}"
+      ></circle>
+    `;
+
+    segmentsG.innerHTML += circle;
+    offset += dash;
+  });
+
+  // Legend
+  const legendList = document.getElementById("legendList");
+  legendList.innerHTML = donutData
+    .map(
+      (d) => `
+        <div class="leg">
+          <span class="dot" style="background:${d.color}"></span>
+          <span>${d.label}</span>
+          <span style="color:#111827;font-weight:900;">${d.pct}%</span>
+        </div>
+      `
+    )
+    .join("");
+}
+
+
+
+
+/************************************************************
+   MONTHLY BAR CHART (Dynamic from Reports)
+*************************************************************/
+async function loadMonthlyChart() {
+  try {
+    const res = await fetch(`${API}/allReports?limit=1000&_=${Date.now()}`, {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch reports");
+
+    const data = await res.json();
+
+    const reports = Array.isArray(data.reports)
+      ? data.reports
+      : Array.isArray(data.reports?.reports)
+      ? data.reports.reports
+      : [];
+
+    // Create 12-month array initialized to 0
+    const monthlyCounts = new Array(12).fill(0);
+
+    reports.forEach(report => {
+      if (!report.createdAt) return;
+
+      const date = new Date(report.createdAt);
+      const month = date.getMonth(); // 0 = Jan, 11 = Dec
+      monthlyCounts[month]++;
+    });
+
+    renderMonthlyBars(monthlyCounts);
+
+  } catch (err) {
+    console.error("Monthly chart error:", err);
+  }
+}
+
+
+function renderMonthlyBars(monthlyCounts) {
+  const container = document.getElementById("monthBars");
+  container.innerHTML = "";
+
+  const maxValue = Math.max(...monthlyCounts, 1); // prevent divide by 0
+
+  monthlyCounts.forEach((count, index) => {
+    const heightPercent = (count / maxValue) * 100;
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.height = `${heightPercent}%`;
+    bar.title = `${count} reports`;
+
+    // Highlight current month
+    const currentMonth = new Date().getMonth();
+    if (index === currentMonth) {
+      bar.classList.add("bar--active");
+    }
+
+    container.appendChild(bar);
+  });
+}
+
+
+
+
+
+
+
 /* =========================================================
    PAGE INIT
 ========================================================= */
@@ -244,4 +443,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadUserProfile();
   loadStats();
   loadReports();
+  loadDonutChart();
+  loadMonthlyChart();
 });

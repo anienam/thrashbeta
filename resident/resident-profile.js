@@ -64,6 +64,9 @@ const photoInput = document.getElementById("photoInput");
 const changePhotoBtn = document.getElementById("changePhotoBtn");
 const saveMsg = document.getElementById("saveMsg");
 const cancelBtn = document.getElementById("cancelBtn");
+const sidebarName = document.getElementById("sidebarName");
+const sidebarEmail = document.getElementById("sidebarEmail");
+const sidebarAvatar = document.getElementById("sidebarAvatar");
 
 let selectedPhoto = null;
 
@@ -81,13 +84,22 @@ async function loadProfile() {
     addressInput.value = user.address || "";
     lgaInput.value = user.cityLGA || "";
 
-    displayName.textContent = `${user.firstName || ""} ${user.lastName || ""}`;
+
+    const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+
+    displayName.textContent = fullName;
     displayEmail.textContent = user.email;
+
+    // Update sidebar
+    sidebarName.textContent = fullName;
+    sidebarEmail.textContent = user.email;
+
     memberSince.textContent = `Member since ${new Date(user.createdAt).toLocaleDateString()}`;
 
     const avatarUrl = user.avatar || "/assets/images/Avatar profile photo5.png";
     profileAvatar.src = avatarUrl;
     topAvatar.src = avatarUrl;
+    if (sidebarAvatar) sidebarAvatar.src = avatarUrl;
   } catch (err) {
     console.error("Error loading profile:", err);
   }
@@ -365,3 +377,4 @@ if (logoutBtn) {
     });
   });
 }
+

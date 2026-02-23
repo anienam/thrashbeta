@@ -2,7 +2,7 @@
 
 
 //const API = "http://localhost:5000/api/v1"; 
- const API = "https://trashbeta.onrender.com/api/v1";
+const API = "https://trashbeta.onrender.com/api/v1";
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
@@ -128,6 +128,11 @@ function renderStats(totalReports, resolvedPercent, staffCount) {
       <h3>Active Fleet</h3>
       <p>${staffCount}</p>
     </div>
+
+    <div class="stat-card">
+      <h3>Response Time Av</h3>
+      <p>15</p>
+    </div>
   `;
 }
 
@@ -244,6 +249,131 @@ function viewReport(trackingId) {
   window.location.href = `../../worker/task/index.html?trackingId=${trackingId}`;
 }
 
+
+
+
+
+
+// =============================
+// DONUT CHART (Dynamic from Reports)
+// =============================
+async function loadDonutChart() {
+  try {
+    const res = await fetch(`${API}/allReports?limit=1000&_=${Date.now()}`, {
+      headers: getAuthHeaders(),
+      cache: "no-store",
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch reports");
+
+    const data = await res.json();
+
+    const reports = Array.isArray(data.reports)
+      ? data.reports
+      : Array.isArray(data.reports?.reports)
+      ? data.reports.reports
+      : [];
+
+    const totalReports = reports.length;
+
+    // ✅ Update center total
+    document.getElementById("donutTotal").textContent = totalReports;
+
+    if (totalReports === 0) return;
+
+    // Count categories
+    const categoryCount = {};
+
+    reports.forEach((report) => {
+      const category = report.category || "other";
+      categoryCount[category] = (categoryCount[category] || 0) + 1;
+    });
+
+    // Convert to percentage array
+    const colors = {
+      illegal: "#ef4444",
+      overflowing: "#f97316",
+      blocked: "#eab308",
+      missed: "#3b82f6",
+      general: "#10b981",
+      burning: "#8b5cf6",
+      uncategorized: "#6b7280",
+      other: "#111827",
+    };
+
+    const donutData = Object.keys(categoryCount).map((cat) => {
+      const pct = ((categoryCount[cat] / totalReports) * 100).toFixed(1);
+      return {
+        label: cat,
+        pct: parseFloat(pct),
+        color: colors[cat] || "#9ca3af",
+      };
+    });
+
+    renderDonut(donutData);
+
+  } catch (err) {
+    console.error("Donut load error:", err);
+  }
+}
+
+
+
+
+
+
+function renderDonut(donutData) {
+  const r = 44;
+  const C = 2 * Math.PI * r;
+  let offset = 0;
+
+  const segmentsG = document.getElementById("donutSegments");
+  segmentsG.innerHTML = "";
+
+  donutData.forEach((d) => {
+    const dash = (d.pct / 100) * C;
+
+    const circle = `
+      <circle
+        cx="60" cy="60" r="${r}"
+        fill="none"
+        stroke="${d.color}"
+        stroke-width="14"
+        stroke-linecap="butt"
+        stroke-dasharray="${dash} ${C - dash}"
+        stroke-dashoffset="${-offset}"
+      ></circle>
+    `;
+
+    segmentsG.innerHTML += circle;
+    offset += dash;
+  });
+
+  // Legend
+  const legendList = document.getElementById("legendList");
+  legendList.innerHTML = donutData
+    .map(
+      (d) => `
+        <div class="leg">
+          <span class="dot" style="background:${d.color}"></span>
+          <span>${d.label}</span>
+          <span style="color:#111827;font-weight:900;">${d.pct}%</span>
+        </div>
+      `
+    )
+    .join("");
+}
+
+
+
+
+
+
+
+
+
+
+
 // =============================
 // INITIALIZE DASHBOARD
 // =============================
@@ -259,55 +389,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   loadDashboardStats();
   loadAllReports();
+  loadDonutChart();
 });
-
-
-
-
-/* ---------- Donut chart (SVG segments) ---------- */
-const donutData = [
-  { label: "Organic", pct: 32, color: "#00c853" },
-  { label: "Recyclable", pct: 24, color: "#98fca5" },
-  { label: "Waste", pct: 21, color: "#0b3d16" },
-  { label: "Non", pct: 18, color: "#ff4d4d" },
-  { label: "Inorganic", pct: 15, color: "#b45309" },
-  { label: "Others", pct: 11, color: "#6b7280" },
-];
-
-const r = 44;
-const C = 2 * Math.PI * r;
-let offset = 0;
-
-const segmentsG = $("#donutSegments");
-segmentsG.innerHTML = donutData
-  .map((d) => {
-    const dash = (d.pct / 100) * C;
-    const seg = `
-    <circle
-      cx="60" cy="60" r="${r}"
-      fill="none"
-      stroke="${d.color}"
-      stroke-width="14"
-      stroke-linecap="butt"
-      stroke-dasharray="${dash} ${C - dash}"
-      stroke-dashoffset="${-offset}"
-    ></circle>
-  `;
-    offset += dash;
-    return seg;
-  })
-  .join("");
-
-/* Legend */
-const legendList = $("#legendList");
-legendList.innerHTML = donutData
-  .map(
-    (d) => `
-  <div class="leg">
-    <span class="dot" style="background:${d.color}"></span>
-    <span>${d.label}</span>
-    <span style="color:#111827;font-weight:900;">${d.pct}%</span>
-  </div>
-`,
-  )
-  .join("");

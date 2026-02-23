@@ -602,3 +602,59 @@ tbody tr:hover td {
     padding: 18px;
   }
 }
+
+
+
+
+
+
+
+
+/* BACKEND */
+
+/* Container grid */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin: 20px 0 30px;
+}
+
+/* Card box */
+.stat-card {
+  background: #ffffff;
+  padding: 22px 24px;
+  border-radius: 14px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.stat-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+/* Main number */
+.stat-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+/* Small sub-text (like 100% vs last month) */
+.stat-change {
+  font-size: 12px;
+  font-weight: 500;
+  color: #10b981; /* green */
+}
