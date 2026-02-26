@@ -1,3 +1,109 @@
+//resident-my-reports.js
+
+//const API = 'http://localhost:5000/api/v1';   // Development 
+
+const API = 'https://trashbeta.onrender.com/api/v1'    //Production
+
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
+
+// TOKEN CHECK & AUTO LOGOUT
+function clearUserSession() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("role");
+  localStorage.removeItem("email");
+  localStorage.removeItem("onboardingStep");
+}
+
+
+if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiryTime = payload.exp * 1000 - Date.now();
+
+    // If expired already
+    if (expiryTime <= 0) {
+      alert("Your session has expired. Please log in again.");
+      clearUserSession();
+      window.location.href = "../auth/login.html";
+    } else {
+      // Auto logout when it expires
+      setTimeout(() => {
+        alert("Your session has expired. Please log in again.");
+        clearUserSession();
+        window.location.href = "../auth/login.html";
+      }, expiryTime);
+    }
+  } catch (err) {
+    alert("Invalid session. Please log in again.");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+  }
+} else {
+  alert("Kindly login");
+    clearUserSession();
+    window.location.href = "../auth/login.html";
+}
+
+
+
+// ===============================
+// Load User Details
+// ===============================
+async function loadUserDetails() {
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    const user = await res.json();
+
+    // Cache user for other pages
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
+    injectUserIntoUI(user);
+
+  } catch (err) {
+    console.error("Error loading user:", err);
+  }
+}
+
+function injectUserIntoUI(user) {
+  if (!user) return;
+
+  // Full Name
+  const fullName =
+    `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User";
+
+  // Sidebar Name
+  const nameEl = document.querySelector(".user-mini__name");
+  if (nameEl) nameEl.textContent = fullName;
+
+  // Sidebar Sub (email)
+  const subEl = document.querySelector(".user-mini__sub");
+  if (subEl) subEl.textContent = user.email || "";
+
+  // Avatar
+  const avatarUrl =
+    user.avatar || "/assets/images/Avatar profile photo5.png";
+
+  const avatarEls = document.querySelectorAll(
+    ".user-mini__avatar, .avatar-btn img"
+  );
+
+  avatarEls.forEach((img) => {
+    img.src = avatarUrl;
+  });
+}
+
+
+
+
 (() => {
   const $ = (q) => document.querySelector(q);
 
@@ -327,3 +433,19 @@
   // initial
   render();
 })();
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // Try cached user first
+  const cachedUser = localStorage.getItem("currentUser");
+
+  if (cachedUser) {
+    injectUserIntoUI(JSON.parse(cachedUser));
+  } else {
+    await loadUserDetails();
+  }
+
+  // Continue your calendar initialization here
+  initCalendar(); // if you already have this
+});

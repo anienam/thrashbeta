@@ -228,7 +228,6 @@ function viewReport(id) {
 
 
 
-
 // ===============================
 // Load User Details
 // ===============================
@@ -242,34 +241,48 @@ async function loadUserDetails() {
 
     const user = await res.json();
 
-    // Save firstName locally for welcome message
-    localStorage.setItem("firstName", user.firstName);
+    // Cache user (performance)
+    localStorage.setItem("currentUser", JSON.stringify(user));
 
-    // Update welcome
-    const welcomeEl = document.getElementById("welcomeName");
-    if (welcomeEl) welcomeEl.textContent = `Welcome back, ${user.firstName}!`;
-
-    // Update sidebar
-    const nameEl = document.querySelector(".user-mini__name");
-    const subEl = document.querySelector(".user-mini__sub");
-    if (nameEl) nameEl.textContent = `${user.firstName} ${user.lastName}`;
-    if (subEl) subEl.textContent = user.email;
-
-    // Update avatar
-    const avatarEls = document.querySelectorAll(".user-mini__avatar, .avatar-btn img");
-    let avatarUrl = user.profile?.avatar || "/assets/images/Avatar profile photo5.png";
-
-    if (avatarUrl && !avatarUrl.startsWith("http")) {
-      avatarUrl = `${API}/${avatarUrl.replace(/^\/+/, '')}`;
-    }
-
-    avatarEls.forEach(img => (img.src = avatarUrl));
+    injectUserIntoUI(user);
 
   } catch (err) {
     console.error("Error loading user details:", err);
   }
 }
 
+
+// ===============================
+// Inject Into Sidebar + Topbar
+// ===============================
+function injectUserIntoUI(user) {
+  if (!user) return;
+
+  // Sidebar Name
+  const nameEl = document.querySelector(".user-mini__name");
+  if (nameEl) {
+    nameEl.textContent =
+      `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User";
+  }
+
+  // Sidebar Sub (email)
+  const subEl = document.querySelector(".user-mini__sub");
+  if (subEl) {
+    subEl.textContent = user.email || "";
+  }
+
+  // Avatar
+  let avatarUrl =
+    user.avatar || "/assets/images/Avatar profile photo5.png";
+
+  const avatarEls = document.querySelectorAll(
+    ".user-mini__avatar, .avatar-btn img"
+  );
+
+  avatarEls.forEach((img) => {
+    img.src = avatarUrl;
+  });
+}
 function setWelcome() {
   const welcomeEl = document.getElementById("welcomeName");
   const firstName = localStorage.getItem("firstName") || "Resident";

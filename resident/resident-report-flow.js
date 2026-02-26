@@ -55,6 +55,64 @@ if (token) {
   window.location.href = "../auth/login.html";
 }
 
+
+
+/* =====================
+   LOAD LOGGED-IN USER
+===================== */
+
+async function loadLoggedInUser() {
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    const user = await res.json();
+
+    injectUserIntoUI(user);
+
+  } catch (err) {
+    console.error("User load failed:", err.message);
+  }
+}
+
+
+
+
+//function
+function injectUserIntoUI(user) {
+  if (!user) return;
+
+  const nameEl = document.querySelector(".user-mini__name");
+  if (nameEl) {
+    nameEl.textContent =
+      `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User";
+  }
+
+  const subEl = document.querySelector(".user-mini__sub");
+  if (subEl) {
+    subEl.textContent = user.email || "";
+  }
+
+  const sidebarAvatar = document.querySelector(".user-mini__avatar");
+  if (sidebarAvatar && user.avatar) {
+    sidebarAvatar.src = user.avatar;
+  }
+
+  const topbarAvatar = document.querySelector(".avatar-btn img");
+  if (topbarAvatar && user.avatar) {
+    topbarAvatar.src = user.avatar;
+  }
+}
+
+loadLoggedInUser();
+
 /* =====================
    REPORT STORAGE
 ===================== */
@@ -74,6 +132,9 @@ function saveDraft(data) {
 function goTo(page) {
   window.location.replace(page);
 }
+
+
+
 
 /* =====================
    WIZARD PAGE GUARD
@@ -109,6 +170,10 @@ wizardPageGuard();
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) wizardPageGuard();
 });
+
+
+
+
 
 /* =====================
    STEP 1
@@ -176,6 +241,9 @@ if (descriptionForm) {
     goTo("resident-report-4-photo.html");
   });
 }
+
+
+
 
 /* =====================
    STEP 4 (PHOTOS)
@@ -305,72 +373,62 @@ if (photoForm) {
   });
 }
 
-const takePhotoBtn = document.getElementById("takePhotoBtn");
-const chooseGalleryBtn = document.getElementById("chooseGalleryBtn");
-const addMoreBtn = document.getElementById("addMoreBtn");
 
-const cameraInput = document.getElementById("cameraInput");
-const galleryInput = document.getElementById("galleryInput");
-const uploadsGrid = document.getElementById("uploadsGrid");
 
-// OPEN CAMERA
-takePhotoBtn.addEventListener("click", () => {
-  cameraInput.click();
-});
-
-// OPEN GALLERY
-chooseGalleryBtn.addEventListener("click", () => {
-  galleryInput.click();
-});
-
-// ADD MORE → OPEN GALLERY
-addMoreBtn.addEventListener("click", () => {
-  galleryInput.click();
-});
-
-// HANDLE FILES
-function handleFiles(files) {
-  const fileArray = Array.from(files);
-
-  fileArray.forEach((file) => {
-    if (!file.type.startsWith("image/")) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const card = document.createElement("div");
-      card.className = "upload-card";
-
-      card.innerHTML = `
-        <img src="${e.target.result}" alt="Uploaded photo" />
-        <button class="remove-btn">✕</button>
-      `;
-
-      uploadsGrid.insertBefore(card, addMoreBtn);
-
-      // remove image
-      card.querySelector(".remove-btn").addEventListener("click", () => {
-        card.remove();
-      });
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-
-// LISTEN FOR FILE SELECTION
-cameraInput.addEventListener("change", (e) => {
-  handleFiles(e.target.files);
-  e.target.value = "";
-});
-
-galleryInput.addEventListener("change", (e) => {
-  handleFiles(e.target.files);
-  e.target.value = "";
-});
 
 /* =====================
-   STEP 5 (CONTACT + SUBMIT)
+   STEP 4 EXTRA BUTTONS
 ===================== */
+
+if (photoForm) {
+
+  const takePhotoBtn = document.getElementById("takePhotoBtn");
+  const chooseGalleryBtn = document.getElementById("chooseGalleryBtn");
+  const addMoreBtn = document.getElementById("addMoreBtn");
+  const cameraInput = document.getElementById("cameraInput");
+  const galleryInput = document.getElementById("galleryInput");
+
+  if (takePhotoBtn && cameraInput) {
+    takePhotoBtn.addEventListener("click", () => {
+      cameraInput.click();
+    });
+  }
+
+  if (chooseGalleryBtn && galleryInput) {
+    chooseGalleryBtn.addEventListener("click", () => {
+      galleryInput.click();
+    });
+  }
+
+  if (addMoreBtn && galleryInput) {
+    addMoreBtn.addEventListener("click", () => {
+      galleryInput.click();
+    });
+  }
+
+  if (cameraInput) {
+    cameraInput.addEventListener("change", (e) => {
+      if (e.target.files.length) {
+        handleFiles([...e.target.files]);
+      }
+      e.target.value = "";
+    });
+  }
+
+  if (galleryInput) {
+    galleryInput.addEventListener("change", (e) => {
+      if (e.target.files.length) {
+        handleFiles([...e.target.files]);
+      }
+      e.target.value = "";
+    });
+  }
+}
+
+
+
+
+
 
 /* =====================
    STEP 5 (CONTACT + SUBMIT)
@@ -487,3 +545,5 @@ if (trackingEl) {
     trackingEl.textContent = id;
   }
 }
+
+

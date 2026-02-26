@@ -39,6 +39,66 @@ if (token) {
   }
 }
 
+
+// =============================
+// LOAD LOGGED-IN USER
+// =============================
+
+async function loadLoggedInUser() {
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${API}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+
+    const user = await res.json();
+
+    injectUserIntoUI(user);
+
+  } catch (err) {
+    console.error("User load failed:", err.message);
+  }
+}
+
+
+function injectUserIntoUI(user) {
+  if (!user) return;
+
+  // Sidebar name
+  const nameEl = document.querySelector(".user-mini__name");
+  if (nameEl) {
+    nameEl.textContent =
+      `${user.firstName || ""} ${user.lastName || ""}`.trim() || "User";
+  }
+
+  // Sidebar email
+  const subEl = document.querySelector(".user-mini__sub");
+  if (subEl) {
+    subEl.textContent = user.email || "";
+  }
+
+  // Sidebar avatar
+  const sidebarAvatar = document.querySelector(".user-mini__avatar");
+  if (sidebarAvatar && user.avatar) {
+    sidebarAvatar.src = user.avatar;
+  }
+
+  // Topbar avatar
+  const topbarAvatar = document.querySelector(".avatar-btn img");
+  if (topbarAvatar && user.avatar) {
+    topbarAvatar.src = user.avatar;
+  }
+}
+
+loadLoggedInUser();
+
+
+
 const trackingInput = document.getElementById("trackingInput");
 const trackBtn = document.getElementById("trackBtn");
 const notFoundMsg = document.getElementById("notFoundMsg");

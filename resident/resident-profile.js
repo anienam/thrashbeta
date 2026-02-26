@@ -249,6 +249,8 @@ if (notifySaveBtn) {
   });
 }
 
+
+/*
 // ===== Account Actions (match screenshot) =====
 const accountMsg = document.getElementById("accountMsg");
 const downloadDataBtn = document.getElementById("downloadDataBtn");
@@ -367,6 +369,7 @@ if (deleteAccountBtn) {
   });
 }
 
+
 // Logout
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
@@ -375,6 +378,20 @@ if (logoutBtn) {
       // Optional redirect:
       // window.location.href = "login.html";
     });
+  });
+}
+
+*/
+
+// ===== Logout Function =====
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    if (confirm("Are you sure you want to logout?")) {
+      clearUserSession();
+      window.location.href = "../auth/login.html";
+    }
   });
 }
 
