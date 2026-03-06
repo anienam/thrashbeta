@@ -892,3 +892,97 @@ body {
 .table-wrap {
   overflow-x: auto;
 }
+
+
+
+
+/* Made some changes for responsiveness late */
+@media (max-width: 768px) {
+  .content {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .hero__art {
+    justify-content: center;
+  }
+
+  .hero__text h2 {
+    font-size: 28px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pickup {
+    width: 100%;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 760px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 12px;
+  }
+
+  .topbar {
+    padding: 0 12px;
+  }
+
+  .topbar__title h1 {
+    font-size: 18px;
+  }
+
+  .hero__text h2 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .hero__text p {
+    font-size: 15px;
+  }
+
+  .card,
+  .section,
+  .pickup,
+  .hero,
+  .qa-card,
+  .news-card {
+    border-radius: 12px;
+  }
+
+  .btn,
+  .qa-card {
+    width: 100%;
+  }
+
+  .user-mini__meta {
+    min-width: 0;
+  }
+}
