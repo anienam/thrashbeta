@@ -1,4 +1,4 @@
-# ThrashBeta ♻️
+# TrashBeta ♻️
 ### Smart Waste Management and Reporting System
 
 ![Project Status](https://img.shields.io/badge/status-Frontend%20Development-blue)
@@ -10,7 +10,7 @@
 
 ## 📌 Project Overview
 
-ThrashBeta is a community-focused smart waste management and reporting platform designed to help residents easily report waste-related issues and support cleaner, healthier urban environments.
+TrashBeta is a community-focused smart waste management and reporting platform designed to help residents easily report waste-related issues and support cleaner, healthier urban environments.
 
 The project improves communication between communities and waste management authorities by providing simple, accessible digital tools. This repository currently contains the **frontend implementation**, developed as part of a Software Engineering Capstone, with **Lagos, Nigeria** as the primary context.
 
@@ -20,7 +20,7 @@ The project improves communication between communities and waste management auth
 
 Waste management remains a major challenge in many parts of Lagos due to delayed reporting, poor visibility of waste issues, and limited community engagement. Existing reporting channels are often fragmented or underutilized.
 
-ThrashBeta addresses this gap by providing a centralized, user-friendly web platform that encourages timely reporting and improves transparency.
+TrashBeta addresses this gap by providing a centralized, user-friendly web platform that encourages timely reporting and improves transparency.
 
 ---
 
@@ -38,7 +38,7 @@ ThrashBeta addresses this gap by providing a centralized, user-friendly web plat
 
 This phase focuses strictly on the frontend and includes:
 
-- Landing page introducing ThrashBeta  
+- Landing page introducing TrashBeta  
 - Waste reporting form with client-side validation  
 - Dashboard displaying reported issues using sample data  
 - Responsive design for mobile and desktop  
@@ -82,29 +82,14 @@ This repository currently focuses on **UI/UX, Frontend and Backend development**
 
 ---
 
-## 🚧 Project Status
 
-🟡 Frontend in active development  
-🟢 Approved capstone project at Vephla University  
-
----
-
-## 🔮 Future Enhancements
-
-- Backend API integration  
-- Real-time reporting and tracking  
-- Map-based issue visualization  
-- User authentication  
-- Admin and authority dashboards  
-
----
 
 ## 🌍 Why This Project Matters
 
-ThrashBeta reflects a real-world urban challenge and demonstrates how simple web technologies can support cleaner environments, better public health, and stronger collaboration between residents and authorities.
+TrashBeta reflects a real-world urban challenge and demonstrates how simple web technologies can support cleaner environments, better public health, and stronger collaboration between residents and authorities.
 
 This project is designed to be **portfolio-ready**, **scalable**, and **industry-aligned**.
 
 ---
 
-© 2026 ThrashBeta | Vephla University Capstone
+© 2026 TrashBeta | Vephla University Capstone
